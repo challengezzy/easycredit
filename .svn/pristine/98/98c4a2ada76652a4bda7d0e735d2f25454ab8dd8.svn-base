@@ -1,0 +1,130 @@
+package com.easycredit.services.front.impl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.easycredit.dao.mapper.OrderInfoExMapper;
+import com.easycredit.dao.mapper.OrderInfoListMapper;
+import com.easycredit.dao.mapper.OrderInfoMapper;
+import com.easycredit.dao.mapper.OrderRetrunListMapper;
+import com.easycredit.dao.pojo.OrderInfo;
+import com.easycredit.dao.pojo.OrderInfoEx;
+import com.easycredit.dao.pojo.OrderInfoList;
+import com.easycredit.dao.pojo.OrderRetrunList;
+import com.easycredit.services.front.OrderInfoService;
+import com.easycredit.utils.Page;
+
+@Transactional
+@Service("OrderInfoService")
+public class OrderInfoServiceImpl implements OrderInfoService {
+	@Autowired
+	private OrderInfoExMapper orderInfoExMapper;
+	@Autowired
+	private OrderInfoMapper orderInfoMapper;
+	@Autowired
+	private OrderRetrunListMapper orderRetrunListMapper;
+	@Autowired
+	private OrderInfoListMapper orderInfoListMapper;
+
+	@Override
+	public Page<OrderInfoEx> queryOrderList(OrderInfoEx record, Integer pageNum, Integer pageSize ,Integer userId) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+
+		paramMap.put("Query", record);
+		paramMap.put("userId", userId);
+
+		if (pageNum != null) {
+			paramMap.put("pageNum", (pageNum - 1) * pageSize);
+		}
+		if (pageSize != null) {
+			paramMap.put("pageSize", pageSize);
+		}
+
+		List<OrderInfoEx> list = orderInfoExMapper.queryOrderList(paramMap);
+
+		int totalCount = orderInfoExMapper.queryOrderListCount(paramMap);
+
+		Page<OrderInfoEx> page = new Page<OrderInfoEx>();
+		page.setResult(list);
+		page.setPageNo(pageNum);
+		page.setPageSize(pageSize);
+		page.setTotalCount(totalCount);
+
+		return page;
+	}
+
+	@Override
+	public Page<OrderInfoEx> queryMyBusiness(OrderInfoEx record, Integer pageNum, Integer pageSize, Integer userId) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+
+		paramMap.put("Query", record);
+		paramMap.put("userId", userId);
+		if (pageNum != null) {
+			paramMap.put("pageNum", (pageNum - 1) * pageSize);
+		}
+		if (pageSize != null) {
+			paramMap.put("pageSize", pageSize);
+		}
+
+		List<OrderInfoEx> list = orderInfoExMapper.queryMyBusiness(paramMap);
+
+		int totalCount = orderInfoExMapper.queryMyBusinessCount(paramMap);
+
+		Page<OrderInfoEx> page = new Page<OrderInfoEx>();
+		page.setResult(list);
+		page.setPageNo(pageNum);
+		page.setPageSize(pageSize);
+		page.setTotalCount(totalCount);
+
+		return page;
+	}
+
+	@Override
+	public int addorder(OrderInfo record) {
+		int result = orderInfoMapper.insertSelective(record);
+		if (result != 1) {
+			System.out.println("保存order信息异常！");
+		}
+		return record.getId();
+	}
+
+	@Override
+	public OrderInfo getOrderInfoByOrderId(Integer OrderId) {
+		return orderInfoMapper.selectByPrimaryKey(OrderId);
+	}
+
+	@Override
+	public OrderRetrunList getOrderRetrunListByOrderId(Integer OrderId) {
+		// TODO Auto-generated method stub
+		return orderRetrunListMapper.selectByOrderId(OrderId);
+	}
+
+	@Override
+	public OrderInfoList getOrderInfoListByOrderId(Integer OrderId) {
+		// TODO Auto-generated method stub
+		return orderInfoListMapper.selectByOrderId(OrderId);
+	}
+
+	@Override
+	public int updateorder(OrderInfo record) {
+		// TODO Auto-generated method stub
+		return orderInfoMapper.updateByPrimaryKeySelective(record);
+	}
+
+	@Override
+	public OrderInfo getOrderInfoByPidAndIdnumber(Integer pid, String idnumber) {
+		// TODO Auto-generated method stub
+
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("productid", pid);
+		param.put("idnumber", idnumber);
+
+		return orderInfoExMapper.getOrderInfoByPidAndIdnumber(param);
+	}
+
+}

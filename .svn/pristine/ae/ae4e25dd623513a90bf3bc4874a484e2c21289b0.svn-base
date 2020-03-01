@@ -1,0 +1,95 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ include file="/common/top.jsp" %>
+<body class="fix_top_nav_padding">
+<div id="wrap" > 
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10 ">
+	    <div class="panel panel-default">
+	      <div class="panel-heading ">产品宣传素材 </div>
+	      <div class="form-group width_btn  pull-right">
+          	<button type="button" class="btn btn-success " id="newitem" data-toggle="modal" data-target="#modal_alert" data-load-remote="/manage/product/createProductEvidence.html" data-backdrop="static"><i class="icon-plus"></i> 添加</button>
+	      </div>
+		<div class="panel-body ">
+	      <div class="table-responsive">
+	        <table class="table table-hover table-striped table-bordered table-condensed table-big">
+	          <thead>
+	            <tr>
+	            	<th>选择</th>
+	            	<th>序号</th>
+	              	<th>图片URL</th>
+					<th>说明</th>
+					<th>操作</th>
+	            </tr>
+	          </thead>
+	          <tbody>
+	          	<c:forEach items="${page.result}" var="obj" varStatus="status">
+			         <tr class="text-center">
+		              	<td><label><input type="checkbox" name="checkedIds" class="checkedIds" value="${obj.id}"></label></td>
+		              	<td>${obj.displayorder}</td>
+						<td>${obj.evidenceurl}</td>
+						<td>${obj.evidencedescribe}</td>
+						<td>
+							<a href="javascript:if(confirm('确实要删除此票项吗?'))window.location='/manage/product/delete_evidence.html?id=${obj.id}'">删除</a></li>
+						</td>
+			         </tr>
+				</c:forEach>
+	            <c:if test="${empty page.result}">
+	                <tr><td colspan="9" style="text-align: center;">没有产品素材！</td></tr>
+			   	</c:if>
+	          </tbody>
+	        </table>
+	      </div>
+	      <c:if test="${not empty page.result}">
+      		<div class="table_page dropup">
+	        <div class="btn-group  dropup btn-group-sm pull-left">
+	          <label  class="btn btn-default  table_select_all"  >&nbsp;
+	            <input type="checkbox" id="checkedAll">
+	          </label>
+	          <button type="button" class="btn btn-default  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span> </button>
+	          <ul class="dropdown-menu text-left" role="menu">
+	            <li><a id="remove" href="#">批量删除</a></li>
+	          </ul>
+	        </div>
+	        <%@ include file="/common/pagination.jsp" %>
+	    </div>
+	   </c:if>
+	  </div>
+	  </div>
+     </div>
+    </div>
+  </div>
+</div>
+ 
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#checkedAll").click(function(){
+			$(".checkedIds").each(function() {
+				if($("#checkedAll").prop("checked")==true){
+					this.checked = true;
+				}else{
+					this.checked = false;
+				}
+			});
+		});
+		
+		$("#remove").click(function() {
+			var checkedIds = new Array();
+			var i = 0;
+			$(".checkedIds").each(function() {
+				if(this.checked == true) {
+					checkedIds[i] = this.value;
+					i++;
+				}
+			});
+			if(i==0){
+				alert("请选择要删除的数据！！");
+			}else{
+				if(confirm("删除角色将同时删除该角色下的所有用户，您确认删除？")){
+					location.assign("del.html?" + getSearchParams());
+				}
+			}
+		});
+		
+	});
+</script> 

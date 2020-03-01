@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.easycredit.dao.mapper.OrganizationExMapper" >
+  <resultMap id="BaseResultMap" type="com.easycredit.dao.pojo.OrganizationEx" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="organizationtype" property="organizationtype" jdbcType="INTEGER" />
+    <result column="organizationname" property="organizationname" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="comments" property="comments" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+  </resultMap>
+   
+   <sql id="queryOrganization_Where" >
+		<where>
+			<if test="Query.organizationname!=null and Query.organizationname!=''">
+				and o.organizationname = #{Query.organizationname,jdbcType=VARCHAR}
+			</if>
+			<if test="Query.organizationtype!=null">
+				and o.organizationtype = #{Query.organizationtype,jdbcType=INTEGER}
+			</if>
+		</where>
+	</sql>
+	
+  <select id="queryOrganization" resultMap="BaseResultMap" parameterType="HashMap" >
+    SELECT
+		o.id,
+		o.organizationtype,
+		o.organizationname,
+		o.userid,
+		o.createtime,
+		o.comments,
+		u.username
+	FROM
+		organization o
+	LEFT JOIN userinfo u ON u.organizationid = o.id
+   
+  	<include refid="queryOrganization_Where" />
+  	
+	order by o.id desc 
+    
+    <if test="pageNum!=null and pageSize !=null">
+		limit #{pageNum},#{pageSize}  
+	</if>
+  </select>
+  
+  <select id="queryOrganizationCount" resultType="Integer" parameterType="HashMap" >
+		SELECT
+			count(1)
+	    FROM
+			organization o
+		LEFT JOIN userinfo u ON u.organizationid = o.id
+		
+		<include refid="queryOrganization_Where" />
+    </select>
+</mapper>

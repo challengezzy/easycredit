@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.easycredit.dao.mapper.OrderInfoExMapper" >
+  
+  <select id="getApplyApprovals" resultType="com.easycredit.dao.pojo.OrderInfoEx" parameterType="com.easycredit.dao.pojo.OrderInfoEx" >
+     SELECT
+distinct
+		o.id,
+		o.orderno,
+		o.`status`,
+		o.createtime,
+		m.mortgagorname,
+		c.companyname
+	FROM
+		orderinfo o
+	LEFT JOIN mortgagorinfo m ON o.mortgagorid = m.id
+	LEFT JOIN companyinfo c ON c.mortgagorid = m.id
+LEFT JOIN productinfo p on o.productid=p.id 
+LEFT JOIN productorganization po on po.productid=p.id
+left JOIN organization oo on oo.id=po.organizationid 
+left JOIN userinfo u on u.organizationid=oo.id
+where o.`status` in (0,1,2,3,6)
+and (oo.organizationtype=o.status or (o.status=3 and o.status=oo.organizationtype+1))
+<!--  and oo.organizationtype=o.`status` and userid=????-->
+<if test="orderno!=null and orderno!=''">
+				and o.orderno = #{orderno,jdbcType=VARCHAR}
+			</if>
+			<if test="mortgagorname!=null and mortgagorname!=''">
+				and m.mortgagorname = #{mortgagorname,jdbcType=VARCHAR}
+			</if>
+			<if test="companyname!=null and companyname!=''">
+				and c.companyname = #{companyname,jdbcType=VARCHAR}
+			</if>
+
+
+  </select>
+  
+   <sql id="queryOrderList_Where" >
+		<where>
+			<if test="Query.orderno!=null and Query.orderno!=''">
+				and o.orderno = #{Query.orderno,jdbcType=VARCHAR}
+			</if>
+			<if test="Query.mortgagorname!=null and Query.mortgagorname!=''">
+				and mn.mortgagorname = #{Query.mortgagorname,jdbcType=VARCHAR}
+			</if>
+			<if test="Query.loanstatus!=null">
+				and orl.loanstatus = #{Query.loanstatus,jdbcType=DOUBLE}
+			</if>
+			<if test="Query.beginLoantime!=null and Query.beginLoantime!=''">
+	        	<![CDATA[and orl.loantime >= #{Query.beginLoantime,jdbcType=VARCHAR}]]>
+			</if>
+			<if test="Query.endLoantime!=null and Query.endLoantime!=''">
+	       		<![CDATA[and orl.loantime <= #{Query.endLoantime,jdbcType=VARCHAR}]]>
+			</if>
+		</where>
+	</sql>
+	
+    <select id="queryOrderList" resultType="com.easycredit.dao.pojo.OrderInfoEx" parameterType="HashMap" >
+	     SELECT
+			o.id,
+			o.orderno,
+			mn.mortgagorname,
+			mn.id AS mortgagorId,
+			ci.id AS companyId,
+			ci.companyname,
+			orl.loanno,
+			orl.loanamount,
+			orl.loantime,
+			orl.loanlimittime,
+			orl.norepaymentamount,
+			orl.loanstatus
+		FROM
+			orderinfo o
+		LEFT JOIN orderretrunlist orl ON orl.orderid = o.id
+		LEFT JOIN mortgagorinfo mn ON mn.id = o.mortgagorid
+		LEFT JOIN companyinfo ci ON ci.mortgagorid = mn.id
+		where o.status=6
+		 
+		<include refid="queryOrderList_Where" />
+		
+		order by o.id desc 
+		
+		<if test="pageNum!=null and pageSize !=null">
+		   limit #{pageNum},#{pageSize} 
+		</if>
+    </select>
+     
+     <select id="queryOrderListCount" resultType="Integer" parameterType="HashMap" >
+	     SELECT
+			 count(1)
+		FROM
+			orderinfo o
+		LEFT JOIN orderretrunlist orl ON orl.orderid = o.id
+		LEFT JOIN mortgagorinfo mn ON mn.id = o.mortgagorid
+		LEFT JOIN companyinfo ci ON ci.mortgagorid = mn.id
+		
+		<include refid="queryOrderList_Where" />
+    </select>
+	
+	
+	<sql id="queryMyBusiness_Where" >
+		<where>
+			<if test="Query.orderno!=null and Query.orderno!=''">
+				and o.orderno = #{Query.orderno,jdbcType=VARCHAR}
+			</if>
+			<if test="Query.productname!=null and Query.productname!=''">
+				and p.productname = #{Query.productname,jdbcType=VARCHAR}
+			</if>
+			<if test="Query.status!=null">
+				and o.`status` = #{Query.status,jdbcType=INTEGER}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="queryMyBusiness" resultType="com.easycredit.dao.pojo.OrderInfoEx" parameterType="HashMap" >
+	     SELECT
+			o.id,
+			o.orderno,
+			o.`status`,
+			p.id AS productid,
+			p.productname,
+			mn.id AS mortgagorId,
+			mn.mortgagorname,
+			ci.id AS companyId,
+			ci.companyname
+		FROM
+			orderinfo o
+		LEFT JOIN productinfo p ON p.id = o.productid
+		LEFT JOIN mortgagorinfo mn ON mn.id = o.mortgagorid
+		LEFT JOIN companyinfo ci ON ci.mortgagorid = mn.id
+		
+		<include refid="queryMyBusiness_Where" />
+		
+		order by o.id desc 
+		
+		<if test="pageNum!=null and pageSize !=null">
+			limit #{pageNum},#{pageSize}  
+		</if>
+    </select>
+	 
+	<select id="queryMyBusinessCount" resultType="Integer" parameterType="HashMap" >
+	      SELECT
+			count(1)
+		FROM
+			orderinfo o
+		LEFT JOIN productinfo p ON p.id = o.productid
+		LEFT JOIN mortgagorinfo mn ON mn.id = o.mortgagorid
+		LEFT JOIN companyinfo ci ON ci.mortgagorid = mn.id
+		
+		<include refid="queryMyBusiness_Where" />
+    </select>
+    
+    <!-- 综合插叙统计的mapper，以order为主表 -->
+    <select id="getComprehensivequeryList" resultType="com.easycredit.dao.pojo.OrderInfoEx" parameterType="com.easycredit.dao.pojo.OrderInfoEx" >
+	    SELECT
+			o.id,
+			o.orderno,
+			o.productid,
+			o.mortgagorid,
+			o.STATUS,
+			o.operatorid,
+			o.createtime,
+			o.comments,
+			p.productname,
+			m.mortgagorname,
+			c.companyname,
+			ol.loanno,
+			ol.loanamount,
+			ol.loantime,
+			ol.loanlimittime,
+			ol.norepaymentamount,
+			ol.loanstatus
+		FROM
+			orderinfo o
+		LEFT JOIN productinfo p ON o.productid = p.id
+		LEFT JOIN mortgagorinfo m ON o.mortgagorid = m.id
+		LEFT JOIN companyinfo c ON c.mortgagorid = m.id
+		LEFT JOIN orderretrunlist ol ON ol.orderid = o.id
+		LEFT JOIN userinfo u ON o.operatorid = u.id
+		
+		    <where>
+		    o.`status` >=0 
+		    <if test="mortgagorname!=null and mortgagorname!=''">
+				and m.mortgagorname = #{mortgagorname,jdbcType=VARCHAR}
+			</if>
+			 <if test="orderno!=null and orderno!=''">
+				and o.orderno = #{orderno,jdbcType=VARCHAR}
+			</if>
+			<if test="loanno!=null and loanno!=''">
+				and ol.loanno = #{loanno,jdbcType=VARCHAR}
+			</if>
+			
+			<if test="productname!=null and productname!=''">
+				and p.productname = #{productname,jdbcType=VARCHAR}
+			</if>
+			
+			<if test="companyname!=null and companyname!=''">
+				and c.companyname = #{companyname,jdbcType=VARCHAR}
+			</if>
+		    
+		    </where>
+    </select>
+
+	
+</mapper>

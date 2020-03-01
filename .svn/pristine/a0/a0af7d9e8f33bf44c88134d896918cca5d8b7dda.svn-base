@@ -1,0 +1,95 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ include file="/common/taglibs.jsp" %>
+
+<form role="form"  action="${ctx}/manage/applyApproval/returnUpdate.html" method="post" id="inputForm" >
+	<input id="orderid" name="orderid" type="hidden" value="${orderid}">
+
+
+	<div class="modal-header">
+       <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i></button>
+       <h4 class="modal-title" id="myModalLabel">放款确认页</h4>
+    </div>
+	 <div class="modal-body">
+	 	 <div class="form-group clearfix" >
+		  	 <label class="control-label col-sm-3 col-lg-4 text-right"><b class="color_red">*</b>放款金额：</label>
+		  	 <div class="col-sm-7">
+		  	 	<input id="loanamount" name="loanamount" type="text" value="${list.loanamountpre}">
+	 	 	 </div>
+	 	 </div>
+	 	 <div class="form-group clearfix" >
+		  	 <label class="control-label col-sm-3 col-lg-4 text-right"><b class="color_red">*</b>放款利率(%)：</label>
+		  	 <div class="col-sm-7">
+		  	 	<input id="loanrate" name="loanrate" type="text" value="${list.loanratepre}">
+	 	 	 </div>
+	 	 </div>
+	 	  <div class="form-group clearfix" >
+		  	 <label class="control-label col-sm-3 col-lg-4 text-right"><b class="color_red">*</b>放款期限(月)：</label>
+		  	 <div class="col-sm-7">
+		  	 	<input id="loantimelimit" name="loantimelimit" type="text" value="${list.loantimelimitpre}">
+	 	 	 </div>
+	 	 </div>
+	 	 <div class="form-group clearfix">
+			 <label  class="control-label col-sm-3 col-lg-4 text-right"><b class="color_red">*</b>放款时间：</label>
+			 <div class="col-sm-7">
+				 <div class="input-group  input-append date form_date" data-date-format="yyyy-mm-dd">
+		        	<input id="loantime" name="loantime" class="form-control" type="text"  placeholder="放款时间" data-toggle="popover"  data-placement="top" data-content="放款时间"/>
+		            <span class="add-on input-group-addon"><i class="icon-remove"></i></span>
+					<span class="add-on input-group-addon"><i class="icon-calendar"></i></span>
+		         </div>
+			</div>
+		  </div>
+		  <div class="form-group clearfix">
+			<label  class="control-label col-sm-3 col-lg-4 text-right"><b class="color_red">*</b>到期时间：</label>
+			<div class="col-sm-7">
+				<div class="input-group  input-append date form_date" data-date-format="yyyy-mm-dd">
+		        	<input id="loanlimittime" name="loanlimittime" class="form-control" type="text"  placeholder="到期时间" data-toggle="popover"  data-placement="top" data-content="到期时间"/>
+		            <span class="add-on input-group-addon"><i class="icon-remove"></i></span>
+					<span class="add-on input-group-addon"><i class="icon-calendar"></i></span>
+		        </div>
+			</div>
+		  </div>
+	  	 <div class="form-group clearfix" >
+	        <label  class="control-label col-sm-3 col-lg-4 text-right"><b class="color_red">*</b>放款意见：</label>
+	        <div class="col-sm-7">
+	           	<textarea id="comments" name="comments" class="form-control" type="text"  ></textarea>
+	        </div>
+	 	 </div>
+	    <div class="modal-footer">
+		   	<button type="button" class="btn btn-default" data-dismiss="modal"><i class="icon-remove"></i> 取消</button>
+		   	<button type="submit" class="btn btn-primary"><i class="icon-ok"></i> 确定</button>
+	   	</div>
+	 </div>
+</form>
+
+<script type="text/javascript">
+$(document).ready(function() {
+		
+	//选择日期
+	$('.form_date').datetimepicker({
+	    language: 'zh-CN',
+	    pickerPosition: 'bottom-left',
+	    weekStart: 1,
+	    todayBtn: 1,
+	    autoclose: 1,
+	    todayHighlight: 1,
+	    minuteStep: 1,
+	    showMeridian: 1,
+	    startView: 2,
+	    minView: 2,
+	    maxView: 4,
+	});
+	
+	$("#inputForm").validate({
+		rules: {
+			"loanamount":{required:true,isPrice:true},
+			"loantimes":{required:true,date:true},
+			"loanlimittimes":{required:true,date:true},
+			"comments":{required:true,maxlength:300},
+		}
+	});
+	
+    jQuery.validator.addMethod("isPrice", function(value, element) {       
+         return this.optional(element) || /^[-\+]?\d+$/.test(value) || /^[-\+]?\d+(\.\d+)?$/.test(value);       
+    }, "请输入正确的金额！"); 
+});
+</script>  

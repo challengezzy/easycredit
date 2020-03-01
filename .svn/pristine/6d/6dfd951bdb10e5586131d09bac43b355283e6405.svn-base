@@ -1,0 +1,605 @@
+<%@ page language="java" pageEncoding="UTF-8"%>
+<%@ include file="/common/taglibs.jsp" %>
+<!DOCTYPE html>
+<html class="">
+<head>
+	<title>资料上传</title>
+	<jsp:include page="/common/front/head.jsp" />
+	<!-- 页面css -->
+	<link rel="stylesheet" href="${ctx}/css/tavern.css" type="text/css">
+	<link rel="stylesheet" href="${ctx}/css/blue.css" type="text/css">
+	<link rel="stylesheet" href="${ctx}/css/uploadify.css" type="text/css">
+	<style type="text/css">
+		.divclass {
+			background-color: #FFF;
+			height: 300px;
+			overflow: auto;
+			width: 380px
+		}
+		.spanImg {
+			cursor:pointer;
+			height: 50px;
+			overflow: auto;
+			width: 170px;
+			float:left;
+		}
+	</style>
+</head>
+
+<body>
+<div class="container">
+	<div id="fsp-model-div"></div>
+</div>
+<div class="fsp_header_frame">
+
+	<jsp:include page="/common/front/top.jsp" />
+	 
+	<div class="header_bar">
+		<div class="cf header">
+			<div class="logo">
+				<a href="/index.jsp"><img src="${ctx}/images/logo.png" alt="翊融金融"></a>
+			</div>
+			<div class="nav">
+				<ul class="nav-list">
+					<li class="nav-item">
+	                    <a href="${ctx}/member/myBusiness.html" class="nav-link ">我的申请</a>
+					</li>
+	    			<li class="nav-item">
+	                    <a href="${ctx}/member/orderList.html" class="nav-link ">放款查询</a>
+					</li>
+	    			<li class="nav-item">
+	                    <a href="${ctx}/member/productList.html" class="nav-link nav-link-current">产品申请</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 页面内容 -->
+<div class="main">
+	<div class="apply">
+		<div class="apply-crumbs">
+			<a href="#">产品申请</a><span class="guide-sign">&gt;</span>资料上传
+		</div>
+		<div class="apply-step">
+			<ul class="cf apply-step-list">
+				<li class="apply-step-item apply-step-item-current">
+					<span class="num">4</span>
+					<span class="des">资料上传</span>
+				</li>
+				<li class="apply-step-item">
+					<span class="num">3</span>
+					<span class="des">借款信息</span>
+					<div class="arrow-box">
+						<span class="arrow arrow01">◆</span> 
+						<span class="arrow arrow02">◆</span>
+					</div>
+					</li>
+				<li class="apply-step-item">
+					<span class="num">2</span>
+					<span class="des">企业信息</span>
+					<div class="arrow-box">
+						<span class="arrow arrow01">◆</span> 
+						<span class="arrow arrow02">◆</span>
+					</div>
+				</li>
+				<li class="apply-step-item">
+					<span class="num">1</span>
+					<span class="des">借款人信息</span>
+					<div class="arrow-box">
+						<span class="arrow arrow01">◆</span> 
+						<span class="arrow arrow02">◆</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="apply-main">
+		<form action="${ctx}/product/applyFourthSave.html" method="post" id="uploadForm"  onsubmit="return checkRequireArch(); ">
+			<input name="orderId" value="${orderId}" type="hidden"> 
+			<input name="productId" value="${productId}" type="hidden">
+			
+			<input name="idFspAttch" id="idFspAttch" value="" type="hidden">
+			<input name="planNo" value="201500285570" type="hidden"> 
+			<input id="archConfigSize" name="archConfigSize" value="15" type="hidden">
+			
+			<div class="apply-form-item apply-form-item-upload">
+				<input id="archName1" name="archName1" value="借款人身份证" type="hidden">
+				<h2 class="form-tit">借款人身份证
+					<span class="file-btn">
+						<span onclick="javascript:uploadImages('借款人身份证','${orderId}','1');">+上传</span>
+					</span>
+					<span style="color: red;">&nbsp;*</span>
+					<input id="isrequflag1" name="isrequflag1" value="1" type="hidden">
+				</h2>
+				<div class="form-box" id="displayAttch1">
+					<c:set value="0" var="idNumbers"/>
+					<c:forEach items="${s1}" var="obj" varStatus="status">
+						<c:set value="${status.count}" var="idNumbers"/>
+						<dl id="imagedl_${obj.id}" class="file-item">
+							<c:set var="imageurls" value="${fn:replace(obj.imageurl, '\', '/')}"/>
+							<c:set var="simageurl" value="${fn:split(imageurls, '.')[0]}" />
+							<dt style="cursor: pointer; background-image:url(/${fn:split(fn:replace(obj.imageurl, '\\', '/'), '.')[0]}_210_100.jpg);" class="file-back">
+								 <span class="spanImg" onclick="javascript:viewAttchImage('${fn:replace(obj.imageurl, '\\', '/')}');"></span>
+								 <span class="file-up" onclick="javascript:deleteImage('${obj.id}','${obj.imagetype}');"></span>
+							</dt>
+						</dl>
+					</c:forEach>
+					<input id="existsImgsSize1" name="existsImgsSize1" value="${idNumbers}" type="hidden">
+				</div>
+			</div>
+			<div class="apply-form-item apply-form-item-upload">
+				<input id="archName3" name="archName3" value="申请表" type="hidden">
+				<h2 class="form-tit">申请表
+					<span class="file-btn">
+						<span onclick="javascript:uploadImages('申请表','${orderId}','3');">+上传</span>
+					</span>
+					<span style="color: red;">&nbsp;*</span>
+					<input id="isrequflag3" name="isrequflag3" value="1" type="hidden">
+				</h2>
+				<div class="form-box" id="displayAttch3">
+					<c:set value="0" var="existsImgsSize3"/>
+					<c:forEach items="${s3}" var="obj" varStatus="status">
+						<c:set value="${status.count}" var="existsImgsSize3"/>
+						<dl id="imagedl_${obj.id}" class="file-item">
+							<c:set var="imageurls" value="${fn:replace(obj.imageurl, '\', '/')}"/>
+							<c:set var="simageurl" value="${fn:split(imageurls, '.')[0]}" />
+							<dt style="cursor: pointer; background-image:url(/${fn:split(fn:replace(obj.imageurl, '\\', '/'), '.')[0]}_210_100.jpg);" class="file-back">
+								 <span class="spanImg" onclick="javascript:viewAttchImage('${fn:replace(obj.imageurl, '\\', '/')}');"></span>
+								 <span class="file-up" onclick="javascript:deleteImage('${obj.id}','${obj.imagetype}');"></span>
+							</dt>
+						</dl>
+					</c:forEach>
+					<input id="existsImgsSize3" name="existsImgsSize3" value="${existsImgsSize3 }" type="hidden"> 
+				</div>
+			</div>
+			<div class="apply-form-item apply-form-item-upload">
+				<input id="archName0" name="archName0" value="营业执照（副本）" type="hidden">
+				<h2 class="form-tit"> 营业执照（副本）
+					<span class="file-btn"> 
+						<span onclick="javascript:uploadImages('营业执照（副本）','${orderId}','0');">+上传</span>
+					</span>
+					<input id="isrequflag0" name="isrequflag0" value="0" type="hidden">
+				</h2>
+				<div class="form-box" id="displayAttch0">
+					<input id="existsImgsSize0" name="existsImgsSize0" value="0" type="hidden">
+					<c:forEach items="${s0}" var="obj" varStatus="status">
+						<dl id="imagedl_${obj.id}" class="file-item">
+							<c:set var="imageurls" value="${fn:replace(obj.imageurl, '\', '/')}"/>
+							<c:set var="simageurl" value="${fn:split(imageurls, '.')[0]}" />
+							<dt style="cursor: pointer; background-image:url(/${fn:split(fn:replace(obj.imageurl, '\\', '/'), '.')[0]}_210_100.jpg);" class="file-back">
+								 <span class="spanImg" onclick="javascript:viewAttchImage('${fn:replace(obj.imageurl, '\\', '/')}');"></span>
+								 <span class="file-up" onclick="javascript:deleteImage('${obj.id}','${obj.imagetype}');"></span>
+							</dt>
+						</dl>
+					</c:forEach>
+				</div>
+			</div>
+			
+			<div class="apply-form-item apply-form-item-upload">
+				<input id="archName2" name="archName2" value="经营场所照片" type="hidden">
+				<h2 class="form-tit">经营场所照片
+					<span class="file-btn">
+						<span onclick="javascript:uploadImages('经营场所照片','${orderId}','2');">+上传</span>
+					</span>
+					<input id="isrequflag2" name="isrequflag2" value="0" type="hidden">
+				</h2>
+				<div class="form-box" id="displayAttch2">
+					<input id="existsImgsSize2" name="existsImgsSize2" value="0" type="hidden">
+					<c:forEach items="${s2}" var="obj" varStatus="status">
+						<dl id="imagedl_${obj.id}" class="file-item">
+							<c:set var="imageurls" value="${fn:replace(obj.imageurl, '\', '/')}"/>
+							<c:set var="simageurl" value="${fn:split(imageurls, '.')[0]}" />
+							<dt style="cursor: pointer; background-image:url(/${fn:split(fn:replace(obj.imageurl, '\\', '/'), '.')[0]}_210_100.jpg);" class="file-back">
+								 <span class="spanImg" onclick="javascript:viewAttchImage('${fn:replace(obj.imageurl, '\\', '/')}');"></span>
+								 <span class="file-up" onclick="javascript:deleteImage('${obj.id}','${obj.imagetype}');"></span>
+							</dt>
+						</dl>
+					</c:forEach>
+				</div>
+			</div>
+			
+			<div class="apply-form-item apply-form-item-upload">
+				<input id="archName4" name="archName4" value="税务登记证" type="hidden">
+				<h2 class="form-tit">
+					税务登记证
+					<span class="file-btn">
+						<span onclick="javascript:uploadImages('税务登记证','${orderId}','4');">+上传</span>
+					</span>
+					<input id="isrequflag4" name="isrequflag4" value="0" type="hidden">
+				</h2>
+				<div class="form-box" id="displayAttch4">
+					<input id="existsImgsSize4" name="existsImgsSize4" value="0" type="hidden">
+					<c:forEach items="${s4}" var="obj" varStatus="status">
+						<dl id="imagedl_${obj.id}" class="file-item">
+							<c:set var="imageurls" value="${fn:replace(obj.imageurl, '\', '/')}"/>
+							<c:set var="simageurl" value="${fn:split(imageurls, '.')[0]}" />
+							<dt style="cursor: pointer; background-image:url(/${fn:split(fn:replace(obj.imageurl, '\\', '/'), '.')[0]}_210_100.jpg);" class="file-back">
+								 <span class="spanImg" onclick="javascript:viewAttchImage('${fn:replace(obj.imageurl, '\\', '/')}');"></span>
+								 <span class="file-up" onclick="javascript:deleteImage('${obj.id}','${obj.imagetype}');"></span>
+							</dt>
+						</dl>
+					</c:forEach>
+				</div>
+			</div>
+			<div class="apply-form-item apply-form-item-upload">
+				<input id="archName5" name="archName5" value="配偶身份证（已婚必选）" type="hidden">
+				<h2 class="form-tit">配偶身份证（已婚必选）
+					<span class="file-btn">
+						<span onclick="javascript:uploadImages('配偶身份证（已婚必选）','${orderId}','5');">+上传</span>
+					</span>
+					<input id="isrequflag5" name="isrequflag5" value="0" type="hidden">
+				</h2>
+				<div class="form-box" id="displayAttch5">
+					<input id="existsImgsSize5" name="existsImgsSize5" value="0" type="hidden">
+					<c:forEach items="${s5}" var="obj" varStatus="status">
+						<dl id="imagedl_${obj.id}" class="file-item">
+							<c:set var="imageurls" value="${fn:replace(obj.imageurl, '\', '/')}"/>
+							<c:set var="simageurl" value="${fn:split(imageurls, '.')[0]}" />
+							<dt style="cursor: pointer; background-image:url(/${fn:split(fn:replace(obj.imageurl, '\\', '/'), '.')[0]}_210_100.jpg);" class="file-back">
+								 <span class="spanImg" onclick="javascript:viewAttchImage('${fn:replace(obj.imageurl, '\\', '/')}');"></span>
+								 <span class="file-up" onclick="javascript:deleteImage('${obj.id}','${obj.imagetype}');"></span>
+							</dt>
+						</dl>
+					</c:forEach>
+				</div>
+			</div>
+			<div class="apply-form-item apply-form-item-upload">
+				<input id="archName6" name="archName6" value="借款人户口本" type="hidden">
+				<h2 class="form-tit">借款人户口本
+					<span class="file-btn">
+						<span onclick="javascript:uploadImages('借款人户口本','${orderId}','6');">+上传</span>
+					</span>
+					<input id="isrequflag6" name="isrequflag6" value="0" type="hidden">
+				</h2>
+				<div class="form-box" id="displayAttch6">
+					<input id="existsImgsSize6" name="existsImgsSize6" value="0" type="hidden">
+					<c:forEach items="${s6}" var="obj" varStatus="status">
+						<dl id="imagedl_${obj.id}" class="file-item">
+							<c:set var="imageurls" value="${fn:replace(obj.imageurl, '\', '/')}"/>
+							<c:set var="simageurl" value="${fn:split(imageurls, '.')[0]}" />
+							<dt style="cursor: pointer; background-image:url(/${fn:split(fn:replace(obj.imageurl, '\\', '/'), '.')[0]}_210_100.jpg);" class="file-back">
+								 <span class="spanImg" onclick="javascript:viewAttchImage('${fn:replace(obj.imageurl, '\\', '/')}');"></span>
+								 <span class="file-up" onclick="javascript:deleteImage('${obj.id}','${obj.imagetype}');"></span>
+							</dt>
+						</dl>
+					</c:forEach>
+				</div>
+			</div>
+			<div class="apply-form-item apply-form-item-upload">
+				<input id="archName7" name="archName7" value="配偶户口本" type="hidden">
+				<h2 class="form-tit">配偶户口本
+					<span class="file-btn">
+						<span onclick="javascript:uploadImages('配偶户口本','${orderId}','7');">+上传</span>
+					</span>
+					<input id="isrequflag7" name="isrequflag7" value="0" type="hidden">
+				</h2>
+				<div class="form-box" id="displayAttch7">
+					<input id="existsImgsSize7" name="existsImgsSize7" value="0" type="hidden">
+					<c:forEach items="${s7}" var="obj" varStatus="status">
+						<dl id="imagedl_${obj.id}" class="file-item">
+							<c:set var="imageurls" value="${fn:replace(obj.imageurl, '\', '/')}"/>
+							<c:set var="simageurl" value="${fn:split(imageurls, '.')[0]}" />
+							<dt style="cursor: pointer; background-image:url(/${fn:split(fn:replace(obj.imageurl, '\\', '/'), '.')[0]}_210_100.jpg);" class="file-back">
+								 <span class="spanImg" onclick="javascript:viewAttchImage('${fn:replace(obj.imageurl, '\\', '/')}');"></span>
+								 <span class="file-up" onclick="javascript:deleteImage('${obj.id}','${obj.imagetype}');"></span>
+							</dt>
+						</dl>
+					</c:forEach>
+				</div>
+			</div>
+			<div class="apply-form-item apply-form-item-upload">
+				<input id="archName8" name="archName8" value="借款人结婚证（已婚必选）" type="hidden">
+				<h2 class="form-tit">借款人结婚证（已婚必选）
+					<span class="file-btn">
+						<span onclick="javascript:uploadImages('借款人结婚证（已婚必选）','${orderId}','8');">+上传</span>
+					</span>
+					<input id="isrequflag8" name="isrequflag8" value="0" type="hidden">
+				</h2>
+				<div class="form-box" id="displayAttch8">
+					<input id="existsImgsSize8" name="existsImgsSize8" value="0" type="hidden">
+					<c:forEach items="${s8}" var="obj" varStatus="status">
+						<dl id="imagedl_${obj.id}" class="file-item">
+							<c:set var="imageurls" value="${fn:replace(obj.imageurl, '\', '/')}"/>
+							<c:set var="simageurl" value="${fn:split(imageurls, '.')[0]}" />
+							<dt style="cursor: pointer; background-image:url(/${fn:split(fn:replace(obj.imageurl, '\\', '/'), '.')[0]}_210_100.jpg);" class="file-back">
+								 <span class="spanImg" onclick="javascript:viewAttchImage('${fn:replace(obj.imageurl, '\\', '/')}');"></span>
+								 <span class="file-up" onclick="javascript:deleteImage('${obj.id}','${obj.imagetype}');"></span>
+							</dt>
+						</dl>
+					</c:forEach>
+				</div>
+			</div>
+			<div class="apply-form-item apply-form-item-upload">
+				<input id="archName11" name="archName11" value="银行流水（银行开具并盖章）扫描件或照片" type="hidden">
+				<h2 class="form-tit">银行流水（银行开具并盖章）扫描件或照片
+					<span class="file-btn">
+						<span onclick="javascript:uploadImages('银行流水（银行开具并盖章）扫描件或照片','${orderId}','9');">+上传</span>
+					</span>
+					<input id="isrequflag9" name="isrequflag9" value="0" type="hidden">
+				</h2>
+				<div class="form-box" id="displayAttch9">
+					<input id="existsImgsSize9" name="existsImgsSize9" value="0" type="hidden">
+					<c:forEach items="${s9}" var="obj" varStatus="status">
+						<dl id="imagedl_${obj.id}" class="file-item">
+							<c:set var="imageurls" value="${fn:replace(obj.imageurl, '\', '/')}"/>
+							<c:set var="simageurl" value="${fn:split(imageurls, '.')[0]}" />
+							<dt style="cursor: pointer; background-image:url(/${fn:split(fn:replace(obj.imageurl, '\\', '/'), '.')[0]}_210_100.jpg);" class="file-back">
+								 <span class="spanImg" onclick="javascript:viewAttchImage('${fn:replace(obj.imageurl, '\\', '/')}');"></span>
+								 <span class="file-up" onclick="javascript:deleteImage('${obj.id}','${obj.imagetype}');"></span>
+							</dt>
+						</dl>
+					</c:forEach>
+				</div>
+			</div>
+			<div class="apply-form-item apply-form-item-upload">
+				<input id="archName12" name="archName10" value="经营场地证明" type="hidden">
+				<h2 class="form-tit">经营场地证明
+					<span class="file-btn">
+						<span onclick="javascript:uploadImages('经营场地证明','${orderId}','10');">+上传</span>
+					</span>
+					<input id="isrequflag10" name="isrequflag10" value="0" type="hidden">
+				</h2>
+				<div class="form-box" id="displayAttch10">
+					<input id="existsImgsSize10" name="existsImgsSize10" value="0" type="hidden">
+					<c:forEach items="${s10}" var="obj" varStatus="status">
+						<dl id="imagedl_${obj.id}" class="file-item">
+							<c:set var="imageurls" value="${fn:replace(obj.imageurl, '\', '/')}"/>
+							<c:set var="simageurl" value="${fn:split(imageurls, '.')[0]}" />
+							<dt style="cursor: pointer; background-image:url(/${fn:split(fn:replace(obj.imageurl, '\\', '/'), '.')[0]}_210_100.jpg);" class="file-back">
+								 <span class="spanImg" onclick="javascript:viewAttchImage('${fn:replace(obj.imageurl, '\\', '/')}');"></span>
+								 <span class="file-up" onclick="javascript:deleteImage('${obj.id}','${obj.imagetype}');"></span>
+							</dt>
+						</dl>
+					</c:forEach>
+				</div>
+			</div>
+			<div class="apply-form-item apply-form-item-upload">
+				<input id="archName11" name="archName11" value="其他" type="hidden">
+				<h2 class="form-tit">其他
+					<span class="file-btn">
+						<span onclick="javascript:uploadImages('其他','${orderId}','11');">+上传</span>
+					</span>
+					<input id="isrequflag11" name="isrequflag11" value="0" type="hidden">
+				</h2>
+				<div class="form-box" id="displayAttch11">
+					<input id="existsImgsSize11" name="existsImgsSize11" value="0" type="hidden">
+					<c:forEach items="${s11}" var="obj" varStatus="status">
+						<dl id="imagedl_${obj.id}" class="file-item">
+							<c:set var="imageurls" value="${fn:replace(obj.imageurl, '\', '/')}"/>
+							<c:set var="simageurl" value="${fn:split(imageurls, '.')[0]}" />
+							<dt style="cursor: pointer; background-image:url(/${fn:split(fn:replace(obj.imageurl, '\\', '/'), '.')[0]}_210_100.jpg);" class="file-back">
+								 <span class="spanImg" onclick="javascript:viewAttchImage('${fn:replace(obj.imageurl, '\\', '/')}');"></span>
+								 <span class="file-up" onclick="javascript:deleteImage('${obj.id}','${obj.imagetype}');"></span>
+							</dt>
+						</dl>
+					</c:forEach>
+				</div>
+			</div>
+			<div class="form-action" id="checkAuthorizationRdo" style="display: none;">
+				<input id="passAuthRdo" name="passAuthRdo" style="margin-left: 20px;" type="checkbox">同意
+			</div>
+			<div class="form-action">
+				<input class="blue-btn prev-btn" onclick="javascript:submitPreStep('${orderId}','${productId}');" value="上一步" type="button"> 
+				<input class="blue-btn submit-btn" id="submitLoanOrder" name="submitLoanOrder" value="提交" type="submit">
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!--页尾导航-->
+<jsp:include page="/common/front/footer.jsp" />
+
+<script type="text/javascript" src="${ctx}/js/front/yrycodeapi.js"></script>
+
+<!-- 页面js -->
+<script type="text/javascript" src="${ctx}/js/front/artDialog.js"></script>
+<script type="text/javascript" src="${ctx}/js/front/jmpopups-0.js"></script>
+<script type="text/javascript" src="${ctx}/js/front/utilTools.js"></script>
+<script type="text/javascript" src="${ctx}/js/front/jquery.uploadify-3.1.min.js"></script> 
+<script type="text/javascript" src="${ctx}/js/front/swfobject.js"></script>
+
+<script type="text/javascript">
+function submitPreStep(orderId,productId) {
+    window.location.href="/product/applyThird.html?orderId="+orderId+"&productId="+productId;
+};
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$(".license").live("mouseover", function() {
+		$(this).children('a').show();
+		$(this).children('.lImg').addClass('lImgNow');
+	}).live("mouseout", function() {
+		$(this).children('a').hide();
+		$(this).children('.lImg').removeClass('lImgNow');
+	});
+
+	var role = '11000';
+	if (role == 10001 || role == 11001) {//如果是商户自主登陆显示同意授权书按钮
+		$("#checkAuthorizationRdo").show();
+	}
+});
+
+var obj;
+//初始化每一个上传控件
+function initUpload(imageTypeName, orderId, imageType) {
+	//定义局部变量数组，用于初始化每一个批量上传控件时回调函数的参数集合
+	var arrayDates = new Array();
+	var allimagestr = "";
+	$("#imageify" + imageType).uploadify({//初始化函数 
+						'swf' : '/js/front/uploadify.swf',
+						'uploader' : '/product/uploadImages.html',//controller后台处理的请求
+						'fileObjName' : 'imgAttch',
+						'queueID' : 'fileQueue' + imageType,
+						'queueSizeLimit' : 20,
+						'uploadLimit' : 20,
+						'fileSizeLimit' : '5MB',
+						'overrideEvents' : [ 'onDialogClose' ],
+						'auto' : false,//是否自动上传
+						'buttonImage' : '/images/batch_upload.png',
+						'height' : 20,//上传按钮高度
+						'width' : 60,//上传按钮宽度
+						'removeCompleted' : true,
+						'successTimeout' : 60,
+						'preventCaching' : true,
+						'progressData' : 'percentage',
+						'multi' : true, //支持批量
+						'requeueErrors' : false,
+						'fileTypeExts' : '*.jpg;*.png;*.jpeg;*.bmp;*.gif',
+						'fileTypeDesc' : '请选择图片文件',
+						'method' : 'post',
+						'formData' : {
+							orderId : orderId,
+							imageTypeName : imageTypeName,
+							imageType : imageType							  
+						},//传递参数
+
+						//一个文件完成上传但返回错误时触发
+						onUploadError : function(file, errorCode, erorMsg, errorString) {
+							alert(errorString + "：文件" + file.name + " 上传失败,稍后请重新上传该文件！");
+						},
+						//上传完一个文件触发一次
+						onUploadSuccess : function(file, data, response) {//上传完成时触发（每个文件触发一次）
+							var datastr = eval("(" + data + ")");
+							
+							var imghtml = "<dl class=\"file-item\" id='imagedl_"+datastr.imageId+"'>"
+							              + "<dt class=\"file-back\" style=\"background-image:url("+datastr.spath+");\">"
+											+ "<span class=\"spanImg\" onclick=\"javascript:viewAttchImage('"+ datastr.path+ "');\"></span>"
+											+ "<span class=\"file-up\" onclick=\"javascript:deleteImage('"+ datastr.imageId+ "','"+datastr.imageType+"');\"></span>"
+										  + "</dt>"
+										+ "</dl>";
+						
+							//判断lineNo
+							var lineNoint = parseInt(datastr.attchCountSize);
+							if (lineNoint % 3 == 0) {
+								allimagestr = allimagestr + imghtml
+										+ "</br>";
+							} else {
+								allimagestr = allimagestr + imghtml
+										+ "&nbsp;";
+							}
+							$("#existsImgsSize" + datastr.imageType).val(parseInt(datastr.lineNo) + 1);
+						},
+						//队列完全上传完毕触发    
+						onQueueComplete : function(queueData) {
+							alert("成功上传文件：" + queueData.uploadsSuccessful + '\n失败个数:' + queueData.uploadsErrored);
+							
+							var limit = $('#imageify' + imageType).uploadify('settings','queueSizeLimit');
+							
+							//批量上传累计最多上传100个文件，当上传累计文件数正好为100时 ,禁用上传按钮
+							if (queueData.uploadsSuccessful+ queueData.uploadsErrored == limit) {
+								$('#imageify' + imageType).uploadify('disable', true);
+							}
+							
+							$("#displayAttch" + imageType).html($("#displayAttch" + imageType).html()+ allimagestr);
+							//及时加载上传的图片      
+							obj.close();
+						},
+
+						onFallback : function() {
+							//在初始化时检测不到浏览器有兼容性的flash版本时实触发
+							alert("浏览器没有安装兼容的flash版本,请安装后上传！")
+						},
+
+						//选择每个文件增加进队列时触发，返回file参数
+						onSelectError : function(file, errorCode,
+								errorMsg) {
+							switch (errorCode) {
+							case -100:
+								alert("累计选择的文件数量不能超过"
+										+ $('#imageify' + index).uploadify('settings','queueSizeLimit')+ "个");
+								break;
+							case -110:
+								alert("文件:"+ file.name+ " 的大小不能超过"+ $('#imageify' + index).uploadify('settings','fileSizeLimit'));
+								break;
+							case -120:
+								alert("选择的文件" + file.name + "大小异常");
+								break;
+							case -130:
+								alert("选择的文件类型不正确");
+								break;
+							}
+						}
+					});
+
+};
+
+function uploadImages(attchName, nodeId, configNo) {
+	obj = art.dialog({
+				lock : true,
+				title : attchName,
+				okVal : '确定',
+				content : "<div><div id='fileQueue"+configNo+"' class='divclass'></div><input type='file' id='imageify"+configNo+"' name='imageify"+configNo+"'/><p style=\"color:red;\" id='messsage"+configNo+"'></p></div>",
+				ok : function() {
+					$('#imageify' + configNo).uploadify("upload", '*');
+					return false;
+				},
+				cancelVal : '关闭',
+				cancel : true
+			});
+	//初始化批量上传控件
+	initUpload(attchName, nodeId, configNo);
+}
+
+function viewAttchImage(path) {
+	window.open("/"+path);
+}
+
+function closePopupsWindows() {
+	$.closePopupLayer();
+}
+
+function checkRequireArch() {
+	$("#submitLoanOrder").attr("disabled", true);
+	var archConfigSize = $("#archConfigSize").val();
+	for (var i = 0; i < parseInt(archConfigSize); i++) {
+		var isrequflag = $("#isrequflag" + i).val();
+		if (isrequflag == "1") {
+			var existsImgsSize = $("#existsImgsSize" + i).val();
+			if (parseInt(existsImgsSize) == 0) {
+				$("#submitLoanOrder").attr("disabled", false);
+				alert($("#archName" + i).val() + "为必传项,请上传后提交审核");
+				return false;
+			}
+		}
+	}
+
+	var role = '11000';
+	var rdoCheck = $('input:checkbox[name="passAuthRdo"]:checked').val();
+	if ((role == 10001 || role == 11001) && rdoCheck == null) {//如果是商户自主登陆的必须同意授权书
+		alert("请同意征信查询授权书！")
+		$("#submitLoanOrder").attr("disabled", false);
+		return false;
+	}
+
+	$("#submitLoanOrder").attr("disabled", true);
+	return true;
+}
+
+function deleteImage(imageId, imageType) {
+	$.ajax({
+	    url: "/product/delImages.html",    //请求的url地址
+	    dataType: "json",   //返回格式为json
+	    async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+	    data: { "imageId":imageId,"imageType":imageType },    //参数值
+	    type: "post",   //请求方式
+	    beforeSend: function() {
+	    	$("#imagedl_"+imageId).hide();
+	        //请求前的处理
+	    },
+	    success: function(req) {
+	        //请求成功时处理
+	    },
+	    complete: function() {
+	        //请求完成的处理
+	    },
+	    error: function() {
+	        //请求出错处理
+	    }
+	});
+}
+</script>
+
+</body>
+</html>

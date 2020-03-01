@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd"
+	default-lazy-init="true">
+
+	<description>Shiro安全配置</description>
+
+	<!-- Shiro 安全管理器 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="shiroRealm" />
+		<property name="cacheManager" ref="shiroEhcacheManager" />
+		<!-- <property name="sessionManager" ref="sessionManager" /> -->
+	</bean>
+
+	<!-- 项目自定义的Realm -->
+	<bean id="shiroRealm" class="com.easycredit.web.controller.manage.security.shiro.ShiroRealm" >
+		<property name="cachingEnabled" value="false" />
+	</bean>
+
+	<!-- Shiro Filter -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager"/>
+		<property name="loginUrl" value="/manage/login.html" />
+		<property name="successUrl" value="/manage/index.html" />
+		<property name="filters">
+	        <map>
+	        	 <entry key="authc" value-ref="baseFormAuthenticationFilter"/>
+	        </map>
+        </property>
+		<property name="filterChainDefinitions">
+			<value>
+				<!-- 静态资源允许访问 -->
+				/js/** = anon
+				/theme/** = anon
+				/images/** = anon
+				/css/** = anon
+				
+				<!-- 登录页允许访问 -->
+				/favicon.ico = anon
+				/index.jsp = anon 
+				/manage/login.html = anon
+				/manage/loginin.html = anon 
+				 <!-- 后台资源需要认证 --> 
+		    	/manage/** = authc
+		 	</value>
+		</property>
+		
+	</bean>
+
+	<!-- 用户授权信息Cache, 采用EhCache -->
+	<bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml"/>
+	</bean>
+
+	<bean id="baseFormAuthenticationFilter" class="com.easycredit.web.controller.manage.security.shiro.BaseFormAuthenticationFilter"/>
+	
+    <!-- 会话DAO -->  
+    <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.MemorySessionDAO"/> 
+    
+    <!-- 会话管理器 -->  
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">  
+        <property name="sessionDAO" ref="sessionDAO"/>  
+    </bean>
+    
+    <!-- Shiro生命周期处理器 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+    
+</beans>

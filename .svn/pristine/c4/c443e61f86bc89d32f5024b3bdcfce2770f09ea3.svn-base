@@ -1,0 +1,15 @@
+package com.easycredit.services.manage.order;
+
+import java.util.List;
+
+import com.easycredit.dao.pojo.OrderAssignEx;
+import com.easycredit.dao.pojo.OrderInfoEx;
+import com.easycredit.dao.pojo.OrderRetrunList;
+
+public interface ApplyApprovalService {
+
+	public List<OrderInfoEx> getApplyApprovalList(OrderInfoEx record);
+	public int updateApplyApproval(OrderAssignEx record);
+	public int addreturnlist(OrderRetrunList record);
+
+}

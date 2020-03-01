@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<states>
+	<!-- 颜色说明 default(灰色)，danger(红色)，primary(蓝色)，success(绿色)，info(浅蓝)，warning(橘黄)，-->
+	
+	<!-- 通用的操作状态 -->
+	<state name="flag" state='[{"id":"0","name":"无效","color":"danger","isshow":"true"},
+							   {"id":"1","name":"有效","color":"info","isshow":"true"}]' />
+	
+	<state name="state" state='[{"id":"0","name":"否","color":"danger","isshow":"true"},
+							    {"id":"1","name":"是","color":"info","isshow":"true"}]' />
+	<!-- 用户状态 -->
+	<state name="userState" state='[{"id":"-1","name":"删除","color":"danger","isshow":"false"},
+									{"id":"0","name":"锁定","color":"warning","isshow":"true"},
+									{"id":"1","name":"正常","color":"info","isshow":"true"},
+									{"id":"2","name":"禁用","color":"default","isshow":"true"}]' />
+	          	
+	<!-- 用户类型 -->
+	<state name="usertype" state='[{"id":"0","name":"会员客户","color":"primary","isshow":"true"},
+									{"id":"1","name":"系统用户","color":"info","isshow":"true"},
+									{"id":"2","name":"管理员","color":"success","isshow":"true"}]' />
+	
+	<!-- 用户组角色 -->
+	<state name="organizationtype" state='[{"id":"0","name":"初审组","color":"info","isshow":"true"},
+										   {"id":"1","name":"复审组","color":"primary","isshow":"true"},
+									       {"id":"2","name":"合作商审批组","color":"success","isshow":"true"},
+									       {"id":"3","name":"系统管理组","color":"danger","isshow":"true"}]' />
+	
+	<!-- 还款状态 -->
+	<state name="loanstatus" state='[{"id":"0","name":"未还款","color":"info","isshow":"true"},
+									 {"id":"1","name":"已还款","color":"primary","isshow":"true"},
+									 {"id":"2","name":"逾期","color":"success","isshow":"true"},
+									 {"id":"3","name":"逾期还款","color":"danger","isshow":"true"}]' />
+	
+	<!-- 审批状态 -->
+	<state name="orderInfoStatus" state='[{"id":"-1","name":"第一步暂存","color":"info","isshow":"true"},
+										{"id":"-2","name":"第二步暂存","color":"primary","isshow":"true"},
+										{"id":"-3","name":"第三步暂存","color":"default","isshow":"true"},
+										{"id":"-4","name":"第四步暂存","color":"success","isshow":"true"},
+										{"id":"0","name":"初审中","color":"info","isshow":"true"},
+									      {"id":"1","name":"复审中","color":"primary","isshow":"true"},
+									      {"id":"2","name":"合作商审批中","color":"default","isshow":"true"},
+									      {"id":"3","name":"审批通过","color":"success","isshow":"true"},
+									      {"id":"4","name":"审批拒绝","color":"danger","isshow":"true"},
+									      {"id":"5","name":"退回","color":"warning","isshow":"true"},
+									      {"id":"6","name":"已放款","color":"info","isshow":"true"}]' />
+	<!-- 审批结果 --> 
+	<state name="resultflag" state='[{"id":"0","name":"否决","color":"danger","isshow":"true"},
+									 {"id":"1","name":"同意","color":"success","isshow":"true"}]' />
+	
+</states>

@@ -1,0 +1,57 @@
+package com.easycredit.web.controller.manage.order;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.easycredit.dao.pojo.OrderInfoEx;
+import com.easycredit.services.manage.order.ComprehensivequeryService;
+import com.easycredit.utils.Page;
+import com.easycredit.web.controller.BaseController;
+
+@Controller
+@RequestMapping("/manage/comprehensive")
+public class ComprehensiveController extends BaseController {
+	@Autowired
+	private ComprehensivequeryService comprehensivequeryService;
+	private static final String LIST = "/manage/comprehensiveQuery_list";
+	private static final String EXPORT = "/manage/comprehensiveQuery_export";
+
+	@RequestMapping(value = {"getComprehensiveList"})
+	public String getComprehensivequeryList(OrderInfoEx record, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+		List<OrderInfoEx> list = comprehensivequeryService.getComprehensivequeryList(record);
+		Page<OrderInfoEx> page = new Page<OrderInfoEx>();
+		page.setPageNo(1);
+		page.setPageSize(10);
+		page.setTotalCount(list.size());
+		page.setResult(list);
+
+		model.addAttribute("page", page);
+
+		return LIST;
+
+	}
+
+	@RequestMapping(value = "/export")
+	public String export(OrderInfoEx record, Model model, HttpServletRequest request, HttpServletResponse response) {
+		List<OrderInfoEx> list = comprehensivequeryService.getComprehensivequeryList(record);
+		Page<OrderInfoEx> page = new Page<OrderInfoEx>();
+		// page.setPageNo(1);
+		// page.setPageSize(10);
+		page.setTotalCount(list.size());
+		page.setResult(list);
+
+		model.addAttribute("page", page);
+
+		return EXPORT;
+
+	}
+
+}

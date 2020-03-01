@@ -1,0 +1,17 @@
+<%@ page language="java" pageEncoding="UTF-8"%>
+<%@ include file="/common/taglibs.jsp" %>
+<div class="fsp_top_bar">
+	<div class="top">
+		<p class="top_user">
+			<span>你好，</span>
+			<span class="user-name">杭州大年房地产咨询有限公司，${sessionScope.UserInfo.username}</span> 
+			<a href="#">退出</a><span>|</span> 
+		</p>
+	</div>
+</div>
+
+ 
+	
+	
+ 
+ 

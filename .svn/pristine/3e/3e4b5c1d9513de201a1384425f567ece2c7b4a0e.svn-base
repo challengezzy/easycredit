@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.easycredit.dao.mapper.MortgagorInfoExMapper" >
+   
+  <!-- 借款人管理查询列表 -->
+  <select id="getMortgagorInfo" resultType="com.easycredit.dao.pojo.MortgagorInfoEx" parameterType="com.easycredit.dao.pojo.MortgagorInfoEx" >
+   SELECT
+   distinct 
+	mo.id,
+mo.mortgagorname,
+mo.idnumber,
+mo.sex,
+mo.matrimonial,
+mo.educationalstatus,
+mo.workinglife,
+mo.childrennum,
+mo.email,
+mo.cellphone,
+mo.telephone,
+mo.userid,
+mo.createtime,
+mc.id as contactid,
+mc.spousename,
+mc.idnumber as spouseidnumber,
+mc.cellphone as spousecellphone,
+mc.registeraddress as spouseregisteraddress,
+mc.contactaddresstype as spousecontactaddresstype,
+mc.correlation1name,
+mc.correlation1type,
+mc.correlation1cellphone,
+mc.correlation2name,
+mc.correlation2type,
+mc.correlation2cellphone,
+mc.reterence1name,
+mc.reterence1depart,
+mc.reterence1position,
+mc.reterence1cellphone,
+mc.reterence2name,
+mc.reterence2depart,
+mc.reterence2position,
+mc.reterence2cellphone,
+mr.id as residentialid,
+mr.houseproperty,
+mr.housingloan,
+mr.residentialaddress,
+mr.registeraddress,
+mr.contactaddresstype,
+mr.citylife,
+co.id as companyid,
+co.companyname,
+co.department,
+co.position,
+co.companytype,
+co.primarybusiness,
+co.licenceno,
+co.registerdate,
+co.limittype,
+co.limitdate,
+co.registeredcapital,
+co.areaid,
+co.detailaddress,
+co.entrydate,
+co.incomeperyear,
+co.incomepermonth,
+co.otherincomepermonth,
+co.otherincomeresourse,
+co.supportnum,
+u.username,
+u.nickname
+
+
+
+FROM
+	mortgagorinfo mo
+LEFT JOIN mortgagor_contact mc ON mc.mortgagorid = mo.id
+LEFT JOIN mortgagor_residential mr ON mr.mortgagorid = mo.id
+LEFT JOIN companyinfo co on co.mortgagorid=mo.id
+LEFT JOIN orderinfo o on o.mortgagorid=mo.id
+LEFT JOIN userinfo u ON u.id = mo.userid
+
+<where>
+o.`status` in (3,6) 
+<if test="id!=null and id!=''">
+				and mo.id = #{id,jdbcType=INTEGER}
+			</if>
+			
+			<if test="mortgagorname!=null and mortgagorname!=''">
+				and mo.mortgagorname = #{mortgagorname,jdbcType=VARCHAR}
+			</if>
+			
+			<if test="cellphone!=null and cellphone!=''">
+				and mo.cellphone = #{cellphone,jdbcType=VARCHAR}
+			</if>
+			
+			<if test="email!=null and email!=''">
+				and mo.email = #{email,jdbcType=VARCHAR}
+			</if>
+			
+			<if test="companyname!=null and companyname!=''">
+				and co.companyname = #{companyname,jdbcType=VARCHAR}
+			</if>
+			</where>
+     
+  </select>
+  
+</mapper>

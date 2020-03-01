@@ -1,0 +1,34 @@
+package com.easycredit.dao.mapper;
+
+import com.easycredit.dao.pojo.ProductorGanization;
+import com.easycredit.dao.pojo.ProductorGanizationExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+
+public interface ProductorGanizationMapper {
+    int countByExample(ProductorGanizationExample example);
+
+    int deleteByExample(ProductorGanizationExample example);
+
+    int deleteByPrimaryKey(Integer id);
+    int deleteByProductId(Integer pid);
+
+    int insert(ProductorGanization record);
+
+    int insertSelective(ProductorGanization record);
+
+    List<ProductorGanization> selectByExampleWithRowbounds(ProductorGanizationExample example, RowBounds rowBounds);
+
+    List<ProductorGanization> selectByExample(ProductorGanizationExample example);
+
+    ProductorGanization selectByPrimaryKey(Integer id);
+
+    int updateByExampleSelective(@Param("record") ProductorGanization record, @Param("example") ProductorGanizationExample example);
+
+    int updateByExample(@Param("record") ProductorGanization record, @Param("example") ProductorGanizationExample example);
+
+    int updateByPrimaryKeySelective(ProductorGanization record);
+
+    int updateByPrimaryKey(ProductorGanization record);
+}

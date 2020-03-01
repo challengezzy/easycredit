@@ -1,0 +1,191 @@
+<%@ page language="java" pageEncoding="UTF-8"%>
+<%@ include file="/common/taglibs.jsp" %>
+<!DOCTYPE html>
+<html class="">
+<head>
+	<title>我的申请</title>
+	<jsp:include page="/common/front/head.jsp" />
+	<!-- 页面css -->
+	<link rel="stylesheet" href="${ctx}/css/tavern.css" type="text/css">
+	<link rel="stylesheet" href="${ctx}/css/blue.css" type="text/css">
+	<link rel="stylesheet" href="${ctx}/css/WdatePicker.css" type="text/css">
+</head>
+
+<body>
+<div class="container"><div id="fsp-model-div"></div></div>
+<div class="fsp_header_frame">
+	
+	<jsp:include page="/common/front/top.jsp" />
+
+	<div class="header_bar">
+		<div class="cf header">
+			<div class="logo">
+				<a href="/index.jsp"><img src="${ctx}/images/logo.png" alt="翊融金融"></a>
+			</div>
+			<div class="nav">
+				<ul class="nav-list">
+					<li class="nav-item">
+	                    <a href="${ctx}/member/myBusiness.html" class="nav-link nav-link-current">我的申请</a>
+					</li>
+	    			<li class="nav-item">
+	                    <a href="${ctx}/member/orderList.html" class="nav-link ">放款查询</a>
+					</li>
+	    			<li class="nav-item">
+	                    <a href="${ctx}/member/productList.html" class="nav-link ">产品申请</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="main">
+	<div class="my-business">
+		<div class="business-main-new">
+			<div class="fsp-my-business">
+				<div class="fsp-business-main">
+					<form method="post" action="${ctx}/member/myBusiness.html" id="mainForm" name="mainForm">
+						<div class="business-content">
+							<div class="query-box">
+								<label class="label">申请单编号</label> 
+								<input name="orderno" style="width:194px;height:23px;"  class="query-text" id="orderno" type="text" value="${param.orderno}">
+								<label class="label">产品名称</label> 
+								<input name="productname" style="width:194px;height:23px;" class="query-text" id="productname" type="text" value="${param.productname}">
+							</div>
+							<div class="query-box">
+								<label class="label">审批状态</label>
+								<select id="statusoption" name="statusoption" class="query-text-select">
+									<option value="">全部</option>
+									<option value="-2" class="option-default">待提交</option>
+									<option value="0" class="option-info">初审中</option>
+									<option value="1" class="option-primary">复审中</option>
+									<option value="2" class="option-default">合作商审批中</option>
+									<option value="3" class="option-success">审批通过</option>
+									<option value="4" class="option-danger">审批拒绝</option>
+									<option value="5" class="option-warning">退回</option>
+									<option value="6" class="option-info">已放款</option>
+								</select>
+								<input  class="form-control" id="status"  name="status" type="hidden"  value=""/>
+								<label class="label">创建时间</label> 
+								<input id="startCreatetime" name="startCreatetime" class="Wdate Wdate2 query-text-left number-text"
+									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',vel:'startCreatetime'})" value="${param.startCreatetime}" type="text"> 
+								<input id="endCreatetime" name="endCreatetime" style="margin-right: 45px;"
+									class="Wdate Wdate2 query-text-left number-text"
+									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',vel:'endCreatetime'})" value="${param.endCreatetime}" type="text">
+								<input id="submit2" class="blue-btn search-btn" value="查询" type="submit">
+							</div>
+							<div class="business-record" id="requireOrderTab" style="overflow: auto;">
+								<table class="record-tab" style="min-widht: 985px;" border="0" cellpadding="5" cellspacing="0" width="100%">
+									<thead>
+										<tr>
+											<th width="10%">序号</th>
+											<th width="10%">业务申请单编号</th>
+											<th width="10%">产品名称</th>
+											<th width="20%">借款人姓名</th>
+											<th width="18%">企业名称</th>
+											<th width="18%">申请额度</th>
+											<th width="18%">申请期限(月)</th>
+											<th class="tabR" width="10%">审批状态</th>
+											<th width="18%">审批额度</th>
+											<th width="18%">利率(%)</th>
+											<th width="18%">审批期限(月)</th>
+											<th width="20%">操作</th>
+										</tr>
+									</thead>
+									<tbody>
+									<c:forEach items="${page.result}" var="obj" varStatus="status">
+						            <tr>
+						              <td>${status.count}</td>
+						              <td>${obj.orderno}</td>
+						              <td>${obj.productname}</td>
+						              <td>${obj.mortgagorname }</td>
+						              <td>${obj.companyname}</td>
+						              <td>${obj.loanamount}</td>
+						               <td>${obj.applicationlimit}</td>
+						              <td data-toggle="modal" data-target="#modal_alert" data-backdrop="static" data-load-remote="${ctx}/member/getOrderAssignByOrderId.html?orderid=${obj.id}"><mt:selectState stateType="orderInfoStatus" showType="label" value="${obj.status}"/></td>
+						               <td>${obj.loanamount}</td>
+						               <td>${obj.loanrate}</td>
+						               <td>${obj.loantimelimit}</td>
+						           	  <td>
+						           	  	 <div class="btn-group btn-group-sm pull-center">
+						           	  	 	<c:if test="${obj.status=='5'}">
+						           	  	 		<a href="${ctx}/product/applyFirst.html?orderId=${obj.id }">修改信息</a>
+						           	  	 	</c:if>
+						           	  	 	<c:if test="${obj.status=='-1'}">
+						           	  	 		<a href="${ctx}/product/applyFirst.html?orderId=${obj.id }">继续申请</a>
+						           	  	 	</c:if>
+						           	  	 	<c:if test="${obj.status=='-2'}">
+						           	  	 		<a href="${ctx}/product/applySecond.html?orderId=${obj.id }">继续申请</a>
+						           	  	 	</c:if>
+						           	  	 	<c:if test="${obj.status=='-3'}">
+						           	  	 		<a href="${ctx}/product/applyThird.html?orderId=${obj.id }">继续申请</a>
+						           	  	 	</c:if>
+						           	  	 	<c:if test="${obj.status=='-4'}">
+						           	  	 		<a href="${ctx}/product/applyFourth.html?orderId=${obj.id }">继续申请</a>
+						           	  	 	</c:if>
+										 </div>
+						           	  </td>
+						            </tr>
+						            </c:forEach>
+						            <c:if test="${empty page.result}">
+						            	<tr class="pass">
+												<td style="height: 150px; line-height: 150px; border-right-width: 0px;"
+													colspan="12" align="center">没有相关申请信息</td>
+										</tr>
+								   	</c:if>
+										
+									</tbody>
+								</table>
+								<div class="list-page">
+									 <div class="table_page dropup">
+									    <c:if test="${not empty page.result}">
+									        <%@ include file="/common/pagination_front.jsp" %>
+								        </c:if>
+							        </div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade modal_alert" id="modal_alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+  <div class="modal-dialog"  >
+  <div class="modal_align_wrap">
+    <div class="modal-content" style="max-width:800px;">
+      <div class="modal-body" >
+       		弹出框的内容
+      </div>
+    </div> 
+   </div> 
+  </div> 
+</div>
+<!-- /.modal -->  
+
+<!--页尾导航-->
+<jsp:include page="/common/front/footer.jsp" />
+
+<!-- 插件js -->
+<script type="text/javascript" src="${ctx}/js/front/WdatePicker.js"></script>
+
+<!-- 页面js -->
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.record-tab tbody tr').hover(function() {
+			$(this).addClass('pass');
+		}, function() {
+			$(this).removeClass('pass');
+		});
+	});
+	$("#statusoption").change(function(){ 
+
+	 $("#status").val($("#statusoption").val());
+	
+ 
+}) ;
+</script>
+</body>
+</html>

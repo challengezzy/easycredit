@@ -1,0 +1,43 @@
+<%@ page language="java" pageEncoding="UTF-8"%>
+<%@ include file="/common/taglibs.jsp" %>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>联系我们</title>
+	<jsp:include page="/common/front/head.jsp" />
+</head>
+
+<body>
+
+<div class="fsp_header_frame">
+  <div class="fsp_top_bar"></div>
+   <div class="header_bar">
+     <div class="cf header">
+         <div class="logo">
+             <a href="/index.jsp"><img src="/images/logo.png" alt="网贷平台"></a>
+         </div>
+         <div class="nav">
+         	<ul class="nav-list"></ul>
+         </div>
+     </div>
+   </div>
+</div>	
+<!-- 页面内容 -->
+	<div class="main">
+		<div class="company-info">
+			<div class="contact-us">
+				<h2>联系我们</h2>
+				<div class="contact-us-des">
+					<p>电话：021-61112671</p>
+					<p>邮箱：<a>info@365rongz.com</a></p>
+					<p>地址：上海市浦东新区</P>
+					<p>邮编：201000</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--页尾导航-->
+<jsp:include page="/common/front/footer.jsp" />
+
+</body>
+</html>

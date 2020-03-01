@@ -1,0 +1,148 @@
+package com.easycredit.dao.pojo;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class OrderRetrunList implements Serializable {
+    private Integer id;
+
+    private Integer orderid;
+
+    private String loanno;
+
+    private Double loanamountpre;
+
+    private Double loanamount;
+
+    private Double loanratepre;
+
+    private Double loanrate;
+
+    private Integer loantimelimitpre;
+
+    private Integer loantimelimit;
+
+    private Date loantime;
+
+    private Date loanlimittime;
+
+    private Double norepaymentamount;
+
+    private Integer loanstatus;
+
+    private String comments;
+
+    private static final long serialVersionUID = 1L;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getOrderid() {
+        return orderid;
+    }
+
+    public void setOrderid(Integer orderid) {
+        this.orderid = orderid;
+    }
+
+    public String getLoanno() {
+        return loanno;
+    }
+
+    public void setLoanno(String loanno) {
+        this.loanno = loanno;
+    }
+
+    public Double getLoanamountpre() {
+        return loanamountpre;
+    }
+
+    public void setLoanamountpre(Double loanamountpre) {
+        this.loanamountpre = loanamountpre;
+    }
+
+    public Double getLoanamount() {
+        return loanamount;
+    }
+
+    public void setLoanamount(Double loanamount) {
+        this.loanamount = loanamount;
+    }
+
+    public Double getLoanratepre() {
+        return loanratepre;
+    }
+
+    public void setLoanratepre(Double loanratepre) {
+        this.loanratepre = loanratepre;
+    }
+
+    public Double getLoanrate() {
+        return loanrate;
+    }
+
+    public void setLoanrate(Double loanrate) {
+        this.loanrate = loanrate;
+    }
+
+    public Integer getLoantimelimitpre() {
+        return loantimelimitpre;
+    }
+
+    public void setLoantimelimitpre(Integer loantimelimitpre) {
+        this.loantimelimitpre = loantimelimitpre;
+    }
+
+    public Integer getLoantimelimit() {
+        return loantimelimit;
+    }
+
+    public void setLoantimelimit(Integer loantimelimit) {
+        this.loantimelimit = loantimelimit;
+    }
+
+    public Date getLoantime() {
+        return loantime;
+    }
+
+    public void setLoantime(Date loantime) {
+        this.loantime = loantime;
+    }
+
+    public Date getLoanlimittime() {
+        return loanlimittime;
+    }
+
+    public void setLoanlimittime(Date loanlimittime) {
+        this.loanlimittime = loanlimittime;
+    }
+
+    public Double getNorepaymentamount() {
+        return norepaymentamount;
+    }
+
+    public void setNorepaymentamount(Double norepaymentamount) {
+        this.norepaymentamount = norepaymentamount;
+    }
+
+    public Integer getLoanstatus() {
+        return loanstatus;
+    }
+
+    public void setLoanstatus(Integer loanstatus) {
+        this.loanstatus = loanstatus;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+}

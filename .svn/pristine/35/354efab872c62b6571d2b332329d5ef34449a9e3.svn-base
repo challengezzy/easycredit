@@ -1,0 +1,30 @@
+ #dao log
+MYBATIS_DAO_LOG=INFO
+#API log
+JAXWS_LOG=WARN
+
+#data source Mysql
+DS_DRIVER=com.mysql.jdbc.Driver
+
+#data source Mysql
+jdbc.driver=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost:3306/easycredit?autoReconnect=true&amp;autoReconnectForPools=true&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull
+jdbc.username=root
+jdbc.password=123456
+
+initialSize=5
+maxActive=100
+maxIdle=30
+maxWait=120
+poolPreparedStatements=false
+defaultAutoCommit=false
+removeAbandoned=true
+logAbandoned=true
+removeAbandonedTimeout=60
+
+#data source redis
+REDIS_HOST=127.0.0.1
+REDIS_PORT=6379
+REDIS_PASSWORD=123456
+
+ 

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.easycredit.dao.mapper.OrderRetrunListExMapper" >
+   
+  <!-- 产品管理查询列表 -->
+  <select id="getOrderRetrunList" resultType="com.easycredit.dao.pojo.OrderRetrunListEx" parameterType="com.easycredit.dao.pojo.OrderRetrunListEx" >
+	 SELECT
+		ol.id,
+		ol.orderid,
+		ol.loanno,
+		ol.loanamount,
+		ol.loantime,
+		ol.loanlimittime,
+		ol.norepaymentamount,
+		ol.loanstatus,
+		ol.comments,
+		o.orderno,
+		p.productname,
+		m.mortgagorname,
+		c.companyname
+	FROM
+		orderretrunlist ol
+	LEFT JOIN orderinfo o ON ol.orderid = o.id
+	LEFT JOIN productinfo p ON o.productid = p.id
+	LEFT JOIN mortgagorinfo m ON o.mortgagorid = m.id
+	LEFT JOIN companyinfo c ON c.mortgagorid = m.id
+	<where>
+	<if test="loanno!=null and loanno!=''">
+				and ol.loanno = #{loanno,jdbcType=VARCHAR}
+			</if>
+			
+			<if test="orderno!=null and orderno!=''">
+				and o.orderno = #{orderno,jdbcType=VARCHAR}
+			</if>
+			
+			<if test="companyname!=null and companyname!=''">
+				and c.companyname = #{companyname,jdbcType=VARCHAR}
+			</if>
+			
+			<if test="mortgagorname!=null and mortgagorname!=''">
+				and m.mortgagorname = #{mortgagorname,jdbcType=VARCHAR}
+			</if>
+			
+			<if test="productname!=null and productname!=''">
+				and p.productname = #{productname,jdbcType=VARCHAR}
+			</if>
+	</where>
+	     
+  </select>
+  
+</mapper>

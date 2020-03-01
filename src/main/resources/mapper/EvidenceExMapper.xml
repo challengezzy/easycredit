@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.easycredit.dao.mapper.EvidenceExMapper" >
+  <resultMap id="BaseResultMap" type="com.easycredit.dao.pojo.Evidence" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="orderid" property="orderid" jdbcType="INTEGER" />
+    <result column="imageurl" property="imageurl" jdbcType="VARCHAR" />
+    <result column="imagetype" property="imagetype" jdbcType="INTEGER" />
+    <result column="comments" property="comments" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, orderid, imageurl, imagetype, comments
+  </sql>
+  
+  <select id="selectByOrderIdAndImageType" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    	<include refid="Base_Column_List" />
+    from evidence
+    where
+    	 orderid = #{orderid} and imagetype = #{imageType}
+  </select>
+  
+</mapper>

@@ -1,0 +1,296 @@
+package com.easycredit.services.front.impl;
+
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.easycredit.dao.mapper.CompanyInfoMapper;
+import com.easycredit.dao.mapper.MortgagorContactMapper;
+import com.easycredit.dao.mapper.MortgagorInfoMapper;
+import com.easycredit.dao.mapper.MortgagorResidentialMapper;
+import com.easycredit.dao.mapper.OrderAssignMapper;
+import com.easycredit.dao.mapper.OrderInfoListMapper;
+import com.easycredit.dao.mapper.OrderInfoMapper;
+import com.easycredit.dao.pojo.CompanyInfo;
+import com.easycredit.dao.pojo.MortgagorContact;
+import com.easycredit.dao.pojo.MortgagorInfo;
+import com.easycredit.dao.pojo.MortgagorInfoEx;
+import com.easycredit.dao.pojo.MortgagorResidential;
+import com.easycredit.dao.pojo.OrderAssign;
+import com.easycredit.dao.pojo.OrderInfo;
+import com.easycredit.dao.pojo.OrderInfoList;
+import com.easycredit.services.front.MortgagorContactService;
+import com.easycredit.services.front.OrderInfoService;
+import com.easycredit.services.front.ProductService;
+import com.easycredit.utils.BeanUtil;
+import com.easycredit.utils.NoGeneratorUtil;
+
+@Transactional
+@Service("ProductService")
+public class ProductServiceImpl implements ProductService {
+	@Autowired
+	MortgagorContactService mortgagorContactService;
+	@Autowired
+	OrderInfoService orderInfoService;
+	@Autowired
+	CompanyInfoMapper companyInfoMapper;
+	@Autowired
+	MortgagorInfoMapper mortgagorInfoMapper;
+	@Autowired
+	MortgagorResidentialMapper mortgagorResidentialMapper;
+	@Autowired
+	MortgagorContactMapper mortgagorContactMapper;
+	@Autowired
+	OrderInfoMapper orderInfoMapper;
+	@Autowired
+	OrderInfoListMapper orderInfoListMapper;
+	@Autowired
+	OrderAssignMapper orderAssignMapper;
+
+	@Override
+	public int applyFirstSave(MortgagorInfoEx mortgagorInfoEx, Integer OrderId,Integer productId) {
+
+		int mortgagorid = 0;
+		int orderinfoId = 0;
+		if (OrderId != null) {// 更新一套
+//			MortgagorInfo mortgagorInfo = BeanUtil.getMortgagorInfo(mortgagorInfoEx);
+//			mortgagorid = mortgagorContactService.addMortgagorInfo(mortgagorInfo);
+//			MortgagorResidential mortgagorResidential = BeanUtil.getMortgagorResidential(mortgagorInfoEx, mortgagorid);
+//			mortgagorContactService.addMortgagorResidential(mortgagorResidential);
+//			MortgagorContact mortgagorContact = BeanUtil.getMortgagorContact(mortgagorInfoEx, mortgagorid);
+//			mortgagorContactService.addMortgagorContact(mortgagorContact);
+//			OrderInfo orderinfo = BeanUtil.getOrderInfo(mortgagorInfoEx, mortgagorid);
+//			orderinfo.setOrderno(NoGeneratorUtil.getOrderNo());
+//			orderinfoId = orderInfoService.addorder(orderinfo);
+			OrderInfo orderinfo = orderInfoMapper.selectByPrimaryKey(OrderId);
+			MortgagorInfo mortgagorInfo = BeanUtil.getMortgagorInfo(mortgagorInfoEx);
+
+			mortgagorInfo.setId(orderinfo.getMortgagorid());
+			mortgagorInfoMapper.updateByPrimaryKey(mortgagorInfo);
+			MortgagorResidential mortgagorResidential = BeanUtil.getMortgagorResidential(mortgagorInfoEx,
+					orderinfo.getMortgagorid());// 此处已修改
+			MortgagorResidential morResidential = mortgagorResidentialMapper.selectByMortgagorId(orderinfo
+					.getMortgagorid());
+			mortgagorResidential.setId(morResidential.getId());
+			mortgagorResidentialMapper.updateByPrimaryKey(mortgagorResidential);
+			MortgagorContact mortgagorContact = BeanUtil.getMortgagorContact(mortgagorInfoEx,
+					orderinfo.getMortgagorid());// 此处已修改
+			MortgagorContact morContact = mortgagorContactMapper.selectByMortgagorId(orderinfo.getMortgagorid());
+			mortgagorContact.setId(morContact.getId());
+			mortgagorContactMapper.updateByPrimaryKey(mortgagorContact);
+			// OrderInfo orderinfo = BeanUtil.getOrderInfo(mortgagorInfoEx,
+			// mortgagorid);
+			// orderInfoMapper.updateByPrimaryKey(orderinfo);
+
+			orderinfoId = orderinfo.getId();
+
+		} else {// 第一次申请，保存一套
+//			OrderInfo orderinfo = orderInfoMapper.selectByPrimaryKey(OrderId);
+//			MortgagorInfo mortgagorInfo = BeanUtil.getMortgagorInfo(mortgagorInfoEx);
+//
+//			mortgagorInfo.setId(orderinfo.getMortgagorid());
+//			mortgagorInfoMapper.updateByPrimaryKey(mortgagorInfo);
+//			MortgagorResidential mortgagorResidential = BeanUtil.getMortgagorResidential(mortgagorInfoEx,
+//					orderinfo.getMortgagorid());// 此处已修改
+//			MortgagorResidential morResidential = mortgagorResidentialMapper.selectByMortgagorId(orderinfo
+//					.getMortgagorid());
+//			mortgagorResidential.setId(morResidential.getId());
+//			mortgagorResidentialMapper.updateByPrimaryKey(mortgagorResidential);
+//			MortgagorContact mortgagorContact = BeanUtil.getMortgagorContact(mortgagorInfoEx,
+//					orderinfo.getMortgagorid());// 此处已修改
+//			MortgagorContact morContact = mortgagorContactMapper.selectByMortgagorId(orderinfo.getMortgagorid());
+//			mortgagorContact.setId(morContact.getId());
+//			mortgagorContactMapper.updateByPrimaryKey(mortgagorContact);
+//			// OrderInfo orderinfo = BeanUtil.getOrderInfo(mortgagorInfoEx,
+//			// mortgagorid);
+//			// orderInfoMapper.updateByPrimaryKey(orderinfo);
+//
+//			orderinfoId = orderinfo.getId();
+			
+			
+			MortgagorInfo mortgagorInfo = BeanUtil.getMortgagorInfo(mortgagorInfoEx);
+			mortgagorid = mortgagorContactService.addMortgagorInfo(mortgagorInfo);
+			MortgagorResidential mortgagorResidential = BeanUtil.getMortgagorResidential(mortgagorInfoEx, mortgagorid);
+			mortgagorContactService.addMortgagorResidential(mortgagorResidential);
+			MortgagorContact mortgagorContact = BeanUtil.getMortgagorContact(mortgagorInfoEx, mortgagorid);
+			mortgagorContactService.addMortgagorContact(mortgagorContact);
+			OrderInfo orderinfo = BeanUtil.getOrderInfo(mortgagorInfoEx, mortgagorid);
+			orderinfo.setOrderno(NoGeneratorUtil.getOrderNo());
+			orderinfo.setProductid(productId);
+			orderinfoId = orderInfoService.addorder(orderinfo);
+
+		}
+		// 保存借款人信息
+		// MortgagorInfo mortgagorInfo =
+		// BeanUtil.getMortgagorInfo(mortgagorInfoEx);
+		// if(mortgagorInfoEx.getId()==0
+		// ||mortgagorInfoEx.getId()==null){//插入新纪录
+		//
+		//
+		// mortgagorid =
+		// mortgagorContactService.addMortgagorInfo(mortgagorInfo);}
+		// else{//更细原有记录
+		// mortgagorid=mortgagorInfo.getId();
+		// mortgagorInfoMapper.updateByPrimaryKey(mortgagorInfo);
+		//
+		// }
+		//
+		// // 保存居住地信息
+		// MortgagorResidential mortgagorResidential =
+		// BeanUtil.getMortgagorResidential(mortgagorInfoEx, mortgagorid);
+		// if(mortgagorResidential.getId()==0||mortgagorResidential.getId()==null){
+		//
+		// mortgagorContactService.addMortgagorResidential(mortgagorResidential);}
+		// else{
+		// mortgagorResidentialMapper.updateByPrimaryKey(mortgagorResidential);
+		// }
+		//
+		// // 保存联系人信息
+		// MortgagorContact mortgagorContact =
+		// BeanUtil.getMortgagorContact(mortgagorInfoEx, mortgagorid);
+		// if(mortgagorContact.getId()==0||mortgagorContact.getId()==null){
+		//
+		// mortgagorContactService.addMortgagorContact(mortgagorContact);}
+		// else{
+		// mortgagorContactMapper.updateByPrimaryKey(mortgagorContact);
+		// }
+		//
+		// //
+		// 保存order信息(orderno不生成，在申请产品提交时再生成业务申请单编号和借据编号，并给用户提示，类似12306订票后给用户的提示)，并将status置为-1
+		// OrderInfo orderinfo = BeanUtil.getOrderInfo(mortgagorInfoEx,
+		// mortgagorid);
+		// if(orderinfo.getId()==0 || orderinfo.getId()==null){
+		// orderinfoId = orderInfoService.addorder(orderinfo);
+		// }else{
+		// orderInfoMapper.updateByPrimaryKey(orderinfo);
+		// }
+
+		return orderinfoId;
+	}
+
+	@Override
+	public int applySecondSave(CompanyInfo record, Integer OrderId) {
+		int mortgagorid = 0;
+		int orderinfoId = 0;
+		if (OrderId != null) {// 没有执行第一步，直接执行第二步
+//			OrderInfo orderinfo = orderInfoMapper.selectByPrimaryKey(OrderId);
+//			mortgagorid = orderinfo.getMortgagorid();
+//			orderinfoId = orderinfo.getId();
+//
+//			return orderinfoId;
+			
+			// 已经经过第一步了，看看是新增还是更新
+						OrderInfo orderinfo = orderInfoMapper.selectByPrimaryKey(OrderId);
+						mortgagorid = orderinfo.getMortgagorid();
+						orderinfoId = orderinfo.getId();
+						CompanyInfo companyInfo = companyInfoMapper.selectByMortgagorId(mortgagorid);
+						if (companyInfo != null) {// 更新一套
+							record.setId(companyInfo.getId());
+							record.setMortgagorid(mortgagorid);
+							companyInfoMapper.updateByPrimaryKeySelective(record);
+							orderinfo.setStatus(-2);
+							orderInfoMapper.updateByPrimaryKeySelective(orderinfo);
+							return 1;
+						} else {// add一套
+							record.setMortgagorid(mortgagorid);
+							companyInfoMapper.insertSelective(record);
+							orderinfo.setStatus(-2);
+							orderInfoMapper.updateByPrimaryKeySelective(orderinfo);
+							return 1;
+
+						}
+
+		} else {// 已经经过第一步了，看看是新增还是更新
+//			OrderInfo orderinfo = orderInfoMapper.selectByPrimaryKey(OrderId);
+//			mortgagorid = orderinfo.getMortgagorid();
+//			orderinfoId = orderinfo.getId();
+//			CompanyInfo companyInfo = companyInfoMapper.selectByMortgagorId(mortgagorid);
+//			if (companyInfo != null) {// 更新一套
+//				record.setId(companyInfo.getId());
+//				record.setMortgagorid(mortgagorid);
+//				companyInfoMapper.updateByPrimaryKeySelective(record);
+//				orderinfo.setStatus(-2);
+//				orderInfoMapper.updateByPrimaryKeySelective(orderinfo);
+//				return 1;
+//			} else {// add一套
+//				record.setMortgagorid(mortgagorid);
+//				companyInfoMapper.insertSelective(record);
+//				orderinfo.setStatus(-2);
+//				orderInfoMapper.updateByPrimaryKeySelective(orderinfo);
+//				return 1;
+//
+//			}
+//		}
+//						OrderInfo orderinfo = orderInfoMapper.selectByPrimaryKey(OrderId);
+//						mortgagorid = orderinfo.getMortgagorid();
+//						orderinfoId = orderinfo.getId();
+
+						return 0;}
+
+	}
+
+	@Override
+	public int applyThirdSave(OrderInfoList orderInfoList, Integer OrderId) {
+		int mortgagorid = 0;
+		int orderinfoId = 0;
+		if (OrderId == 0 || OrderId == null) {// 没有执行第一步，直接执行第二步
+			// OrderInfo orderinfo= orderInfoMapper.selectByPrimaryKey(OrderId);
+			// mortgagorid=orderinfo.getMortgagorid();
+			// orderinfoId=orderinfo.getId();
+
+			return 0;
+
+		} else {// 已经经过第一步了，看看是新增还是更新
+			OrderInfo orderinfo = orderInfoMapper.selectByPrimaryKey(OrderId);
+			mortgagorid = orderinfo.getMortgagorid();
+			orderinfoId = orderinfo.getId();
+			OrderInfoList list = orderInfoListMapper.selectByOrderId(orderinfoId);
+			if (list != null) {// 更新一套
+				orderInfoList.setId(list.getId());
+				// record.setMortgagorid(mortgagorid);
+				orderInfoListMapper.updateByPrimaryKeySelective(orderInfoList);
+				orderinfo.setStatus(-3);
+				orderInfoMapper.updateByPrimaryKeySelective(orderinfo);
+				return 1;
+			} else {// add一套
+				// record.setMortgagorid(mortgagorid);
+				orderInfoList.setOrderid(OrderId);
+				orderInfoListMapper.insertSelective(orderInfoList);
+				orderinfo.setStatus(-3);
+				orderInfoMapper.updateByPrimaryKeySelective(orderinfo);
+				return 1;
+
+			}
+		}
+
+	}
+
+	@Override
+	public int applySubmit(Integer OrderId) {
+		// TODO Auto-generated method stub
+		if (OrderId == 0 || OrderId == null) {// 没有执行第一步，直接执行第二步
+			// OrderInfo orderinfo= orderInfoMapper.selectByPrimaryKey(OrderId);
+			// mortgagorid=orderinfo.getMortgagorid();
+			// orderinfoId=orderinfo.getId();
+
+			return 0;
+
+		}else{
+			OrderInfo orderinfo = orderInfoMapper.selectByPrimaryKey(OrderId);
+			orderinfo.setStatus(0);//初审中
+		int result=	orderInfoMapper.updateByPrimaryKeySelective(orderinfo);//更新orderinfo
+		OrderAssign orderAssign=new OrderAssign();
+		orderAssign.setOrderid(OrderId);
+		orderAssign.setAssigntime(new Date());
+		int addresult=orderAssignMapper.insertSelective(orderAssign);
+		return 1;
+			
+		}
+		
+	}
+	
+	
+
+}

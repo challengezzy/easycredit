@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.easycredit.dao.mapper.OrderRetrunListMapper" >
+  <resultMap id="BaseResultMap" type="com.easycredit.dao.pojo.OrderRetrunList" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="orderid" property="orderid" jdbcType="INTEGER" />
+    <result column="loanno" property="loanno" jdbcType="VARCHAR" />
+    <result column="loanamount" property="loanamount" jdbcType="DOUBLE" />
+    <result column="loantime" property="loantime" jdbcType="TIMESTAMP" />
+    <result column="loanlimittime" property="loanlimittime" jdbcType="TIMESTAMP" />
+    <result column="norepaymentamount" property="norepaymentamount" jdbcType="DOUBLE" />
+    <result column="loanstatus" property="loanstatus" jdbcType="INTEGER" />
+    <result column="comments" property="comments" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, orderid, loanno, loanamount, loantime, loanlimittime, norepaymentamount, loanstatus, 
+    comments
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.easycredit.dao.pojo.OrderRetrunListExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from orderretrunlist
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from orderretrunlist
+    where id = #{OrderId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from orderretrunlist
+    where orderid = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from orderretrunlist
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.easycredit.dao.pojo.OrderRetrunListExample" >
+    delete from orderretrunlist
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.easycredit.dao.pojo.OrderRetrunList" useGeneratedKeys="true" keyProperty="id" >
+    insert into orderretrunlist (orderid, loanno, loanamount, 
+      loantime, loanlimittime, norepaymentamount, 
+      loanstatus, comments)
+    values (#{orderid,jdbcType=INTEGER}, #{loanno,jdbcType=VARCHAR}, #{loanamount,jdbcType=DOUBLE}, 
+      #{loantime,jdbcType=TIMESTAMP}, #{loanlimittime,jdbcType=TIMESTAMP}, #{norepaymentamount,jdbcType=DOUBLE}, 
+      #{loanstatus,jdbcType=INTEGER}, #{comments,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.easycredit.dao.pojo.OrderRetrunList" useGeneratedKeys="true" keyProperty="id" >
+    insert into orderretrunlist
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderid != null" >
+        orderid,
+      </if>
+      <if test="loanno != null" >
+        loanno,
+      </if>
+      <if test="loanamount != null" >
+        loanamount,
+      </if>
+      <if test="loantime != null" >
+        loantime,
+      </if>
+      <if test="loanlimittime != null" >
+        loanlimittime,
+      </if>
+      <if test="norepaymentamount != null" >
+        norepaymentamount,
+      </if>
+      <if test="loanstatus != null" >
+        loanstatus,
+      </if>
+      <if test="comments != null" >
+        comments,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderid != null" >
+        #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="loanno != null" >
+        #{loanno,jdbcType=VARCHAR},
+      </if>
+      <if test="loanamount != null" >
+        #{loanamount,jdbcType=DOUBLE},
+      </if>
+      <if test="loantime != null" >
+        #{loantime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanlimittime != null" >
+        #{loanlimittime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="norepaymentamount != null" >
+        #{norepaymentamount,jdbcType=DOUBLE},
+      </if>
+      <if test="loanstatus != null" >
+        #{loanstatus,jdbcType=INTEGER},
+      </if>
+      <if test="comments != null" >
+        #{comments,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.easycredit.dao.pojo.OrderRetrunListExample" resultType="java.lang.Integer" >
+    select count(*) from orderretrunlist
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update orderretrunlist
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderid != null" >
+        orderid = #{record.orderid,jdbcType=INTEGER},
+      </if>
+      <if test="record.loanno != null" >
+        loanno = #{record.loanno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loanamount != null" >
+        loanamount = #{record.loanamount,jdbcType=DOUBLE},
+      </if>
+      <if test="record.loantime != null" >
+        loantime = #{record.loantime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.loanlimittime != null" >
+        loanlimittime = #{record.loanlimittime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.norepaymentamount != null" >
+        norepaymentamount = #{record.norepaymentamount,jdbcType=DOUBLE},
+      </if>
+      <if test="record.loanstatus != null" >
+        loanstatus = #{record.loanstatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.comments != null" >
+        comments = #{record.comments,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update orderretrunlist
+    set id = #{record.id,jdbcType=INTEGER},
+      orderid = #{record.orderid,jdbcType=INTEGER},
+      loanno = #{record.loanno,jdbcType=VARCHAR},
+      loanamount = #{record.loanamount,jdbcType=DOUBLE},
+      loantime = #{record.loantime,jdbcType=TIMESTAMP},
+      loanlimittime = #{record.loanlimittime,jdbcType=TIMESTAMP},
+      norepaymentamount = #{record.norepaymentamount,jdbcType=DOUBLE},
+      loanstatus = #{record.loanstatus,jdbcType=INTEGER},
+      comments = #{record.comments,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.easycredit.dao.pojo.OrderRetrunList" >
+    update orderretrunlist
+    <set >
+      <if test="orderid != null" >
+        orderid = #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="loanno != null" >
+        loanno = #{loanno,jdbcType=VARCHAR},
+      </if>
+      <if test="loanamount != null" >
+        loanamount = #{loanamount,jdbcType=DOUBLE},
+      </if>
+      <if test="loantime != null" >
+        loantime = #{loantime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanlimittime != null" >
+        loanlimittime = #{loanlimittime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="norepaymentamount != null" >
+        norepaymentamount = #{norepaymentamount,jdbcType=DOUBLE},
+      </if>
+      <if test="loanstatus != null" >
+        loanstatus = #{loanstatus,jdbcType=INTEGER},
+      </if>
+      <if test="comments != null" >
+        comments = #{comments,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.easycredit.dao.pojo.OrderRetrunList" >
+    update orderretrunlist
+    set orderid = #{orderid,jdbcType=INTEGER},
+      loanno = #{loanno,jdbcType=VARCHAR},
+      loanamount = #{loanamount,jdbcType=DOUBLE},
+      loantime = #{loantime,jdbcType=TIMESTAMP},
+      loanlimittime = #{loanlimittime,jdbcType=TIMESTAMP},
+      norepaymentamount = #{norepaymentamount,jdbcType=DOUBLE},
+      loanstatus = #{loanstatus,jdbcType=INTEGER},
+      comments = #{comments,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.easycredit.dao.pojo.OrderRetrunListExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from orderretrunlist
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

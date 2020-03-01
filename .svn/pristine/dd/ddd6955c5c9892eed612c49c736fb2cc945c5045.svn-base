@@ -1,0 +1,26 @@
+package com.easycredit.services.front;
+
+import com.easycredit.dao.pojo.OrderInfo;
+import com.easycredit.dao.pojo.OrderInfoEx;
+import com.easycredit.dao.pojo.OrderInfoList;
+import com.easycredit.dao.pojo.OrderRetrunList;
+import com.easycredit.utils.Page;
+
+public interface OrderInfoService {
+
+	Page<OrderInfoEx> queryOrderList(OrderInfoEx record, Integer pageNum, Integer pageSize, Integer userId);
+
+	Page<OrderInfoEx> queryMyBusiness(OrderInfoEx record, Integer pageNum, Integer pageSize, Integer userId);
+
+	public int addorder(OrderInfo record);
+
+	public int updateorder(OrderInfo record);
+
+	OrderInfo getOrderInfoByOrderId(Integer OrderId);
+
+	OrderInfo getOrderInfoByPidAndIdnumber(Integer pid, String idnumber);
+
+	OrderRetrunList getOrderRetrunListByOrderId(Integer OrderId);
+
+	OrderInfoList getOrderInfoListByOrderId(Integer OrderId);
+}

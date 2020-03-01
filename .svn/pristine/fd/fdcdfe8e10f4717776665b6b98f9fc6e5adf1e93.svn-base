@@ -1,0 +1,149 @@
+a{blur:expression_r(this.blur());}
+a { outline:none; } 
+.home-product, .company-info, .login-info, .product-comment { position: relative; width: 1200px; margin-left: auto; margin-right: auto; }
+.clear { clear: both; line-height: 0; height: 0; font-size: 0px; }
+.company-info { height: 602px; background: url(../imagesnew/about-bg.jpg); }
+.company-info .about-us { color: #f0f2f4; text-align: center; font: 14px/26px "microsoft yahei"; }
+.company-info .about-us h2 { padding-top: 126px; padding-bottom: 58px; font: 30px/36px "microsoft yahei"; }
+.company-info .about-us .about-us-des { padding-bottom: 170px; }
+.login-info { height: 602px; background: url(../imagesnew/login-bg.jpg); }
+.login-info h2 { padding-top: 110px; padding-bottom: 20px; text-align: center; font: 30px/36px "microsoft yahei"; }
+.login-info .login-box { width: 220px; margin-left: auto; margin-right: auto; margin-bottom: 147px; color: #fff; }
+.login-info .login-way-list { color: #c4c4c4; }
+.login-info .login-way-list .login-way-item-current { color: #fff; }
+.login-info .login-way-item-current .arrow { position: absolute; left: 50%; bottom: -10px; border: 4px solid #7D8B98; border-top: 4px solid #fff; margin-left: -4px; font-size: 0; line-height: 0; }
+.login-info .input-group { background: #6b727d; }
+.login-info .form-box .form-text { width: 125px; color: #fff; background: #6b727d; }
+.login-info .form-box .label { color: #fff; }
+.product-top-banner { position: relative; height: 365px; background: url(../imagesnew/product-top-banner.jpg) center top no-repeat; }
+.product_img { position: absolute; bottom: 60px; left: 20%; }
+.product_btn { position: absolute; bottom: 24px; left: 21.5%; }
+.product_btn a { display: block; width: 296px; height: 38px; background: #fff; line-height: 38px; text-align: center; color: #bf0008; font-size: 14px; font-weight: bold; border-radius: 3px; opacity: 0.9; filter: alpha(opacity=90); }
+.product-top-banner .product-apply-link { display: block; height: 100%; }
+.product-intro-item .product-intro-item-tit { color: #2f373f; font: 18px/30px "microsoft yahei"; }
+.product-intro-item .product-intro-des { font: 16px/30px "microsoft yahei"; }
+.product-intro-item .product-intro-item-con { padding-top: 35px; }
+.product-intro-item .object-des { display: inline-block; width: 330px; border: 2px solid #e2e7ec; border-radius: 30px; margin-left: 21px; margin-right: 21px; color: #76818d; font: 18px/48px "microsoft yahei"; text-align: center; }
+.product-detail { text-align: center; background: #fff; }
+.product-detail .product-intro-item { width: 1024px; border-bottom: 1px solid #f1f3f6; margin-left: auto; margin-right: auto; padding-top: 30px; padding-bottom: 45px; }
+.product-q-a { background: #eff3f6; }
+.product-q-a .q-a-box { width: 1024px; margin-left: auto; margin-right: auto; }
+.product-q-a .q-a-tit { padding-top: 50px; padding-bottom: 30px; color: #2f373f; font: 18px/30px "microsoft yahei"; }
+.product-q-a .q-a { float: left; width: 395px; height: 95px; padding: 0 50px 60px 55px; text-align: left; font: 14px/30px "microsoft yahei"; overflow: hidden; }
+.product-q-a .q-a .q { padding-bottom: 15px; color: #2f373f; }
+.product-q-a .q-a .letter { color: #2f373f; }
+.spe-page-footer { background: #fff; }
+.product-comment { overflow: hidden; }
+.product-comment .product-comment-list { width: 2400px; }
+.product-comment .product-comment-list .product-comment-item { float: left; width: 1200px; }
+.product-comment .arrow { position: absolute; width: 14px; height: 24px; top: 50%; margin-top: -12px; }
+.product-comment .arrow-l { left: 80px; background: url(../imagesnew/arrow-l.png); }
+.product-comment .arrow-r { right: 80px; background: url(../imagesnew/arrow-r.png); }
+.apply { width: 960px; margin-left: auto; margin-right: auto; background: #edf1f4; }
+.apply .apply-crumbs { padding-top: 0px; padding-bottom: 15px; }
+.apply .apply-crumbs a { color: #155299; }
+.apply .apply-crumbs .guide-sign { margin: 0 5px; }
+.apply-step-list { }
+.apply-step-list .apply-step-item { position: relative; float: right; width: 239px; border: 1px solid #d9d9d9; margin-left: -1px; padding-top: 5px; padding-bottom: 5px; text-align: center; }
+.apply-step-list .apply-step-item .num { display: inline-block; width: 18px; height: 18px; border-radius: 50%; margin-right: 10px; line-height: 18px; color: #fff; vertical-align: middle; background: #ccc; }
+.apply-step-list .apply-step-item .des { vertical-align: middle; }
+.apply-step-list .apply-step-item-current { color: #4497ee; border: 1px solid #4497ee; z-index: 10; background: #edf1f4; }
+.apply-step-list .apply-step-item-current .num { background: #4497ee; }
+.apply-step-list .apply-step-item .arrow-box { position: absolute; top: 50%; right: 9px; margin-top: -10px; }
+.apply-step-list .apply-step-item .arrow-box .arrow { position: absolute; width: 17px; height: 19px; font-family: "SimSun"; color: #edf1f4; font-size: 12px; line-height: 21px; }
+.apply-step-list .apply-step-item .arrow-box .arrow01 { left: 2px; color: #d9d9d9; }
+.apply-step-list .apply-step-item-current .arrow-box .arrow01 { left: 2px; color: #4497ee; }
+.apply-main { border: 1px solid #e3e3e3; margin-top: 10px; color: #000; margin-bottom: 20px; background: #fff; }
+.apply-form-item { padding-bottom: 30px; font-size: 14px; }
+.apply-form-item .form-tit { border-left: 3px solid #000; margin-top: 30px; margin-bottom: 30px; padding-left: 30px; font: 14px/18px "microsoft yahei"; font-weight: bold; border-bottom: 1px dashed #f2f2f2; padding-bottom: 5px; }
+.apply-form-item .info-item { height: 30px; margin-bottom: 20px; }
+.apply-form-item dl { height: 30px; margin-bottom: 20px; }
+.apply-form-item dt { float: left; width: 15em; text-align: right; line-height: 30px; padding-left: 5px; height: 30px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+.apply-form-item .info-item .key { float: left; width: 15em; text-align: right; line-height: 30px; padding-left: 5px; }
+.apply-form-item .info-item .val { float: left; margin-left: 15px; margin-right: 15px; position: relative; line-height: 30px; }
+.apply-form-item .info-item .mustbe { float: left; margin-left: 15px; margin-right: 20px; color: #ccc; line-height: 30px; }
+.apply-form-item .info-item .sex_btn { width: 120px; height: 30px; margin-right: 6px; margin-left: 0; padding-left: 2px; line-height: 30px; background: #eee; border: none; border-radius: 3px; cursor: pointer; }
+.apply-form-item .info-item .married { width: 250px; height: 30px; text-align: right; line-height: 30px; position: relative; background: #ECF1F4; border: 1px solid #eee; margin-right: 5px; }
+.apply-form-item .info-item .married span { position: absolute; right: 0; }
+.apply-form-item .info-item .tips { color: #e5e5e5; }
+.apply-form-item .info-item .add-btn { padding: 5px; }
+.apply-form-item .info-item .select-btn { padding: 5px; }
+.apply-form-item .info-item .error-tips { color: #e82730; font-size: 12px; vertical-align: middle; }
+.apply-form-item .info-item .form-text { width: 246px; height: 30px; border: 1px solid #ddd; margin-right: 5px; margin-left: 0; padding-left: 2px; line-height: 30px; }
+.apply-form-item .info-item .form_text_rg { right: 15px; }
+.apply-form-item .info-item .inputW130 { width: 250px; height: 30px; background: #ECF1F4; border: 1px solid #ddd; margin-right: 5px; }
+.apply-form-item .info-item .must { margin-right: 3px; color: #f00; }
+.apply-form-item .info-item .radio-select { line-height: 30px; margin-right: 20px; }
+.apply-form-item .info-item .bluenew-btn { margin-left: 15px; padding: 5px 20px; }
+.apply-main .form-action { padding-left: 280px; padding-bottom: 20px; }
+.apply-main .form-action .blue-btn { margin-left: 15px; padding: 5px 20px; cursor: pointer; }
+.apply-form-item-upload .info-item .key { width: auto; padding-left: 15px; }
+.apply-form-item-upload .info-item .val { float: right; }
+.apply-form-item-upload .info-item .upload-btn { padding: 3px 15px; overflow: hidden; }
+/**/
+.apply-form-item .file-item { margin-bottom: 20px; margin: 15px 10px 20px 30px; height: 30px; float: left; }
+.apply-form-item .file-btn { margin-left: 10px; color: #155299; position: relative; cursor: pointer; }
+.apply-form-item .file-frem { position: absolute; left: 0; width: 70px; opacity: 0; filter: alpha(opacity=0); }
+.apply-form-item .file-up { display: block; float: right; margin-left: 30px; margin-top: 5px; width: 20px; height: 20px; background: url(../images/upfile.png) 0 0 no-repeat;   background-size: 20px; cursor: pointer; position: absolute; right: 5px; bottom: 5px; }
+.apply-form-item .file-back { position: relative; padding: 0px 30px 0 5px; float: left; border: 1px solid #e5e5e5; border-radius: 5px;height:50px; }
+.form-box .label, .form-box .form-text, .form-box .search-btn { vertical-align: middle; }
+.form-box .label { color: #000; }
+.form-box .form-text { width: 190px; height: 35px; border: 0 none; margin-left: 15px; margin-right: 35px; padding-left: 2px; line-height: 35px; background: #ecf1f4; }
+.form-box .search-btn { float: right; padding: 0 20px; font: 16px/32px "Microsoft yahei"; cursor: pointer; }
+.form-box { overflow: hidden; height: auto; zoom: 1; }
+.website-footnote { width: 960px; margin-left: auto; margin-right: auto; -webkit-transition: .5s all ease-out; transition: .5s all ease-out; }
+.website-footnote { position: relative; zoom: 1; padding-top: 30px; padding-bottom: 30px; text-align: center; }
+.website-footnote span, .website-footnote a { margin-right: 15px; }
+.website-footnote .website-link { float: left; }
+.website-footnote .website-icp { float: right; }
+.website-footnote .bottom-logo { position: absolute; left: 50%; top: 30px; margin-left: -50px; }
+span.err { background: url(../images/error.gif) no-repeat left 50%; line-height: 30px; height: 30px!important; display: inline-block; padding-left: 25px; font-size: 12px; color: #e82730; }
+/*缴费中心*/
+.payment_main { width: 100%; background: #edf1f4; padding: 15px 0; }
+.payment_fream { width: 984px; margin: 0 auto; padding: 20px; background: #fff; border-radius: 3px; box-shadow: 0 0 2px #ccc; overflow: auto; zoom: 1; }
+.payment_fream h2 { margin-top: 10px; margin-bottom: 30px; padding-left: 10px; font: 16px/18px "microsoft yahei"; font-weight: bold; border-bottom: 1px dashed #f2f2f2; padding-bottom: 5px; color: #000; }
+.payment_fream .payment_form { overflow: hidden; height: auto; zoom: 1; }
+.payment_fream .payment_form dl { height: 30px; margin-bottom: 20px; }
+.payment_fream .payment_form dl dt { float: left; width: 15em; text-align: right; line-height: 30px; padding-left: 5px; font-size: 14px; color: #000; }
+.payment_fream .payment_form dl dt span { margin-right: 10px; color: #f00; }
+.payment_fream .payment_form dl dd { float: left; margin-left: 15px; margin-right: 15px; position: relative; line-height: 30px; }
+.payment_fream .payment_form .payment_select { width: 250px; height: 30px; line-height: 30px; vertical-align: middle; background: #ECF1F4; border: 1px solid #eee; margin-right: 5px; border-radius: 3px; }
+.payment_fream .payment_form .payment_select1 { width: 120px; height: 30px; background: #ECF1F4; border: 1px solid #eee; margin-right: 5px; border-radius: 3px; }
+.payment_fream .payment_form .readonly { width: 120px; height: 30px; background: #f2f2f2; border: 1px solid #eee; margin-right: 5px; border-radius: 3px; text-align: center; cursor: not-allowed; }
+.payment_fream .payment_form .payment_text { width: 240px; height: 30px; line-height: 30px; background: #ECF1F4; border: 1px solid #eee; margin-right: 5px; border-radius: 3px; position: relative; padding-left: 10px; }
+.payment_fream .payment_form .payment_tit { position: absolute; right: 15px; color: #333; line-height: 30px; }
+.payment_fream .payment_form .mustbe { float: left; margin-left: 15px; margin-right: 20px; color: #ccc; line-height: 30px; }
+.payment_fream .payment_btn { margin: 30px; padding-left: 15em; }
+.payment_fream .payment_btn .charge-btn { margin-left: 18px; cursor: pointer; padding: 5px 20px; display: block; border: 1px solid #155299; border-radius: 3px; color: #ffffff; overflow: visible; background: #155299; float: left; }
+.ret_msg { color: green; line-height: 42px; }
+.pre_msg { margin-left: 60px; margin-top: 20px; color: grey; font-size: 16px; }
+/*缴费条款*/
+.payment_fream .payment_explain { padding: 20px; background: #f8fcff; border: 1px solid #edf1f4; margin-top: -10px; margin-bottom: 20px; }
+.payment_fream .payment_explain h3 { color: #155299; font-weight: normal; font-size: 14px; margin-bottom: 15px; }
+.payment_fream .payment_explain p { line-height: 2; color: #797979; }
+/*额度查询*/
+
+#credits_frame { background: #edf1f4;padding-bottom: 10px; padding-top: 20px; }
+#credits_content { width: 1024px; margin-left: auto; margin-right: auto; -webkit-transition: .5s all ease-out; transition: .5s all ease-out; border: 1px solid #eef1f4; margin-top: 0px; margin-bottom: 15px; font-size: 16px; overflow: hidden; background: #ffffff; box-shadow: 1px 1px 1px #dfe5e9; min-height: 500px; }
+.credits_title { border-left: 3px solid #000; margin-top: 30px; margin-bottom: 30px; padding-left: 30px; font: 14px/18px "microsoft yahei"; font-weight: bold; border-bottom: 1px dashed #f2f2f2; padding-bottom: 5px; }
+.credits_title a { color: #000; }
+.info_flow { margin: 20px; margin-left: 50px; }
+.info_flow dl { float: left; text-align: center; background: url(../images/flowbg.gif) repeat-x 0 20px }
+.info_flow dt { background: url(../images/flow2.gif) center no-repeat; line-height: 44px; color: #fff; font-weight: bold; padding: 0 60px; }
+.info_flow dl.now dt { background: url(../images/flow1.gif) center no-repeat; }
+.info_flow dd { }
+.info_err { background: #fff2f2 url(../images/error.gif) no-repeat 9px 7px; color: #e82730; border: 1px solid #ffb6b6; line-height:30px; padding-left:30px; font-size:12px; }
+.textRed { color: #FF0000; }
+input.inputW130 { line-height: 28px; height: 28px; width: 255px; background: #edf1f4; border: #ddd 1px solid; border-radius: 3px; }
+select.inputW130 { line-height: 34px; height: 34px; width: 257px; background: #edf1f4; border: #ddd 1px solid; border-radius: 3px;}
+input.buttonGray { background: #F3F3F3; background: -moz-linear-gradient(top, #FFFFFF, #E8E8E8); background: -webkit-gradient(linear, 0 0, 0 100%, from(#FFFFFF), to(#E8E8E8)); height: 32px; line-height: 30px; border: 1px solid #B5B5B5; font-size: 14px; color: #4E4E4E; padding: 0 20px; *padding:0 12px;
+font-weight: bold; letter-spacing: 1px; width: auto!important; -moz-border-radius: 2px; -khtml-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; z-index: 11; cursor: pointer; filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFFFFF, endColorstr=#E8E8E8, grandientType=1);
+}
+.credits_form {float: left; margin-top: 10px; margin:20px 0;}
+.credits_form dl{ margin:20px; height:40px;}
+.credits_form dt { width: 120px; font-size: 14px; color: #000; float:left; text-align:right; line-height:40px;}
+.credits_form dd { float:left; margin-left:10px; }
+
+/*pos流水标题*/
+
+.pos_title{ display:block; width:600px; line-height:30px; border-bottom:1px dashed #f2f2f2; margin:30px 0 20px 100px; color:#155299;}

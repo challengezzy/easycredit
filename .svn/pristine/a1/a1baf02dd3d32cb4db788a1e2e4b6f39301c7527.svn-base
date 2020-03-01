@@ -1,0 +1,313 @@
+package com.easycredit.web.controller.manage.product;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.easycredit.common.ConstVo;
+import com.easycredit.dao.pojo.OrganizationIdEx;
+import com.easycredit.dao.pojo.ProductEvidence;
+import com.easycredit.dao.pojo.ProductInfo;
+import com.easycredit.dao.pojo.ProductInfoEx;
+import com.easycredit.dao.pojo.ProductorGanization;
+import com.easycredit.entity.UploadFileVo;
+import com.easycredit.exception.BusinessException;
+import com.easycredit.services.common.UploadFileService;
+import com.easycredit.services.manage.product.ProductService;
+import com.easycredit.services.manage.user.OrganizationService;
+import com.easycredit.utils.FileUploadUtils;
+import com.easycredit.utils.JsonUtil;
+import com.easycredit.utils.Page;
+
+/**
+ * 
+ * @author Jq 产品管理控制器
+ */
+@Controller
+@RequestMapping("/manage/product")
+public class ProductinfoController {
+	@Autowired
+	private ProductService productService;
+	@Autowired
+	private UploadFileService uploadFileService;
+	
+	@Autowired
+	private OrganizationService organizationService;
+	
+	private static final String LIST = "/manage/product_list";
+
+	private static final String CREATE = "/manage/product_create";
+	private static final String UPDATE = "/manage/product_update";
+	
+	private static final String LIST_EVIDENCE = "/manage/productevidence_list";
+	private static final String CREATE_EVIDENCE = "/manage/productevidence_create";
+
+	
+	private Logger logger = Logger.getLogger(this.getClass()); 
+
+//	private static final String CREATE = "/manage/product_update";
+
+	private static final String RE_LIST = "redirect:/manage/product/getproductlist.html";
+
+	@RequestMapping(value = {"getproductlist"})
+	public String getProductlist(ProductInfoEx record, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+		List<ProductInfoEx> list = productService.getProductInfo(record);
+
+		Page<ProductInfoEx> page = new Page<ProductInfoEx>();
+		page.setPageNo(1);
+		page.setPageSize(10);
+		page.setTotalCount(list.size());
+		page.setResult(list);
+
+		model.addAttribute("page", page);
+		
+		return LIST;
+	}
+	
+	@RequestMapping(value = "upload", method = RequestMethod.GET)
+	public String upload(HttpServletRequest request){
+		request.setAttribute("demoType", "uploadDemo");   //返回前台寻找jsp，同时js设置左边的sitebar的导航active的样式
+		request.setAttribute("pageTitle", "上传文件系统演示");   //网页标题title
+		return "manage/uploadDemo";
+	}
+	
+	@RequestMapping(value ={"getProductEvidenceList"} )
+	public void getProductEvidenceList(Integer productid,Model model,HttpServletRequest request,HttpServletResponse response){
+		
+		System.out.println("*************productid=" + productid);
+		List<ProductEvidence> list = productService.getProductEvidenceList(productid);
+//		Page<ProductEvidence> page = new Page<ProductEvidence>();
+//		page.setPageNo(1);
+//		page.setPageSize(10);
+//		page.setTotalCount(list.size());
+//		page.setResult(list);
+//
+//		model.addAttribute("page", page);
+		
+		String result = JsonUtil.toJSONString(list);
+		System.out.println(result);
+		PrintWriter out=null;
+		try{
+			response.setCharacterEncoding( "UTF-8");
+
+		out=response.getWriter();
+		out.write(result);
+		}catch (Exception e){
+			e.printStackTrace();
+		}finally {
+			out.flush();
+			out.close();
+			
+		}
+		
+//		return LIST_EVIDENCE;
+	}
+	
+	@RequestMapping(value= {"createProductEvidence"})
+	public String createProductEvidence(Integer productId,Model model,HttpServletRequest request,HttpServletResponse response){
+		System.out.println("****create productid="+productId);
+		model.addAttribute("productid", productId);
+		return CREATE_EVIDENCE;
+	}
+	
+	@RequestMapping(value = {"saveEvidence"}, method = RequestMethod.POST)
+	public String saveEvidence(Model model,HttpServletRequest request
+			,ProductEvidence proEvidence,UploadFileVo fileVo) throws Exception{
+		System.out.println("******getProductid = " +proEvidence.getProductid());
+		System.out.println("******getDisplayorder = " +proEvidence.getDisplayorder());
+		System.out.println("******getEvidencedescribe =" +proEvidence.getEvidencedescribe());
+		System.out.println("******" +"file info:" + fileVo.toString());
+		
+		//,ProductEvidence proEvidence
+		
+		MultipartFile imgFile = fileVo.getImgFile();
+
+		String fileName = imgFile.getOriginalFilename(); // 文件全名
+		// 文件保存路径
+		String savePath = "upload\\productinfo\\" + FileUploadUtils.getYMD();
+		String path = request.getSession().getServletContext().getRealPath("");
+		String dstPath = path + "\\" + savePath;
+		FileUploadUtils.newDateFolder(dstPath);
+		String dstFileName = FileUploadUtils.getDstFileName(fileName);
+		
+		boolean flag = uploadFileService.uploadFile(dstPath, fileVo.getImgFile(), dstFileName);
+		//文件上传成功后，保存到数据库
+		if( flag ){
+			proEvidence.setEvidenceurl(savePath + "\\"+ dstFileName);
+			
+			productService.insertProductEvidence(proEvidence);
+		}
+		
+		return RE_LIST;
+	}
+	
+	/**
+	 * 第一种上传，form表单提交文件到一个frame，刷新该frame，页面打印出返回的结果
+	 * @param request
+	 * @param fileVo
+	 * @return
+	 */
+	@RequestMapping(value = "uploadImage", method = RequestMethod.POST)
+	@ResponseBody
+	public Object uploadImage(HttpServletRequest request, UploadFileVo fileVo){
+		logger.debug("file info:" + fileVo.toString());
+		boolean flag = false;
+		String errorMessage = "";
+		try{
+			String filePath = System.getProperty("webAppPathRoot") + ConstVo.PATH_FILE_PRODUCTINFO;
+			fileVo.validateFile();
+			
+			//证书类型为
+			logger.info("证书类型:"+ fileVo.getFileType());
+			
+			flag = uploadFileService.uploadFile(filePath, fileVo.getImgFile(), fileVo.getImgFile().getOriginalFilename());
+			
+			errorMessage += "文件" + fileVo.getImgFile().getOriginalFilename()+"上传成功！";
+		}catch (BusinessException buzEx){
+			logger.error("file upload failed!" , buzEx);
+			errorMessage = buzEx.getMessage();
+		}catch (Exception e){
+			logger.error("file upload failed!" , e);
+			errorMessage = "上传文件失败!";
+		}
+		if(flag){
+			return "<script>window.parent.uploadSucced('" + errorMessage + "');</script>";
+		}
+		return "<script>window.parent.uploadFailed('" + errorMessage + "');</script>";
+	}
+	
+	@RequestMapping(value = {"createproduct"})
+	public String createProduct(Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		model.addAttribute("organizations", organizationService.list());
+		return CREATE;
+	}
+
+	@RequestMapping(value = "/save")
+	public String save(ProductInfo productInfo,OrganizationIdEx oids, RedirectAttributes attr) {
+		
+		System.out.println("==========================="+oids.getOrganizationid2()+"=================");
+		try {
+			int result = productService.insertProduct(productInfo);
+			int productid=productInfo.getId();
+			ProductorGanization po1=new ProductorGanization();
+			ProductorGanization po2=new ProductorGanization();
+			ProductorGanization po3=new ProductorGanization();
+			po1.setProductid(productid);po2.setProductid(productid);po3.setProductid(productid);
+			po1.setOrganizationid(oids.getOrganizationid1());
+			po2.setOrganizationid(oids.getOrganizationid2());
+			po3.setOrganizationid(oids.getOrganizationid3());
+			
+			int relation1=productService.insertProductorGanization(po1);
+			int relation2=productService.insertProductorGanization(po2);
+			int relation3=productService.insertProductorGanization(po3);
+			if (result != 1) {
+				attr.addFlashAttribute("message", "新增产品失败");
+				return CREATE;
+			}
+			attr.addFlashAttribute("message", "保存产品信息成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			attr.addFlashAttribute("message", e.getMessage());
+		}
+		return RE_LIST;
+	}
+	
+	@RequestMapping(value = {"updateproduct"})
+	public String updateProduct(ProductInfoEx record,Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+		//System.out.println("***********************"+record.getId());
+		model.addAttribute("organizations", organizationService.list());
+		model.addAttribute("products",productService.getProductInfo(record));
+//		List<ProductInfoEx> list=productService.getProductInfo(record);
+//		for(ProductInfoEx bb:list){
+//		System.out.println("OOOOOOOOOOOOOOOOOOOOOOO"+bb.getComments());}
+		return UPDATE;
+	}
+	
+	@RequestMapping(value = "/update")
+	public String update(ProductInfo productInfo,OrganizationIdEx oids, RedirectAttributes attr) {
+		
+		System.out.println("==========================="+productInfo.getId()+"=================");
+		try {
+			int result = productService.updateByPrimaryKeySelective(productInfo);
+			int productid=productInfo.getId();
+			ProductorGanization po1=new ProductorGanization();
+			ProductorGanization po2=new ProductorGanization();
+			ProductorGanization po3=new ProductorGanization();
+			po1.setProductid(productid);po2.setProductid(productid);po3.setProductid(productid);
+			po1.setOrganizationid(oids.getOrganizationid1());
+			po2.setOrganizationid(oids.getOrganizationid2());
+			po3.setOrganizationid(oids.getOrganizationid3());
+			
+//			int relation1=productService.updateByPrimaryKeySelective(po1);
+//			int relation2=productService.updateByPrimaryKeySelective(po2);
+//			int relation3=productService.updateByPrimaryKeySelective(po3);
+			/**
+			 * 这个方法要重构，改成先删再insert，否则要悲剧。。。
+			 * add by jingqi 2015.11.30
+			 */
+			int deleteresult=productService.deleteProductorGanizationByProductId(productid);
+			int relation1=productService.insertProductorGanization(po1);
+			int relation2=productService.insertProductorGanization(po2);
+			int relation3=productService.insertProductorGanization(po3);
+			if (result != 1) {
+				attr.addFlashAttribute("message", "修改产品失败");
+				return UPDATE;
+			}
+			attr.addFlashAttribute("message", "修改产品信息成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			attr.addFlashAttribute("message", e.getMessage());
+		}
+		return RE_LIST;
+	}
+	
+	@RequestMapping(value = "/delete")
+	public String delete(Integer id,Model model, HttpServletRequest request,
+			HttpServletResponse response,RedirectAttributes attr) {
+		try{
+		int result=productService.deleteProductByid(id);
+		int productid=id;
+		int deleteresult=productService.deleteProductorGanizationByProductId(productid);
+		if (result != 1) {
+			attr.addFlashAttribute("message", "删除产品失败");
+			return UPDATE;
+		}
+		attr.addFlashAttribute("message", "删除产品信息成功");
+		}catch (Exception e) {
+			e.printStackTrace();
+			attr.addFlashAttribute("message", e.getMessage());
+		}
+		
+		return RE_LIST;
+		
+	}
+	
+	@RequestMapping(value="delete_evidence")
+	public String deleteEvidence(Integer id,Model model, HttpServletRequest request,HttpServletResponse response,RedirectAttributes attr) {
+		System.out.println("********productevidenceid="+id);
+		int result = productService.deleteProductEvidenceByid(id);
+		
+		String jsStr = "<script>getProductEvidenceList(13);</script>";
+		
+		return RE_LIST;
+	}
+}

@@ -1,0 +1,13 @@
+* html #validateU, * html #validateMore{ /* ie6 hack */ position: absolute; }
+.loginT{ font-size:12px; line-height:28px; padding:0 10px; background:url(https://img.99bill.com/jt/p/i/common/up_title.png) left;}
+.closeM{ display:block; float:right; width:20px; background:#fff;filter:Alpha(opacity=0);-moz-opacity:0;opacity:0;}
+.validateI{ padding:5px}
+#popupsWindow{background:#fff; width:580px; height:auto; margin:0; border:1px solid #240203; border-width:0 1px 1px 0;text-align:left; border:#A3A3A3 1px solid;}
+#popupsWindow .userInfo{ width:500px;}
+#popupsWindow .userInfo dt{ width:100px;}
+.checkTab_popups{padding:2px 2px; background:#fff}
+.checkTab_popups table, .checkTab_popups table td{ border:1px solid #dfeaef; border-collapse:collapse; padding-left:10px;}
+.checkTab_popups table thead td{ background:#efefef; font-weight:bold}
+
+.closeline{ height:28px; background:url(../images/floatTitle_bg.gif) bottom repeat-x; padding:0 10px; line-height:28px; color:#000;font-size:12px;border-bottom:1px solid #9FADBC;}
+.closeline img{ height:27px; vertical-align:middle; float:right;}

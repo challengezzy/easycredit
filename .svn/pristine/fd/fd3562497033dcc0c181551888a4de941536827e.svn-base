@@ -1,0 +1,889 @@
+<%@ page language="java" pageEncoding="UTF-8"%>
+<%@ include file="/common/taglibs.jsp" %>
+<!DOCTYPE html>
+<html class="">
+<head>
+	<title>填写个人基本信息</title>
+	<jsp:include page="/common/front/head.jsp" />
+</head>
+
+<body>
+<div class="container">
+	<div id="fsp-model-div"></div>
+</div>
+<div class="fsp_header_frame">
+
+	<jsp:include page="/common/front/top.jsp" />
+	
+	<div class="header_bar">
+		<div class="cf header">
+			<div class="logo">
+				<a href="/index.jsp"><img src="${ctx}/images/logo.png" alt="翊融金融"></a>
+			</div>
+			<div class="nav">
+				<ul class="nav-list">
+					<li class="nav-item">
+	                    <a href="${ctx}/member/myBusiness.html" class="nav-link ">我的业务</a>
+					</li>
+	    			<li class="nav-item">
+	                    <a href="${ctx}/member/orderList.html" class="nav-link ">交易查询</a>
+					</li>
+	    			<li class="nav-item">
+	                    <a href="${ctx}/member/productList.html" class="nav-link nav-link-current">产品申请</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 页面内容 -->
+<div class="main">
+	<div class="apply">
+		<div class="apply-crumbs">
+			<a href="#">产品申请</a><span class="guide-sign">&gt;</span>填写企业基本信息
+		</div>
+		<div class="apply-step">
+			<ul class="cf apply-step-list">
+				<li class="apply-step-item">
+					<span class="num">4</span>
+					<span class="des">资料上传</span>
+				</li>
+				<li class="apply-step-item">
+					<span class="num">3</span>
+					<span class="des">借款信息</span>
+					<div class="arrow-box">
+						<span class="arrow arrow01">◆</span> 
+						<span class="arrow arrow02">◆</span>
+					</div>
+				</li>
+				<li class="apply-step-item apply-step-item-current">
+					<span class="num">2</span>
+					<span class="des">企业信息</span>
+					<div class="arrow-box">
+						<span class="arrow arrow01">◆</span>
+						<span class="arrow arrow02">◆</span>
+					</div>
+				</li>
+				<li class="apply-step-item">
+					<span class="num">1</span>
+					<span class="des">借款人信息</span>
+					<div class="arrow-box">
+						<span class="arrow arrow01">◆</span> 
+						<span class="arrow arrow02">◆</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="apply-main">
+		    <!-- onsubmit="return checkForm();" -->
+			<form id="custCorpForm" action="${ctx}/product/applySecondSave.html" method="post" >
+				<input id="productId" name="productId" value="${productId}" type="hidden">
+				<input id="orderId" name="orderId" value="${orderId}" type="hidden">
+				
+				<div class="apply-form-item">
+					<h2 class="form-tit">企业基本信息</h2>
+					<div class="form-box">
+						<!-- 当前去掉体系外提单，默认都为体系内提单-->
+						<dl class="info-item">
+							<dt class="key">
+								<span class="must">*</span>&nbsp;企业名称：
+							</dt>
+							<dd class="val">
+								<input id="companyname" name="companyname" value="${companyInfo.companyname}" class="form-text" type="text">
+							</dd>
+							<span class="mustbe">[必填]</span>
+							<dd class="tips">
+								<span id="corpNameError"></span>
+							</dd>
+						</dl>
+						<dl class="info-item">
+							<dt class="key">
+								<span class="must">*</span>&nbsp;部门：
+							</dt>
+							<dd class="val">
+								<input id="department" name="department" value="${companyInfo.department}" 
+									class="form-text" maxlength="6"
+									 type="text">&nbsp;
+							</dd>
+							<span class="mustbe">[必填]</span>
+							<dd class="tips">
+								<span id="departmentError"></span>
+							</dd>
+						</dl>
+						<dl class="info-item">
+							<dt class="key">
+								<span class="must">*</span>&nbsp;职位：
+							</dt>
+							<dd class="val">
+								<select id="position" name="position"  class="inputW130" onchange="javascript:changeposition();">
+									<option value="">--请选择--</option>
+									<option value="0" <c:if test="${companyInfo.position==0}">selected= "selected"</c:if>>负责人</option>
+									<option value="1" <c:if test="${companyInfo.position==1}">selected= "selected"</c:if>>高级管理人员</option>
+									<option value="2" <c:if test="${companyInfo.position==2}">selected= "selected"</c:if>>中级管理人员</option>
+									<option value="3" <c:if test="${companyInfo.position==3}">selected= "selected"</c:if>>一般管理人员</option>
+									<option value="4" <c:if test="${companyInfo.position==4}">selected= "selected"</c:if>>一般正式员工</option>
+									<option value="5" <c:if test="${companyInfo.position==5}">selected= "selected"</c:if>>派遣员工</option>
+									<option value="6" <c:if test="${companyInfo.position==6}">selected= "selected"</c:if>>退休人员</option>
+									<option value="7" <c:if test="${companyInfo.position==7}">selected= "selected"</c:if>>其他</option>
+								</select>
+							</dd>
+							<span class="mustbe">[必填]</span>
+							<dd class="tips">
+								<span id="positionError"></span>
+							</dd>
+						</dl>
+						
+						<dl class="info-item">
+							<dt class="key">
+								<span class="must">*</span>&nbsp;企业类型：
+							</dt>
+							<dd class="val">
+								<select id="companytype" name="companytype" value="${companyInfo.companytype}"  class="inputW130" onchange="javascript:changecompanytype();">
+									<option value="">--请选择--</option>
+									<option value="0" <c:if test="${companyInfo.companytype==0}">selected= "selected"</c:if>>机关事业单位</option>
+									<option value="1" <c:if test="${companyInfo.companytype==1}">selected= "selected"</c:if>>国企</option>
+									<option value="2" <c:if test="${companyInfo.companytype==2}">selected= "selected"</c:if>>外资</option>
+									<option value="3" <c:if test="${companyInfo.companytype==3}">selected= "selected"</c:if>>合资</option>
+									<option value="4" <c:if test="${companyInfo.companytype==4}">selected= "selected"</c:if>>民营</option>
+									<option value="5" <c:if test="${companyInfo.companytype==5}">selected= "selected"</c:if>>个体</option>
+									<option value="6" <c:if test="${companyInfo.companytype==6}">selected= "selected"</c:if>>其他</option>
+								</select>
+							</dd>
+							<span class="mustbe">[必填]</span>
+							<dd class="tips">
+								<span id="companytypeError"></span>
+							</dd>
+						</dl>
+						<dl class="info-item">
+							<dt class="key">
+								<span class="must">*</span>&nbsp;主营业务：
+							</dt>
+							<dd class="val">
+								<input id="primarybusiness" name="primarybusiness" class="form-text" value="${companyInfo.primarybusiness}" 
+									onblur="checkprimarybusiness()" maxlength="50" type="text">
+							</dd>
+							<span class="mustbe">[必填]</span>
+							<dd class="tips">
+								<span id="primarybusinessError"></span>
+							</dd>
+						</dl>
+						<dl class="info-item">
+							<dt class="key">
+								<span class="must">*</span>&nbsp;营业执照号：
+							</dt>
+							<dd class="val">
+								<input id="licenceno" name="licenceno" class="form-text" value="${companyInfo.licenceno}"
+									maxlength="30" onblur="javascript:checkRegiCode();"
+									type="text">
+							</dd>
+							<span class="mustbe">[必填]</span>
+							<dd class="tips">
+								<span id="licencenoError"></span>
+							</dd>
+						</dl>
+						<dl class="info-item">
+							<dt class="key">
+								<span class="must">*</span>&nbsp;营业执照注册日期：
+							</dt>
+							<dd class="val">
+								<input id="registerdates" name="registerdates" class="Wdate Wdate2 form-text" value="${companyInfo.registerdate}"
+									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',vel:'registDateEx'})"
+									type="text">
+							</dd>
+							<span class="mustbe">[必填]</span>
+							<dd class="tips">
+								<span id="registerdateError"></span>
+							</dd>
+						</dl>
+						<dl class="info-item">
+							<dt class="key">
+								<span class="must">*</span>&nbsp;营业执照期限类型：
+							</dt>
+							<dd class="val">
+								<select id="limittype" name="limittype"  class="inputW130" onchange="javascript:changeTermSign();">
+									<option value="">--请选择--</option>
+									<option value="0" <c:if test="${companyInfo.limittype==0}">selected= "selected"</c:if>>有期限</option>
+									<option value="1" <c:if test="${companyInfo.limittype==1}">selected= "selected"</c:if>>无期限</option>
+								</select>
+							</dd>
+							<span class="mustbe">[必填]</span>
+							<dd class="tips">
+								<span id="limittypeError"></span>
+							</dd>
+						</dl>
+						<dl class="info-item">
+							<dt class="key">
+								<span class="must">*</span>&nbsp;营业执照到期日：
+							</dt>
+							<dd class="val">
+								<input id="limitdates" name="limitdates" class="Wdate Wdate2 form-text" value="${companyInfo.limitdate}" 
+									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',vel:'regiEndDateEx'})"
+									type="text">
+							</dd>
+							<span class="mustbe">[必填]</span>
+							<dd class="tips">
+								<span id="limitdateError"></span>
+							</dd>
+						</dl>
+						<dl class="info-item">
+							<dt class="key">
+								<span class="must">*</span>&nbsp;注册资本：
+							</dt>
+							<dd class="val">
+								<input id="registeredcapital" name="registeredcapital" class="form-text" value="${companyInfo.registeredcapital}" 
+									maxlength="16" onblur="javascript:checkRegiFund();"
+									type="text">&nbsp;元
+							</dd>
+							<span class="mustbe">[必填]</span>
+							<dd class="tips">
+								<span id="registeredcapitalError"></span>
+							</dd>
+						</dl>
+						<dl class="info-item">
+							<dt class="key">
+								<span class="must">*</span>&nbsp;企业所在城市：
+							</dt>
+							<dd class="val">
+								<select id="areaid" name="areaid" value="${companyInfo.areaid}"  class="inputW130">
+									<option value="">--请选择--</option>
+									<option value="13" <c:if test="${companyInfo.areaid==13}">selected= "selected"</c:if>>北京</option>
+			 						<option value="23" <c:if test="${companyInfo.areaid==23}">selected= "selected"</c:if>>常州</option>
+									<option value="44" <c:if test="${companyInfo.areaid==44}">selected= "selected"</c:if>>长春</option>
+									<option value="34" <c:if test="${companyInfo.areaid==34}">selected= "selected"</c:if>>长沙</option>
+									<option value="27" <c:if test="${companyInfo.areaid==27}">selected= "selected"</c:if>>成都</option>
+									<option value="25" <c:if test="${companyInfo.areaid==25}">selected= "selected"</c:if>>大连</option>
+									<option value="50" <c:if test="${companyInfo.areaid==50}">selected= "selected"</c:if>>丹东</option>
+									<option value="15" <c:if test="${companyInfo.areaid==15}">selected= "selected"</c:if>>东莞</option>
+									<option value="32" <c:if test="${companyInfo.areaid==32}">selected= "selected"</c:if>>佛山</option>
+									<option value="24" <c:if test="${companyInfo.areaid==24}">selected= "selected"</c:if>>福州</option>
+									<option value="19" <c:if test="${companyInfo.areaid==19}">selected= "selected"</c:if>>广州</option>
+									<option value="52" <c:if test="${companyInfo.areaid==52}">selected= "selected"</c:if>>哈尔滨</option>
+									<option value="43" <c:if test="${companyInfo.areaid==43}">selected= "selected"</c:if>>海口</option>
+									<option value="04" <c:if test="${companyInfo.areaid==04}">selected= "selected"</c:if>>杭州</option>
+									<option value="22" <c:if test="${companyInfo.areaid==22}">selected= "selected"</c:if>>合肥</option>
+									<option value="36" <c:if test="${companyInfo.areaid==36}">selected= "selected"</c:if>>呼和浩特</option>
+									<option value="48" <c:if test="${companyInfo.areaid==48}">selected= "selected"</c:if>>黄石</option>
+									<option value="56" <c:if test="${companyInfo.areaid==56}">selected= "selected"</c:if>>惠州</option>
+									<option value="21" <c:if test="${companyInfo.areaid==21}">selected= "selected"</c:if>>济南</option>
+									<option value="09" <c:if test="${companyInfo.areaid==09}">selected= "selected"</c:if>>嘉兴</option>
+									<option value="10" <c:if test="${companyInfo.areaid==10}">selected= "selected"</c:if>>金华</option>
+									<option value="40" <c:if test="${companyInfo.areaid==40}">selected= "selected"</c:if>>昆明</option>
+									<option value="47" <c:if test="${companyInfo.areaid==47}">selected= "selected"</c:if>>兰州</option>
+									<option value="12" <c:if test="${companyInfo.areaid==12}">selected= "selected"</c:if>>丽水</option>
+									<option value="41" <c:if test="${companyInfo.areaid==41}">selected= "selected"</c:if>>南昌</option>
+									<option value="16" <c:if test="${companyInfo.areaid==16}">selected= "selected"</c:if>>南京</option>
+									<option value="31" <c:if test="${companyInfo.areaid==31}">selected= "selected"</c:if>>南通</option>
+									<option value="02" <c:if test="${companyInfo.areaid==02}">selected= "selected"</c:if>>宁波</option>
+									<option value="51" <c:if test="${companyInfo.areaid==51}">selected= "selected"</c:if>>盘锦</option>
+									<option value="35" <c:if test="${companyInfo.areaid==35}">selected= "selected"</c:if>>秦皇岛</option>
+									<option value="26" <c:if test="${companyInfo.areaid==26}">selected= "selected"</c:if>>青岛</option>
+									<option value="18" <c:if test="${companyInfo.areaid==18}">selected= "selected"</c:if>>泉州</option>
+									<option value="1" <c:if test="${companyInfo.areaid==1}">selected= "selected"</c:if>>上海</option>
+									<option value="8" <c:if test="${companyInfo.areaid==8}">selected= "selected"</c:if>>绍兴</option>
+									<option value="5" <c:if test="${companyInfo.areaid==5}">selected= "selected"</c:if>>深圳</option>
+									<option value="46" <c:if test="${companyInfo.areaid==46}">selected= "selected"</c:if>>沈阳</option>
+									<option value="53" <c:if test="${companyInfo.areaid==53}">selected= "selected"</c:if>>石家庄</option>
+									<option value="7" <c:if test="${companyInfo.areaid==7}">selected= "selected"</c:if>>苏州</option>
+									<option value="6" <c:if test="${companyInfo.areaid==6}">selected= "selected"</c:if>>台州</option>
+									<option value="20" <c:if test="${companyInfo.areaid==20}">selected= "selected"</c:if>>天津</option>
+									<option value="55" <c:if test="${companyInfo.areaid==55}">selected= "selected"</c:if>>威海</option>
+									<option value="58" <c:if test="${companyInfo.areaid==58}">selected= "selected"</c:if>>潍坊</option>
+									<option value="3" <c:if test="${companyInfo.areaid==3}">selected= "selected"</c:if>>温州</option>
+									<option value="54" <c:if test="${companyInfo.areaid==54}">selected= "selected"</c:if>>乌鲁木齐</option>
+									<option value="14" <c:if test="${companyInfo.areaid==14}">selected= "selected"</c:if>>无锡</option>
+									<option value="39" <c:if test="${companyInfo.areaid==39}">selected= "selected"</c:if>>芜湖</option>
+									<option value="37" <c:if test="${companyInfo.areaid==37}">selected= "selected"</c:if>>武汉</option>
+									<option value="45" <c:if test="${companyInfo.areaid==45}">selected= "selected"</c:if>>西安</option>
+									<option value="17" <c:if test="${companyInfo.areaid==17}">selected= "selected"</c:if>>厦门</option>
+									<option value="59" <c:if test="${companyInfo.areaid==59}">selected= "selected"</c:if>>徐州</option>
+									<option value="29" <c:if test="${companyInfo.areaid==29}">selected= "selected"</c:if>>烟台</option>
+									<option value="28" <c:if test="${companyInfo.areaid==28}">selected= "selected"</c:if>>扬州</option>
+									<option value="49" <c:if test="${companyInfo.areaid==49}">selected= "selected"</c:if>>宜昌</option>
+									<option value="42" <c:if test="${companyInfo.areaid==42}">selected= "selected"</c:if>>郑州</option>
+									<option value="38" <c:if test="${companyInfo.areaid==38}">selected= "selected"</c:if>>中山</option>
+									<option value="33" <c:if test="${companyInfo.areaid==33}">selected= "selected"</c:if>>重庆</option>
+									<option value="30" <c:if test="${companyInfo.areaid==30}">selected= "selected"</c:if>>珠海</option>
+									<option value="57" <c:if test="${companyInfo.areaid==57}">selected= "selected"</c:if>>淄博</option>
+									<option value="11" <c:if test="${companyInfo.areaid==11}">selected= "selected"</c:if>>衢州</option>
+									<option value="60" <c:if test="${companyInfo.areaid==60}">selected= "selected"</c:if>>其他</option>
+								</select>
+							</dd>
+							<span class="mustbe">[必填]</span>
+							<dd class="tips">
+								<span id="areaidError"></span>
+							</dd>
+						</dl>
+						
+						
+						<dl class="info-item">
+							<dt class="key">
+								<span class="must">*</span>&nbsp;企业详细地址：
+							</dt>
+							<dd class="val">
+								<input id="detailaddress" name="detailaddress"  class="form-text" value="${companyInfo.detailaddress}" 
+									maxlength="40" onblur="checkDealAddress()" type="text">
+							</dd>
+							<span class="mustbe">[必填]</span>
+							<dd class="tips">
+								<span id="detailaddressError"></span>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="apply-form-item">
+					<div class="form-box">
+						<h2 class="form-tit">个人收支情况</h2>
+						<input id="refIdContentsSize" name="refIdContentsSize" value="1" type="hidden">
+						<dl class="info-item">
+							<dt class="key">
+								<span class="must">*</span>&nbsp;个人年总收入：
+							</dt>
+							<dd class="val">
+								<input id="incomeperyear" name="incomeperyear" class="form-text" value="${companyInfo.incomeperyear}"
+									maxlength="16" onblur="javascript:checkRegiFund();"
+									type="text">&nbsp;万元
+							</dd>
+							<span class="mustbe">[必填]</span>
+							<dd class="tips">
+								<span id="incomeperyearError"></span>
+							</dd>
+						</dl>
+						
+						<dl class="info-item">
+							<dt class="key">
+								<span class="must">*</span>&nbsp;每月收入：
+							</dt>
+							<dd class="val">
+								<input id="incomepermonth" name="incomepermonth" class="form-text" value="${companyInfo.incomepermonth}"
+									maxlength="16" onblur="javascript:checkRegiFund();"
+									type="text">&nbsp;元
+							</dd>
+							<span class="mustbe">[必填]</span>
+							<dd class="tips">
+								<span id="incomepermonthError"></span>
+							</dd>
+						</dl>
+						
+						<dl class="info-item">
+							<dt class="key">
+								<span class="must">*</span>&nbsp;每月其他收入：
+							</dt>
+							<dd class="val">
+								<input id="otherincomepermonth" name="otherincomepermonth" class="form-text" value="${companyInfo.otherincomepermonth}"
+									maxlength="16" onblur="javascript:checkRegiFund();"
+									type="text">&nbsp;元
+							</dd>
+							<span class="mustbe">[必填]</span>
+							<dd class="tips">
+								<span id="otherincomepermonthError"></span>
+							</dd>
+						</dl>
+						
+						<dl class="info-item">
+							<dt class="key">
+								<span class="must">*</span>&nbsp;收入来源：
+							</dt>
+							<dd class="val">
+								<input id="otherincomeresourse" name="otherincomeresourse" class="form-text" value="${companyInfo.otherincomeresourse}"
+									maxlength="16" onblur="javascript:checkRegiFund();"
+									type="text">&nbsp;
+							</dd>
+							<span class="mustbe">[必填]</span>
+							<dd class="tips">
+								<span id="otherincomeresourseError"></span>
+							</dd>
+						</dl>
+						
+						<dl class="info-item">
+							<dt class="key">
+								<span class="must">*</span>&nbsp;目前需供养人数：
+							</dt>
+							<dd class="val">
+								<input id="supportnum" name="supportnum" class="form-text" value="${companyInfo.supportnum}"
+									maxlength="16" onblur="javascript:checkRegiFund();"
+									type="text">&nbsp;人
+							</dd>
+							<span class="mustbe">[必填]</span>
+							<dd class="tips">
+								<span id="supportnumError"></span>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="form-action">
+					<input onclick="javascript:submitPreStep();" class="blue-btn next-btn" value="上一步" type="button">&nbsp;&nbsp;&nbsp;&nbsp;
+					<input class="blue-btn save-btn" value="保存" type="submit">&nbsp;&nbsp;&nbsp;&nbsp;
+					<input class="blue-btn next-btn" value="下一步" onclick="javascript:submitNextStep();" type="button">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!--页尾导航-->
+<jsp:include page="/common/front/footer.jsp" />
+
+<!-- 插件js -->
+<script type="text/javascript" src="${ctx}/js/front/WdatePicker.js"></script>
+ 
+<!-- 页面js -->
+<script type="text/javascript">
+
+function submitNextStep() {
+    $("#custCorpForm").attr("action", "/product/applySecondSave.html?nextStep=yes");
+    $("#custCorpForm").submit();
+};
+
+function submitPreStep() {
+    $("#custCorpForm").attr("action", "/product/applyFirst.html");
+    $("#custCorpForm").submit();
+};
+
+
+//检查表单
+function checkForm() {
+    if (!checkcompanyname()) {
+        return false;
+    }
+    if (!checkdepartment()) {
+        return false;
+    }
+    if (!changeposition()) {
+        return false;
+    }
+    if (!changecompanytype()) {
+        return false;
+    }
+    if (!checkprimarybusiness()) {
+        return false;
+    }
+    if (!checkRegistDate()) {
+        return false;
+    }
+    if (!checkTermSign()) {
+        return false;
+    }
+    if (!checkRegiFund()) {
+        return false;
+    }
+    if (!checkBusiLocation()) {
+        return false;
+    }
+    if (!checkCorpAddrProv()) {
+        return false;
+    }
+    if (!checkCorpAddrCity()) {
+        return false;
+    }
+    if (!checkDealAddress()) {
+        return false;
+    }
+    if (!checkCountAndRef()) {
+        return false;
+    }
+    if (!checkIdContentSubmit()) {
+        return false;
+    }
+    return true;
+};
+
+//商户名称
+function checkcompanyname() {
+    $("#showTipMessage").hide();
+    var corpName = $("#companyname").val();
+    corpName = $.trim(corpName);
+    if (corpName.length == 0) {
+        $("#corpNameError").html("商户名称不能为空");
+        $("#corpNameError").addClass("err");
+        return false;
+    }
+    if (corpName.length > 26) {
+        $("#corpNameError").html("商户名称字段长度不超过26");
+        $("#corpNameError").addClass("err");
+        return false;
+    }
+    $("#corpNameError").html("");
+    $("#corpNameError").removeClass("err");
+    return true;
+};
+
+//获取焦点时显示商户名称提示信息
+function showTipMess() {
+    var isBill = to_getRadio();
+    if (isBill == "1") { //体系外
+        $("#showTipMessage").show();
+    }
+};
+
+//部门
+function checkdepartment() {
+    var holderNum = $("#department").val();
+    holderNum = $.trim(holderNum);
+    if (holderNum.length == 0) {
+        $("#departmentError").html("部门不能为空");
+        $("#departmentError").addClass("err");
+        return false;
+    }
+    $("#departmentError").html("");
+    $("#departmentError").removeClass("err");
+    return true;
+};
+
+//职位
+function changeposition() {
+    var termSign = $("#position").val();
+    if (termSign == "") {
+        $("#positionError").html("职位不能为空");
+        $("#positionError").addClass("err");
+        return false;
+    }
+    $("#positionError").html("");
+    $("#positionError").removeClass("err");
+    return true;
+};
+
+//公司类型
+function changecompanytype() {
+    var termSign = $("#companytype").val();
+    if (termSign == "") {
+        $("#termSignError").html("公司类型不能为空");
+        $("#termSignError").addClass("err");
+        return false;
+    }
+    $("#termSignError").html("");
+    $("#termSignError").removeClass("err");
+    return true;
+};
+
+//主营业务
+function checkprimarybusiness() {
+    var termSign = $("#primarybusiness").val();
+    if (termSign == "") {
+        $("#primarybusinessError").html("主营业务不能为空");
+        $("#primarybusinessError").addClass("err");
+        return false;
+    }
+    $("#primarybusinessError").html("");
+    $("#primarybusinessError").removeClass("err");
+    return true;
+};
+
+function checkRequireHolderRate() { //申请人占股
+    var requireHolderRate = $("input[name='stockPerc']").val();
+    requireHolderRate = $.trim(requireHolderRate);
+    if (requireHolderRate.length == 0) {
+        $("#stockPercError").html("申请人占股不能为空");
+        $("#stockPercError").addClass("err");
+        return false;
+    }
+    //申请人占股为必填写项，存值为百分比，数字类型，小数点后面保留二位数字
+    var regex = /^-?\d+\.?\d{0,2}$/;
+    if (!regex.test(requireHolderRate) || requireHolderRate) {
+        $("#stockPercError").html("请输入正确的申请人占股");
+        $("#stockPercError").addClass("err");
+        return false;
+    }
+    $("#stockPercError").html("");
+    $("#stockPercError").removeClass("err");
+    return true;
+};
+
+function checkMainBusinessDesc() { //主营业务
+    var mainBusinessDesc = $("input[name='dealScope']").val();
+    mainBusinessDesc = $.trim(mainBusinessDesc);
+    if (mainBusinessDesc.length == 0) {
+        $("#dealScopeError").html("主营业务不能为空");
+        $("#dealScopeError").addClass("err");
+        return false;
+    }
+    $("#dealScopeError").html("");
+    $("#dealScopeError").removeClass("err");
+    return true;
+};
+
+function checkDealAddress() { //实际经营地址
+    var dealAddress = $("input[name='dealAddr']").val();
+    dealAddress = $.trim(dealAddress);
+    if (dealAddress.length == 0) {
+        $("#dealAddrError").html("实际经营地址不能为空");
+        $("#dealAddrError").addClass("err");
+        return false;
+    }
+    $("#dealAddrError").html("");
+    $("#dealAddrError").removeClass("err");
+    return true;
+};
+//判断输入框中文本的汉字个数
+function getCharaChinese(value) {
+    var re = /[\u4E00-\u9FA5]/g;
+    var count = "0";
+    if (re.test(value)) {
+        count = value.match(re).length;
+    }
+    return count;
+};
+function checkRegiCode() { //营业执照号
+    var regiCode = $("input[name='regiCode']").val();
+    regiCode = $.trim(regiCode);
+    if (regiCode.length == 0) {
+        $("#regiCodeError").html("营业执照号不能为空");
+        $("#regiCodeError").addClass("err");
+        return false;
+    }
+    var re = /[\u4E00-\u9FA5]/g;
+    if (re.test(regiCode)) {
+        $("#regiCodeError").html("营业执照号不能为汉字");
+        $("#regiCodeError").addClass("err");
+        return false;
+    }
+    $("#regiCodeError").html("");
+    $("#regiCodeError").removeClass("err");
+    return true;
+};
+
+function checkRegistDate() { //营业执照注册日期
+    var registDate = $("input[name='registDateEx']").val();
+    if (!registDate) {
+        $("#registDateExError").html("营业执照注册日期不能为空");
+        $("#registDateExError").addClass("err");
+        return false;
+    }
+    $("#registDateExError").html("");
+    $("#registDateExError").removeClass("err");
+    return true;
+};
+
+function checkRegiEndDate() { //营业执照注册日期到期日
+    $("#regiEndDateExError").html("");
+    $("#regiEndDateExError").removeClass("err");
+    var regiEndDate = $("input[name='regiEndDateEx']").val();
+    var termSign = $("#termSign").val();
+    if (!regiEndDate && termSign != '0') {
+        $("#regiEndDateExError").html("营业执照注册日期到期日不能为空");
+        $("#regiEndDateExError").addClass("err");
+        return false;
+    }
+
+    return true;
+};
+function checkTermSign() { //营业执照期限类型
+    var termSign = $("select[name='termSign']").val();
+    if (!termSign) {
+        $("#termSignError").html("营业执照期限类型不能为空");
+        $("#termSignError").addClass("err");
+        return false;
+    }
+    $("#termSignError").html("");
+    $("#termSignError").removeClass("err");
+    return true;
+};
+function checkRegiFund() {
+    var regiFund = $("#regiFund").val();
+    regiFund = $.trim(regiFund);
+    if (regiFund == "") {
+        $("#regiFundError").html("注册资本不能为空");
+        $("#regiFundError").addClass("err");
+        return false;
+    }
+    var reg = /^[0-9]{1}\d*(\.\d{1,2})?$/;
+    var result1 = reg.test(regiFund);
+    if (!result1) {
+        $("#regiFundError").html("注册资本必须为数值，可保留两位小数");
+        $("#regiFundError").addClass("err");
+        return false;
+    }
+    $("#regiFundError").html("");
+    $("#regiFundError").removeClass("err");
+    return true;
+};
+
+function checkBusiLocation() { //企业所在城市
+    var busiLocation = $("select[name='busiLocation']").val();
+    if (!busiLocation) {
+        $("#busiLocationError").html("企业所在城市不能为空");
+        $("#busiLocationError").addClass("err");
+        return false;
+    }
+    $("#busiLocationError").html("");
+    $("#busiLocationError").removeClass("err");
+    return true;
+};
+function checkCorpAddrProv() {
+    var corpAddrProv = $("#corpAddrProvCode").val();
+    if (corpAddrProv == "") {
+        $("#corpAddrProvCodeError").html("实际经营地所在省份不能为空");
+        $("#corpAddrProvCodeError").addClass("err");
+        return false;
+    }
+    $("#corpAddrProvCodeError").html("");
+    $("#corpAddrProvCodeError").removeClass("err");
+    return true;
+};
+function checkCorpAddrCity() {
+    var corpAddrCity = $("#corpAddrCityCode").val();
+    if (corpAddrCity == "") {
+        $("#corpAddrCityCodeError").html("实际经营地所在城市不能为空");
+        $("#corpAddrCityCodeError").addClass("err");
+        return false;
+    }
+    $("#corpAddrCityCodeError").html("");
+    $("#corpAddrCityCodeError").removeClass("err");
+    return true;
+};
+
+//submit校验提交表单时 是否有 快钱账号==关联快钱账号情况rzt
+function checkCountAndRef() {
+    var flag = true;
+    //获取以span元素id属性以refIdcontent开头以Error结尾对象集合
+    $("span[id^='refIdcontent']").each(function() {
+        var msg = $(this).html();
+        if ("" !== msg) {
+            flag = false;
+            return flag;
+        }
+    });
+    return flag;
+}
+
+function getProvinceAndCity() {
+    var cityHT = new Array();
+    cityHT[1] = "<option value=''>--请选择--</option>,<option value='001'>合肥市</option>,<option value='002'>芜湖市</option>,<option value='003'>蚌埠市</option>,<option value='004'>马鞍山市</option>,<option value='005'>淮北市</option>,<option value='006'>铜陵市</option>,<option value='007'>安庆市</option>,<option value='008'>黄山市</option>,<option value='009'>滁州市</option>,<option value='010'>宿州市</option>,<option value='011'>池州市</option>,<option value='012'>淮南市</option>,<option value='013'>巢湖市</option>,<option value='014'>阜阳市</option>,<option value='015'>六安市</option>,<option value='016'>宣城市</option>,<option value='017'>亳州市</option>,<option value='018'>巢湖市</option>"; //安徽()
+    cityHT[2] = "<option value=''>--请选择--</option>,<option value='910'>昌平区</option>,<option value='927'>崇文区</option>,<option value='911'>朝阳区</option>,<option value='912'>大兴区</option>,<option value='924'>东城区</option>,<option value='913'>房山区</option>,<option value='914'>丰台区</option>,<option value='915'>海淀区</option>,<option value='916'>怀柔区</option>,<option value='917'>门头沟区</option>,<option value='918'>密云县</option>,<option value='919'>平谷区</option>,<option value='920'>石景山区</option>,<option value='921'>顺义区</option>,<option value='922'>通州区</option>,<option value='925'>西城区</option>,<option value='926'>宣武区</option>,<option value='923'>延庆县</option>"; //北京
+    cityHT[3] = "<option value=''>--请选择--</option>,<option value='930'>巴南区</option>,<option value='931'>北碚区</option>,<option value='932'>璧山区</option>,<option value='933'>城口县</option>,<option value='934'>大渡口区</option>,<option value='935'>大足区</option>,<option value='936'>垫江县</option>,<option value='937'>丰都县</option>,<option value='938'>奉节县</option>,<option value='939'>涪陵区</option>,<option value='940'>合川区</option>,<option value='941'>江北区</option>,<option value='942'>江津区</option>,<option value='943'>九龙坡区</option>,<option value='944'>开县</option>,<option value='945'>梁平县</option>,<option value='946'>南岸区</option>,<option value='947'>南川区</option>,<option value='948'>彭水苗族土家族自治县</option>,<option value='949'>綦江区</option>,<option value='950'>黔江区</option>,<option value='951'>荣昌县</option>,<option value='952'>沙坪坝区</option>,<option value='953'>石柱土家族自治县</option>,<option value='954'>铜梁区</option>,<option value='955'>潼南县</option>,<option value='956'>万州区</option>,<option value='957'>巫山县</option>,<option value='958'>巫溪县</option>,<option value='959'>武隆县</option>,<option value='960'>秀山土家族苗族自治县</option>,<option value='961'>永川区</option>,<option value='962'>酉阳土家族苗族自治县</option>,<option value='963'>渝北区 </option>,<option value='964'>渝中区</option>,<option value='965'>云阳县</option>,<option value='966'>长寿区</option>,<option value='967'>忠县</option>"; //重庆
+    cityHT[4] = "<option value=''>--请选择--</option>,<option value='027'>福州市</option>,<option value='028'>厦门市</option>,<option value='029'>莆田市</option>,<option value='030'>三明市</option>,<option value='031'>泉州市</option>,<option value='032'>漳州市</option>,<option value='033'>南平市</option>,<option value='034'>龙岩市</option>,<option value='035'>宁德市</option>,<option value='036'>平潭市</option>"; //福建()
+    cityHT[5] = "<option value=''>--请选择--</option>,<option value='045'>兰州市</option>,<option value='046'>嘉峪关市</option>,<option value='047'>金昌市</option>,<option value='048'>白银市</option>,<option value='049'>天水市</option>,<option value='050'>酒泉市</option>,<option value='051'>张掖市</option>,<option value='052'>武威市</option>,<option value='053'>定西市</option>,<option value='054'>陇南市</option>,<option value='055'>平凉市</option>,<option value='056'>庆阳市</option>,<option value='057'>临夏市</option>,<option value='058'>甘南市</option>"; //甘肃()
+    cityHT[6] = "<option value=''>--请选择--</option>,<option value='068'>广州市</option>,<option value='069'>深圳市</option>,<option value='070'>珠海市</option>,<option value='071'>汕头市</option>,<option value='072'>东莞市</option>,<option value='073'>中山市</option>,<option value='074'>佛山市</option>,<option value='075'>韶关市</option>,<option value='076'>江门市</option>,<option value='077'>湛江市</option>,<option value='078'>茂名市</option>,<option value='079'>肇庆市</option>,<option value='080'>惠州市</option>,<option value='081'>梅州市</option>,<option value='082'>汕尾市</option>,<option value='083'>河源市</option>,<option value='084'>阳江市</option>,<option value='085'>清远市</option>,<option value='086'>潮州市</option>,<option value='087'>揭阳市</option>,<option value='088'>云浮市</option>"; //广州()
+    cityHT[7] = "<option value=''>--请选择--</option>,<option value='098'>南宁市</option>,<option value='099'>柳州市</option>,<option value='100'>桂林市</option>,<option value='101'>梧州市</option>,<option value='102'>北海市</option>,<option value='103'>防城港市</option>,<option value='104'>钦州市</option>,<option value='105'>贵港市</option>,<option value='106'>玉林市</option>,<option value='107'>南宁地区</option>,<option value='108'>柳州地区</option>,<option value='109'>贺州市</option>,<option value='110'>百色市</option>,<option value='111'>河池市</option>"; //广西()
+    cityHT[8] = "<option value=''>--请选择--</option>,<option value='121'>贵阳市</option>,<option value='122'>六盘水市</option>,<option value='123'>遵义市</option>,<option value='124'>安顺市</option>,<option value='125'>铜仁市</option>,<option value='126'>黔西南市</option>,<option value='127'>毕节市</option>,<option value='128'>黔东南市</option>,<option value='129'>黔南市</option>"; //贵州()
+    cityHT[9] = "<option value=''>--请选择--</option>,<option value='574'>海口市</option>,<option value='575'>文昌市</option>,<option value='576'>三亚市</option>,<option value='577'>五指山市</option>,<option value='578'>琼海市</option>,<option value='579'>儋州市</option>,<option value='580'>万宁市</option>,<option value='581'>三沙市</option>"; //海南省
+    cityHT[10] = "<option value=''>--请选择--</option>,<option value='139'>石家庄市</option>,<option value='140'>邯郸市</option>,<option value='141'>邢台市</option>,<option value='142'>保定市</option>,<option value='143'>张家口市</option>,<option value='144'>承德市</option>,<option value='145'>廊坊市</option>,<option value='146'>唐山市</option>,<option value='147'>秦皇岛市</option>,<option value='148'>沧州市</option>,<option value='149'>衡水市</option>"; //河北()
+    cityHT[11] = "<option value=''>--请选择--</option>,<option value='159'>哈尔滨市</option>,<option value='160'>齐齐哈尔市</option>,<option value='161'>牡丹江市</option>,<option value='162'>佳木斯市</option>,<option value='163'>大庆市</option>,<option value='164'>绥化市</option>,<option value='165'>鹤岗市</option>,<option value='166'>鸡西市</option>,<option value='167'>黑河市</option>,<option value='168'>双鸭山市</option>,<option value='169'>伊春市</option>,<option value='170'>七台河市</option>,<option value='171'>大兴安岭市</option>"; //黑龙江()
+    cityHT[12] = "<option value=''>--请选择--</option>,<option value='190'>郑州市</option>,<option value='191'>开封市</option>,<option value='192'>洛阳市</option>,<option value='193'>平顶山市</option>,<option value='194'>安阳市</option>,<option value='195'>鹤壁市</option>,<option value='196'>新乡市</option>,<option value='197'>焦作市</option>,<option value='198'>濮阳市</option>,<option value='199'>许昌市</option>,<option value='200'>漯河市</option>,<option value='201'>三门峡市</option>,<option value='202'>南阳市</option>,<option value='203'>商丘市</option>,<option value='204'>信阳市</option>,<option value='205'>周口市</option>,<option value='206'>驻马店市</option>,<option value='207'>济源市</option>"; //河南()
+    cityHT[13] = "<option value=''>--请选择--</option>,<option value='217'>武汉市</option>,<option value='218'>宜昌市</option>,<option value='219'>荆州市</option>,<option value='220'>襄阳市</option>,<option value='221'>黄石市</option>,<option value='222'>荆门市</option>,<option value='223'>黄冈市</option>,<option value='224'>十堰市</option>,<option value='225'>恩施土家族苗族自治州</option>,<option value='226'>潜江市</option>,<option value='227'>天门市</option>,<option value='228'>仙桃市</option>,<option value='229'>随州市</option>,<option value='230'>咸宁市</option>,<option value='231'>孝感市</option>,<option value='232'>鄂州市</option>,<option value='233'>神农架林区</option>"; //湖北()
+    cityHT[14] = "<option value=''>--请选择--</option>,<option value='242'>长沙市</option>,<option value='243'>常德市</option>,<option value='244'>株洲市</option>,<option value='245'>湘潭市</option>,<option value='246'>衡阳市</option>,<option value='247'>岳阳市</option>,<option value='248'>邵阳市</option>,<option value='249'>益阳市</option>,<option value='250'>娄底市</option>,<option value='251'>怀化市</option>,<option value='252'>郴州市</option>,<option value='253'>永州市</option>,<option value='254'>湘西市</option>,<option value='255'>张家界市</option>"; //湖南()
+    cityHT[15] = "<option value=''>--请选择--</option>,<option value='265'>南昌市</option>,<option value='266'>景德镇市</option>,<option value='267'>九江市</option>,<option value='268'>鹰潭市</option>,<option value='269'>萍乡市</option>,<option value='270'>新馀市</option>,<option value='271'>赣州市</option>,<option value='272'>吉安市</option>,<option value='273'>宜春市</option>,<option value='274'>抚州市</option>,<option value='275'>上饶市</option>"; //江西()
+    cityHT[16] = "<option value=''>--请选择--</option>,<option value='285'>南京市</option>,<option value='286'>镇江市</option>,<option value='287'>苏州市</option>,<option value='288'>南通市</option>,<option value='289'>扬州市</option>,<option value='290'>盐城市</option>,<option value='291'>徐州市</option>,<option value='292'>连云港市</option>,<option value='293'>常州市</option>,<option value='294'>无锡市</option>,<option value='295'>宿迁市</option>,<option value='296'>泰州市</option>,<option value='297'>淮安市</option>"; //江苏()
+    cityHT[17] = "<option value=''>--请选择--</option>,<option value='307'>长春市</option>,<option value='308'>吉林市</option>,<option value='309'>四平市</option>,<option value='310'>辽源市</option>,<option value='311'>通化市</option>,<option value='312'>白山市</option>,<option value='313'>松原市</option>,<option value='314'>白城市</option>,<option value='315'>延边市</option>"; //吉林()
+    cityHT[18] = "<option value=''>--请选择--</option>,<option value='325'>沈阳市</option>,<option value='326'>大连市</option>,<option value='327'>鞍山市</option>,<option value='328'>抚顺市</option>,<option value='329'>本溪市</option>,<option value='330'>丹东市</option>,<option value='331'>锦州市</option>,<option value='332'>营口市</option>,<option value='333'>阜新市</option>,<option value='334'>辽阳市</option>,<option value='335'>盘锦市</option>,<option value='336'>铁岭市</option>,<option value='337'>朝阳市</option>,<option value='338'>葫芦岛市</option>"; //辽宁()
+    cityHT[19] = "<option value=''>--请选择--</option>,<option value='348'>呼和浩特市</option>,<option value='349'>包头市</option>,<option value='350'>乌海市</option>,<option value='351'>赤峰市</option>,<option value='352'>呼伦贝尔市</option>,<option value='353'>鄂尔多斯市</option>,<option value='354'>通辽市</option>,<option value='355'>兴安盟市</option>,<option value='356'>乌兰察布市</option>,<option value='357'>锡林郭勒盟市</option>,<option value='358'>巴彦淖尔市</option>,<option value='359'>阿拉善盟市</option>"; //内蒙古自治区()
+    cityHT[20] = "<option value=''>--请选择--</option>,<option value='369'>银川市</option>,<option value='370'>石嘴山市</option>,<option value='371'>吴忠市</option>,<option value='372'>固原市</option>,<option value='373'>中卫市</option>"; //宁夏回族自治区()
+    cityHT[21] = "<option value=''>--请选择--</option>,<option value='382'>西宁市</option>,<option value='383'>海东市</option>,<option value='384'>海南藏族自治区</option>,<option value='385'>海北藏族自治区</option>,<option value='386'>黄南藏族自治区</option>,<option value='387'>玉树藏族自治区</option>,<option value='388'>果洛藏族自治区</option>,<option value='389'>海西蒙古族藏族自治区</option>"; //青海省()
+    cityHT[22] = "<option value=''>--请选择--</option>,<option value='399'>济南市</option>,<option value='400'>青岛市</option>,<option value='401'>淄博市</option>,<option value='402'>枣庄市</option>,<option value='403'>东营市</option>,<option value='404'>烟台市</option>,<option value='405'>潍坊市</option>,<option value='406'>济宁市</option>,<option value='407'>泰安市</option>,<option value='408'>威海市</option>,<option value='409'>日照市</option>,<option value='410'>莱芜市</option>,<option value='411'>临沂市</option>,<option value='412'>德州市</option>,<option value='413'>聊城市</option>,<option value='414'>滨州市</option>,<option value='415'>菏泽市</option>"; //山东()
+    cityHT[23] = "<option value=''>--请选择--</option>,<option value='970'>宝山区</option>,<option value='971'>崇明县</option>,<option value='972'>奉贤区</option>,<option value='973'>虹口区</option>,<option value='974'>黄浦区</option>,<option value='975'>嘉定区</option>,<option value='976'>金山区</option>,<option value='977'>静安区</option>,<option value='978'>闵行区</option>,<option value='979'>浦东新区</option>,<option value='980'>普陀区</option>,<option value='981'>青浦区</option>,<option value='982'>松江区</option>,<option value='983'>徐汇区</option>,<option value='984'>杨浦区</option>,<option value='985'>闸北区</option>,<option value='986'>长宁区</option>"; //上海
+    cityHT[24] = "<option value=''>--请选择--</option>,<option value='425'>太原市</option>,<option value='426'>大同市</option>,<option value='427'>阳泉市</option>,<option value='428'>长治市</option>,<option value='429'>晋城市</option>,<option value='430'>朔州市</option>,<option value='431'>吕梁市</option>,<option value='432'>忻州市</option>,<option value='433'>晋中市</option>,<option value='434'>临汾市</option>,<option value='435'>运城市</option>"; //山西()
+    cityHT[25] = "<option value=''>--请选择--</option>,<option value='445'>西安市</option>,<option value='446'>宝鸡市</option>,<option value='447'>咸阳市</option>,<option value='448'>铜川市</option>,<option value='449'>渭南市</option>,<option value='450'>延安市</option>,<option value='451'>榆林市</option>,<option value='452'>汉中市</option>,<option value='453'>安康市</option>,<option value='454'>商洛市</option>"; //陕西()
+    cityHT[26] = "<option value=''>--请选择--</option>,<option value='464'>成都市</option>,<option value='465'>绵阳市</option>,<option value='466'>德阳市</option>,<option value='467'>自贡市</option>,<option value='468'>攀枝花市</option>,<option value='469'>广元市</option>,<option value='470'>内江市</option>,<option value='471'>乐山市</option>,<option value='472'>南充市</option>,<option value='473'>宜宾市</option>,<option value='474'>广安市</option>,<option value='475'>达川市</option>,<option value='476'>雅安市</option>,<option value='477'>眉山市</option>,<option value='478'>甘孜藏族自治区</option>,<option value='479'>凉山彝族自治州</option>,<option value='480'>泸州市</option>,<option value='481'>遂宁市</option>,<option value='482'>资阳市</option>,<option value='483'>达州市</option>,<option value='484'>巴中市</option>,<option value='485'>阿坝藏族羌族自治州</option>"; //四川()
+    cityHT[27] = "<option value=''>--请选择--</option>,<option value='987'>宝坻区</option>,<option value='988'>北辰区</option>,<option value='989'>滨海新区</option>,<option value='990'>东丽区</option>,<option value='991'>和平区</option>,<option value='992'>河北区</option>,<option value='993'>河东区</option>,<option value='994'>河西区</option>,<option value='995'>红桥区</option>,<option value='996'>蓟县</option>,<option value='997'>津南区</option>,<option value='998'>静海县</option>,<option value='999'>南开区</option>,<option value='1001'>宁河县 </option>,<option value='1002'>武清区 </option>,<option value='1003'>西青区</option>"; //天津
+    cityHT[28] = "<option value=''>--请选择--</option>,<option value='490'>乌鲁木齐市</option>,<option value='491'>石河子市</option>,<option value='492'>克拉玛依市</option>,<option value='493'>伊犁市</option>,<option value='494'>巴音郭勒市</option>,<option value='495'>昌吉市</option>,<option value='496'>克孜勒苏柯尔市</option>,<option value='497'>克孜市</option>,<option value='498'>博尔塔拉市</option>,<option value='499'>吐鲁番市</option>,<option value='500'>哈密市</option>,<option value='501'>喀什市</option>,<option value='502'>和田市</option>,<option value='503'>阿克苏市</option>"; //新疆维吾尔自治区()
+    cityHT[29] = "<option value=''>--请选择--</option>,<option value='513'>拉萨市</option>,<option value='514'>日喀则市</option>,<option value='515'>山南市</option>,<option value='516'>林芝市</option>,<option value='517'>昌都市</option>,<option value='518'>阿里市</option>,<option value='519'>那曲市</option>"; //西藏自治区
+    cityHT[30] = "<option value=''>--请选择--</option>,<option value='529'>昆明市</option>,<option value='530'>大理市</option>,<option value='531'>曲靖市</option>,<option value='532'>玉溪市</option>,<option value='533'>昭通市</option>,<option value='534'>楚雄市</option>,<option value='535'>红河市</option>,<option value='536'>文山市</option>,<option value='537'>思茅市</option>,<option value='538'>西双版纳市</option>,<option value='539'>保山市</option>,<option value='540'>德宏市</option>,<option value='541'>丽江市</option>,<option value='542'>怒江市</option>,<option value='543'>迪庆市</option>,<option value='544'>临沧市</option>"; //云南
+    cityHT[31] = "<option value=''>--请选择--</option>,<option value='554'>杭州市</option>,<option value='555'>宁波市</option>,<option value='556'>温州市</option>,<option value='557'>嘉兴市</option>,<option value='558'>湖州市</option>,<option value='559'>绍兴市</option>,<option value='560'>金华市</option>,<option value='561'>衢州市</option>,<option value='562'>舟山市</option>,<option value='563'>台州市</option>,<option value='564'>丽水市</option>"; //浙江
+    cityHT[32] = "<option value=''>--请选择--</option>,<option value='905'>澳门</option>"; //澳门
+    cityHT[33] = "<option value=''>--请选择--</option>,<option value='906'>香港</option>"; //香港
+    cityHT[34] = "<option value=''>--请选择--</option>,<option value='590'>台北市</option>,<option value='591'>新北市</option>,<option value='592'>台中市</option>,<option value='593'>台南市</option>,<option value='594'>高雄市</option>"; //台
+    return cityHT;
+}
+
+function changeCorpAddrCity() {
+    var corpAddrCityCodeVal = $("#corpAddrCityCode").val();
+    var corpAddrCityCodeText = $("#corpAddrCityCode").find("option:selected").text();
+    if (corpAddrCityCodeVal != "") {
+        $("#corpAddrCity").val(corpAddrCityCodeText);
+    }
+};
+function changeCorpAddrProv() {
+    var corpAddrProvCodeVal = $("#corpAddrProvCode").val();
+    var corpAddrProvCodeText = $("#corpAddrProvCode").find("option:selected").text();
+    if (corpAddrProvCodeVal != "") {
+        $("#corpAddrProv").val(corpAddrProvCodeText);
+        //设置city值
+        //查询省份对应的城市，然后显示到页面
+        var cityArray = getProvinceAndCity();
+        var cityOption = cityArray[corpAddrProvCodeVal];
+        $("#corpAddrCityCode").html(cityOption);
+        $("#corpAddrCity").val("");
+    } else {
+        $("#corpAddrCityCode").html("<option value=''>--请选择--</option>");
+        $("#corpAddrCity").val("");
+    }
+};
+function addNewRefIdContent() {
+    var refIdContentsSize = $("#refIdContentsSize").val();
+    $("#refIdContentsSize").val(parseInt(refIdContentsSize) + 1);
+    //$("#refIdContentTr"+(parseInt(refIdContentsSize)-1)).after("<dl id='refIdContentTr"+refIdContentsSize+"'><dt>关联快钱账户：</dt><dd><input type='text' id='refIdcontent"+refIdContentsSize+"' name='refIdcontent"+refIdContentsSize+"' class='form-text' value=''  onblur=\"javascript:checkRefIdContent('"+refIdContentsSize+"');\"/></dd><dd><span id='refIdcontent"+refIdContentsSize+"Error'></span></dd></dl>");
+    $("#refIdContentTr" + (parseInt(refIdContentsSize) - 1)).after("<dl class='info-item' id='refIdContentTr" + refIdContentsSize + "'><dt class='key'>关联快钱账户：</dt><dd class='val'><input type='text' id='refIdcontent" + refIdContentsSize + "' name='refIdcontent" + refIdContentsSize + "' class='form-text' value=''  onblur=\"javascript:checkRefIdContent('" + refIdContentsSize + "');\"/></dd><dd><span id='refIdcontent" + refIdContentsSize + "Error'></span></dd></dl>");
+
+};
+function changeIdContentName(selectIdBill) {
+    if (selectIdBill == "0") {
+        $("#idContentTip").html("快钱账户：");
+        $("#corpName").attr("readonly", true);
+    } else {
+        $("#idContentTip").html("注册快钱账户：");
+        $("#corpName").attr("readonly", false);
+    }
+    var idContent = $("#idContent").val();
+    idContent = $.trim(idContent);
+    if (idContent != "") {
+        checkIdContent();
+    }
+};
+function to_getRadio() {
+    var isBillValue
+    var isBills = document.getElementsByName("isBill");
+    for (var i = 0; i < isBills.length; i++) {
+        if (isBills[i].checked == true) {
+            isBillValue = isBills[i].value;
+        }
+    }
+    return isBillValue;
+};
+
+var checkResultFlag = false;
+function productCheckById() {
+    var productCode = '1';
+    var idContent = $("#idContent").val();
+    var refIdContentsSize = $("#refIdContentsSize").val();
+    var refIdContents = "";
+    for (var i = 0; i < refIdContentsSize; i++) {
+        if ($("#refIdcontent" + i).val().length != 0) {
+            refIdContents = refIdContents + $.trim($("#refIdcontent" + i).val()) + ",";
+        }
+    }
+
+    $("#popup_loanding_id").show();
+    var url = "/ifs-fsp-fe/checkProductByCrs?productId=" + productCode + "&idContent=" + idContent + "&refIdContents=" + refIdContents + "&_time=" + new Date();
+    url = encodeURI(url);
+    $.ajax({
+        type: "get",
+        url: url,
+        //data:{productId:productCode,idContent:idContent},
+        cache: false,
+        async: false,
+        dataType: 'json',
+        success: function(data) {
+            var flag = data.flag;
+            $("#popup_loanding_id").hide();
+            if (flag == '-1') { //不通过
+                $("#popup_result_id").show();
+                $("#resultMsg").html("你的流水不满足要求，无法申请");
+                $("#checkResultId").addClass("fali");
+            } else {
+                checkResultFlag = true;
+            }
+        },
+        error: function(data) {
+            $("#popup_loanding_id").hide();
+            alert("系统错误，请联系运维人员");
+        }
+    });
+    return checkResultFlag;
+}
+
+//关闭弹出窗口
+function closePopupsWindows(data) {
+    var $popup = $("#" + data);
+    $popup.hide();
+};
+</script>
+</body>
+</html>

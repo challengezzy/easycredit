@@ -1,0 +1,125 @@
+package com.easycredit.dao.pojo;
+
+import java.util.List;
+
+/**
+ * 
+ * @author Jq 产品管理包装类，实现后台的产品管理列表展示
+ */
+
+public class ProductInfoEx extends ProductInfo {
+	String organizationname;
+	String username;
+	String nickname;
+	Integer organizationid1;
+	Integer organizationid2;
+	Integer organizationid3;
+	String organizationname1;
+	String organizationname2;
+	String organizationname3;
+	Integer evidencenum;
+	// 产品宣传图标路径
+	String evidenceurl;
+	// 产品宣传图标描述
+	String evidencedescribe;
+	// 创建人
+	Integer operatorid;
+	// 显示顺序
+	Integer displayorder;
+	List<ProductEvidence> productEvidencelist;
+
+	public String getOrganizationname() {
+		return organizationname;
+	}
+	public void setOrganizationname(String organizationname) {
+		this.organizationname = organizationname;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+	
+	public Integer getEvidencenum() {
+		return evidencenum;
+	}
+	public void setEvidencenum(Integer evidencenum) {
+		this.evidencenum = evidencenum;
+	}
+	public Integer getOrganizationid1() {
+		return organizationid1;
+	}
+	public void setOrganizationid1(Integer organizationid1) {
+		this.organizationid1 = organizationid1;
+	}
+	public Integer getOrganizationid2() {
+		return organizationid2;
+	}
+	public void setOrganizationid2(Integer organizationid2) {
+		this.organizationid2 = organizationid2;
+	}
+	public Integer getOrganizationid3() {
+		return organizationid3;
+	}
+	public void setOrganizationid3(Integer organizationid3) {
+		this.organizationid3 = organizationid3;
+	}
+	public String getOrganizationname1() {
+		return organizationname1;
+	}
+	public void setOrganizationname1(String organizationname1) {
+		this.organizationname1 = organizationname1;
+	}
+	public String getOrganizationname2() {
+		return organizationname2;
+	}
+	public void setOrganizationname2(String organizationname2) {
+		this.organizationname2 = organizationname2;
+	}
+	public String getOrganizationname3() {
+		return organizationname3;
+	}
+	public void setOrganizationname3(String organizationname3) {
+		this.organizationname3 = organizationname3;
+	}
+	public String getEvidenceurl() {
+		return evidenceurl;
+	}
+	public void setEvidenceurl(String evidenceurl) {
+		this.evidenceurl = evidenceurl;
+	}
+	public String getEvidencedescribe() {
+		return evidencedescribe;
+	}
+	public void setEvidencedescribe(String evidencedescribe) {
+		this.evidencedescribe = evidencedescribe;
+	}
+	public Integer getOperatorid() {
+		return operatorid;
+	}
+	public void setOperatorid(Integer operatorid) {
+		this.operatorid = operatorid;
+	}
+	public Integer getDisplayorder() {
+		return displayorder;
+	}
+	public void setDisplayorder(Integer displayorder) {
+		this.displayorder = displayorder;
+	}
+	public List<ProductEvidence> getProductEvidencelist() {
+		return productEvidencelist;
+	}
+	public void setProductEvidencelist(List<ProductEvidence> productEvidencelist) {
+		this.productEvidencelist = productEvidencelist;
+	}
+
+
+	
+}

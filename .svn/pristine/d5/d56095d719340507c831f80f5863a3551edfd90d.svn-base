@@ -1,0 +1,73 @@
+package com.easycredit.services.front.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.easycredit.dao.mapper.MortgagorContactMapper;
+import com.easycredit.dao.mapper.MortgagorInfoExMapper;
+import com.easycredit.dao.mapper.MortgagorInfoMapper;
+import com.easycredit.dao.mapper.MortgagorResidentialMapper;
+import com.easycredit.dao.pojo.MortgagorContact;
+import com.easycredit.dao.pojo.MortgagorInfo;
+import com.easycredit.dao.pojo.MortgagorResidential;
+import com.easycredit.services.front.MortgagorContactService;
+
+/**
+ * 
+ * @author Jq 前台所有与借款人相关的业务逻辑都放在这里，不再区分借款人、联系人，居住信息了
+ */
+
+@Transactional
+@Service("MortgagorContactService")
+public class MortgagorContactServiceImpl implements MortgagorContactService {
+	@Autowired
+	private MortgagorContactMapper mortgagorContactMapper;
+	@Autowired
+	private MortgagorInfoMapper mortgagorInfoMapper;
+	@Autowired
+	private MortgagorResidentialMapper mortgagorResidentialMapper;
+	@Autowired
+	private MortgagorInfoExMapper mortgagorInfoExMapper;
+
+	@Override
+	public int addMortgagorContact(MortgagorContact record) {
+		int result = mortgagorContactMapper.insert(record);
+		if (result != 1) {
+			System.out.println("保存联系人信息异常！");
+		}
+		return record.getId();
+	}
+
+	@Override
+	public int addMortgagorInfo(MortgagorInfo record) {
+		int result = mortgagorInfoMapper.insertSelective(record);
+		if (result != 1) {
+			System.out.println("保存借款人信息异常！");
+		}
+		return record.getId();
+	}
+
+	@Override
+	public int addMortgagorResidential(MortgagorResidential record) {
+		int result = mortgagorResidentialMapper.insertSelective(record);
+		if (result != 1) {
+			System.out.println("保存居住地信息异常！");
+		}
+		return record.getId();
+	}
+
+	@Override
+	public MortgagorResidential getMortgagorResidentialByMortgagorId(Integer id) {
+		// TODO Auto-generated method stub
+		return mortgagorResidentialMapper.selectByMortgagorId(id);
+	}
+
+	@Override
+	public int getMortgagorSum() {
+		// TODO Auto-generated method stub
+		return 5364+mortgagorInfoExMapper.getMortgagorSum();
+	}
+	
+	
+}

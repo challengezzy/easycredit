@@ -1,0 +1,16 @@
+package com.easycredit.services.front;
+
+import com.easycredit.dao.pojo.MortgagorContact;
+import com.easycredit.dao.pojo.MortgagorInfo;
+import com.easycredit.dao.pojo.MortgagorResidential;
+
+public interface MortgagorContactService {
+
+	int addMortgagorContact(MortgagorContact record);
+
+	int addMortgagorInfo(MortgagorInfo record);
+
+	int addMortgagorResidential(MortgagorResidential record);
+	MortgagorResidential getMortgagorResidentialByMortgagorId(Integer id);
+
+}

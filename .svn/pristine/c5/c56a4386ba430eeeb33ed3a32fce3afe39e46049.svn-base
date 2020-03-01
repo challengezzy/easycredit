@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.easycredit.dao.mapper.OrganizationAuthorityExMapper">
+
+	<select id="getOrganizationAuthorityList" resultType="com.easycredit.dao.pojo.OrganizationAuthorityEx" parameterType="com.easycredit.dao.pojo.OrganizationAuthorityEx">
+		SELECT
+			o.id as organizationid,
+			o.organizationname,
+			o.organizationtype,
+			group_concat(
+				DISTINCT (
+					CASE
+					WHEN oa.authoritytypeflag = 0 THEN
+						'用户及组管理'
+					WHEN oa.authoritytypeflag = 1 THEN
+						'产品管理'
+					WHEN oa.authoritytypeflag = 2 THEN
+						'客户管理'
+					WHEN oa.authoritytypeflag = 3 THEN
+						'申请单审批'
+					WHEN oa.authoritytypeflag = 4 THEN
+						'借据维护'
+					WHEN oa.authoritytypeflag = 5 THEN
+						'综合查询统计'
+					WHEN oa.authoritytypeflag = 6 THEN
+						'权限配置'
+					WHEN oa.authoritytypeflag = 7 THEN
+						'客户信息导出'
+					ELSE
+						oa.authoritytypeflag
+					END
+				) SEPARATOR ';'
+			) AS authoritytypeflags
+		FROM
+			organization o
+		LEFT JOIN organizationauthority oa ON o.id = oa.organizationid
+		<where>
+			<if test="organizationname!=null and organizationname!=''">
+				and o.organizationname =
+				#{organizationname,jdbcType=VARCHAR}
+			</if>
+
+			<if test="organizationtype!=null and organizationtype!=''">
+				and o.organizationtype =
+				#{organizationtype,jdbcType=VARCHAR}
+			</if>
+		</where>
+		group by oa.organizationid
+	</select>
+
+	<select id="getAuthorityByOrganizationId" resultType="com.easycredit.dao.pojo.OrganizationAuthority" parameterType="java.lang.Integer">
+		SELECT
+			*
+		FROM
+			organizationauthority oa
+		WHERE
+			oa.organizationid = #{oid,jdbcType=INTEGER}
+	</select>
+	
+	<delete id="delByOrganizationId" parameterType="java.lang.Integer" >
+    	delete from organizationauthority  where organizationid = #{organizationId,jdbcType=INTEGER}
+  	</delete>
+	 
+</mapper>

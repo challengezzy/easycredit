@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.easycredit.dao.mapper.MortgagorInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.easycredit.dao.pojo.MortgagorInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="mortgagorname" property="mortgagorname" jdbcType="VARCHAR" />
+    <result column="idnumber" property="idnumber" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="matrimonial" property="matrimonial" jdbcType="INTEGER" />
+    <result column="educationalstatus" property="educationalstatus" jdbcType="INTEGER" />
+    <result column="workinglife" property="workinglife" jdbcType="INTEGER" />
+    <result column="childrennum" property="childrennum" jdbcType="INTEGER" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="cellphone" property="cellphone" jdbcType="VARCHAR" />
+    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, mortgagorname, idnumber, sex, matrimonial, educationalstatus, workinglife, childrennum, 
+    email, cellphone, telephone, userid, createtime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.easycredit.dao.pojo.MortgagorInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from mortgagorinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from mortgagorinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from mortgagorinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.easycredit.dao.pojo.MortgagorInfoExample" >
+    delete from mortgagorinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.easycredit.dao.pojo.MortgagorInfo" useGeneratedKeys="true" keyProperty="id" >
+    insert into mortgagorinfo (mortgagorname, idnumber, sex, 
+      matrimonial, educationalstatus, workinglife, 
+      childrennum, email, cellphone, 
+      telephone, userid, createtime
+      )
+    values (#{mortgagorname,jdbcType=VARCHAR}, #{idnumber,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
+      #{matrimonial,jdbcType=INTEGER}, #{educationalstatus,jdbcType=INTEGER}, #{workinglife,jdbcType=INTEGER}, 
+      #{childrennum,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, #{cellphone,jdbcType=VARCHAR}, 
+      #{telephone,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.easycredit.dao.pojo.MortgagorInfo" useGeneratedKeys="true" keyProperty="id" >
+    insert into mortgagorinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mortgagorname != null" >
+        mortgagorname,
+      </if>
+      <if test="idnumber != null" >
+        idnumber,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="matrimonial != null" >
+        matrimonial,
+      </if>
+      <if test="educationalstatus != null" >
+        educationalstatus,
+      </if>
+      <if test="workinglife != null" >
+        workinglife,
+      </if>
+      <if test="childrennum != null" >
+        childrennum,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="cellphone != null" >
+        cellphone,
+      </if>
+      <if test="telephone != null" >
+        telephone,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mortgagorname != null" >
+        #{mortgagorname,jdbcType=VARCHAR},
+      </if>
+      <if test="idnumber != null" >
+        #{idnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="matrimonial != null" >
+        #{matrimonial,jdbcType=INTEGER},
+      </if>
+      <if test="educationalstatus != null" >
+        #{educationalstatus,jdbcType=INTEGER},
+      </if>
+      <if test="workinglife != null" >
+        #{workinglife,jdbcType=INTEGER},
+      </if>
+      <if test="childrennum != null" >
+        #{childrennum,jdbcType=INTEGER},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="cellphone != null" >
+        #{cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.easycredit.dao.pojo.MortgagorInfoExample" resultType="java.lang.Integer" >
+    select count(*) from mortgagorinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update mortgagorinfo
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.mortgagorname != null" >
+        mortgagorname = #{record.mortgagorname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idnumber != null" >
+        idnumber = #{record.idnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null" >
+        sex = #{record.sex,jdbcType=INTEGER},
+      </if>
+      <if test="record.matrimonial != null" >
+        matrimonial = #{record.matrimonial,jdbcType=INTEGER},
+      </if>
+      <if test="record.educationalstatus != null" >
+        educationalstatus = #{record.educationalstatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.workinglife != null" >
+        workinglife = #{record.workinglife,jdbcType=INTEGER},
+      </if>
+      <if test="record.childrennum != null" >
+        childrennum = #{record.childrennum,jdbcType=INTEGER},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cellphone != null" >
+        cellphone = #{record.cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telephone != null" >
+        telephone = #{record.telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userid != null" >
+        userid = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update mortgagorinfo
+    set id = #{record.id,jdbcType=INTEGER},
+      mortgagorname = #{record.mortgagorname,jdbcType=VARCHAR},
+      idnumber = #{record.idnumber,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=INTEGER},
+      matrimonial = #{record.matrimonial,jdbcType=INTEGER},
+      educationalstatus = #{record.educationalstatus,jdbcType=INTEGER},
+      workinglife = #{record.workinglife,jdbcType=INTEGER},
+      childrennum = #{record.childrennum,jdbcType=INTEGER},
+      email = #{record.email,jdbcType=VARCHAR},
+      cellphone = #{record.cellphone,jdbcType=VARCHAR},
+      telephone = #{record.telephone,jdbcType=VARCHAR},
+      userid = #{record.userid,jdbcType=INTEGER},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.easycredit.dao.pojo.MortgagorInfo" >
+    update mortgagorinfo
+    <set >
+      <if test="mortgagorname != null" >
+        mortgagorname = #{mortgagorname,jdbcType=VARCHAR},
+      </if>
+      <if test="idnumber != null" >
+        idnumber = #{idnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="matrimonial != null" >
+        matrimonial = #{matrimonial,jdbcType=INTEGER},
+      </if>
+      <if test="educationalstatus != null" >
+        educationalstatus = #{educationalstatus,jdbcType=INTEGER},
+      </if>
+      <if test="workinglife != null" >
+        workinglife = #{workinglife,jdbcType=INTEGER},
+      </if>
+      <if test="childrennum != null" >
+        childrennum = #{childrennum,jdbcType=INTEGER},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="cellphone != null" >
+        cellphone = #{cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.easycredit.dao.pojo.MortgagorInfo" >
+    update mortgagorinfo
+    set mortgagorname = #{mortgagorname,jdbcType=VARCHAR},
+      idnumber = #{idnumber,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      matrimonial = #{matrimonial,jdbcType=INTEGER},
+      educationalstatus = #{educationalstatus,jdbcType=INTEGER},
+      workinglife = #{workinglife,jdbcType=INTEGER},
+      childrennum = #{childrennum,jdbcType=INTEGER},
+      email = #{email,jdbcType=VARCHAR},
+      cellphone = #{cellphone,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.easycredit.dao.pojo.MortgagorInfoExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from mortgagorinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

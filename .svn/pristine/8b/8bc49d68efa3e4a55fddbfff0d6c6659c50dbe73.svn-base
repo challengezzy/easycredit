@@ -1,0 +1,191 @@
+package com.easycredit.dao.pojo;
+
+import java.util.Date;
+
+
+import com.mysql.jdbc.Util;
+
+public class OrderInfoEx extends OrderInfo {
+	// 借款人Id
+	private Integer mortgagorId;
+	// 借款人姓名
+	private String mortgagorname;
+	// 公司Id
+	private Integer companyId;
+	// 公司名称
+	private String companyname;
+	// 业务申请单编号
+	private String orderno;
+
+	private Integer loanId;
+	// 借据ID
+	private String loanno;
+	// 放款金额
+	private Double loanamount;
+	// 放款时间
+	private Date loantime;
+	// 到期时间
+	private Date loanlimittime;
+	// 未还款金额
+	private Double norepaymentamount;
+	// 还款状态
+	private Integer loanstatus;
+	// 开始放款时间
+	private String beginLoantime;
+	// 结束放款时间
+	private String endLoantime;
+	// 产品id
+	private Integer productid;
+	// 产品名称
+	private String productname;
+	//操作人姓名
+	private String operatorname;
+	//操作人公司名称
+	private String operatorcompanyname;
+	//利率
+	private Double loanrate;
+	//期限
+	private Integer loantimelimit;
+	//申请额度
+	private Double applicationamount;
+	//申请期限
+	private Integer applicationlimit;
+	
+
+	public Integer getMortgagorId() {
+		return mortgagorId;
+	}
+	public void setMortgagorId(Integer mortgagorId) {
+		this.mortgagorId = mortgagorId;
+	}
+	public String getMortgagorname() {
+		return mortgagorname;
+	}
+	public void setMortgagorname(String mortgagorname) {
+		this.mortgagorname = mortgagorname;
+	}
+	public Integer getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
+	}
+	public String getCompanyname() {
+		return companyname;
+	}
+	public void setCompanyname(String companyname) {
+		this.companyname = companyname;
+	}
+	public String getOrderno() {
+		return orderno;
+	}
+	public void setOrderno(String orderno) {
+		this.orderno = orderno;
+	}
+	public Integer getLoanId() {
+		return loanId;
+	}
+	public void setLoanId(Integer loanId) {
+		this.loanId = loanId;
+	}
+	public String getLoanno() {
+		return loanno;
+	}
+	public void setLoanno(String loanno) {
+		this.loanno = loanno;
+	}
+	public Double getLoanamount() {
+		return loanamount;
+	}
+	public void setLoanamount(Double loanamount) {
+		this.loanamount = loanamount;
+	}
+	public Date getLoantime() {
+		return loantime;
+	}
+	public void setLoantime(Date loantime) {
+		this.loantime = loantime;
+	}
+	public Date getLoanlimittime() {
+		return loanlimittime;
+	}
+	public void setLoanlimittime(Date loanlimittime) {
+		this.loanlimittime = loanlimittime;
+	}
+	public Double getNorepaymentamount() {
+		return norepaymentamount;
+	}
+	public void setNorepaymentamount(Double norepaymentamount) {
+		this.norepaymentamount = norepaymentamount;
+	}
+	public Integer getLoanstatus() {
+		return loanstatus;
+	}
+	public void setLoanstatus(Integer loanstatus) {
+		this.loanstatus = loanstatus;
+	}
+	public String getBeginLoantime() {
+		return beginLoantime;
+	}
+	public void setBeginLoantime(String beginLoantime) {
+		this.beginLoantime = beginLoantime;
+	}
+	public String getEndLoantime() {
+		return endLoantime;
+	}
+	public void setEndLoantime(String endLoantime) {
+		this.endLoantime = endLoantime;
+	}
+	public Integer getProductid() {
+		return productid;
+	}
+	public void setProductid(Integer productid) {
+		this.productid = productid;
+	}
+	public String getProductname() {
+		return productname;
+	}
+	public void setProductname(String productname) {
+		this.productname = productname;
+	}
+	public String getOperatorname() {
+		return operatorname;
+	}
+	public void setOperatorname(String operatorname) {
+		this.operatorname = operatorname;
+	}
+	public String getOperatorcompanyname() {
+		return operatorcompanyname;
+	}
+	public void setOperatorcompanyname(String operatorcompanyname) {
+		this.operatorcompanyname = operatorcompanyname;
+	}
+	public Double getLoanrate() {
+		return loanrate;
+	}
+	public void setLoanrate(Double loanrate) {
+		this.loanrate = loanrate;
+	}
+	public Integer getLoantimelimit() {
+		return loantimelimit;
+	}
+	public void setLoantimelimit(Integer loantimelimit) {
+		this.loantimelimit = loantimelimit;
+	}
+	public Double getApplicationamount() {
+		return applicationamount;
+	}
+	public void setApplicationamount(Double applicationamount) {
+		this.applicationamount = applicationamount;
+	}
+	public Integer getApplicationlimit() {
+		return applicationlimit;
+	}
+	public void setApplicationlimit(Integer applicationlimit) {
+		this.applicationlimit = applicationlimit;
+	}
+	
+	
+	
+	
+}

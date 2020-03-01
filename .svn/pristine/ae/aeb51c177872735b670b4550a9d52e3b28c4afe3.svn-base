@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.easycredit.dao.mapper.CompanyInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.easycredit.dao.pojo.CompanyInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="mortgagorid" property="mortgagorid" jdbcType="INTEGER" />
+    <result column="companyname" property="companyname" jdbcType="VARCHAR" />
+    <result column="department" property="department" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="INTEGER" />
+    <result column="companytype" property="companytype" jdbcType="INTEGER" />
+    <result column="primarybusiness" property="primarybusiness" jdbcType="VARCHAR" />
+    <result column="licenceno" property="licenceno" jdbcType="VARCHAR" />
+    <result column="registerdate" property="registerdate" jdbcType="TIMESTAMP" />
+    <result column="limittype" property="limittype" jdbcType="INTEGER" />
+    <result column="limitdate" property="limitdate" jdbcType="TIMESTAMP" />
+    <result column="registeredcapital" property="registeredcapital" jdbcType="DOUBLE" />
+    <result column="areaid" property="areaid" jdbcType="INTEGER" />
+    <result column="detailaddress" property="detailaddress" jdbcType="VARCHAR" />
+    <result column="entrydate" property="entrydate" jdbcType="INTEGER" />
+    <result column="incomeperyear" property="incomeperyear" jdbcType="DOUBLE" />
+    <result column="incomepermonth" property="incomepermonth" jdbcType="DOUBLE" />
+    <result column="otherincomepermonth" property="otherincomepermonth" jdbcType="DOUBLE" />
+    <result column="otherincomeresourse" property="otherincomeresourse" jdbcType="VARCHAR" />
+    <result column="supportnum" property="supportnum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, mortgagorid, companyname, department, position, companytype, primarybusiness, 
+    licenceno, registerdate, limittype, limitdate, registeredcapital, areaid, detailaddress, 
+    entrydate, incomeperyear, incomepermonth, otherincomepermonth, otherincomeresourse, 
+    supportnum
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.easycredit.dao.pojo.CompanyInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from companyinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from companyinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+   <select id="selectByMortgagorId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from companyinfo
+    where mortgagorid = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from companyinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.easycredit.dao.pojo.CompanyInfoExample" >
+    delete from companyinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.easycredit.dao.pojo.CompanyInfo" useGeneratedKeys="true" keyProperty="id" >
+    insert into companyinfo (mortgagorid, companyname, department, 
+      position, companytype, primarybusiness, 
+      licenceno, registerdate, limittype, 
+      limitdate, registeredcapital, areaid, 
+      detailaddress, entrydate, incomeperyear, 
+      incomepermonth, otherincomepermonth, otherincomeresourse, 
+      supportnum)
+    values (#{mortgagorid,jdbcType=INTEGER}, #{companyname,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, 
+      #{position,jdbcType=INTEGER}, #{companytype,jdbcType=INTEGER}, #{primarybusiness,jdbcType=VARCHAR}, 
+      #{licenceno,jdbcType=VARCHAR}, #{registerdate,jdbcType=TIMESTAMP}, #{limittype,jdbcType=INTEGER}, 
+      #{limitdate,jdbcType=TIMESTAMP}, #{registeredcapital,jdbcType=DOUBLE}, #{areaid,jdbcType=INTEGER}, 
+      #{detailaddress,jdbcType=VARCHAR}, #{entrydate,jdbcType=INTEGER}, #{incomeperyear,jdbcType=DOUBLE}, 
+      #{incomepermonth,jdbcType=DOUBLE}, #{otherincomepermonth,jdbcType=DOUBLE}, #{otherincomeresourse,jdbcType=VARCHAR}, 
+      #{supportnum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.easycredit.dao.pojo.CompanyInfo" useGeneratedKeys="true" keyProperty="id" >
+    insert into companyinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mortgagorid != null" >
+        mortgagorid,
+      </if>
+      <if test="companyname != null" >
+        companyname,
+      </if>
+      <if test="department != null" >
+        department,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="companytype != null" >
+        companytype,
+      </if>
+      <if test="primarybusiness != null" >
+        primarybusiness,
+      </if>
+      <if test="licenceno != null" >
+        licenceno,
+      </if>
+      <if test="registerdate != null" >
+        registerdate,
+      </if>
+      <if test="limittype != null" >
+        limittype,
+      </if>
+      <if test="limitdate != null" >
+        limitdate,
+      </if>
+      <if test="registeredcapital != null" >
+        registeredcapital,
+      </if>
+      <if test="areaid != null" >
+        areaid,
+      </if>
+      <if test="detailaddress != null" >
+        detailaddress,
+      </if>
+      <if test="entrydate != null" >
+        entrydate,
+      </if>
+      <if test="incomeperyear != null" >
+        incomeperyear,
+      </if>
+      <if test="incomepermonth != null" >
+        incomepermonth,
+      </if>
+      <if test="otherincomepermonth != null" >
+        otherincomepermonth,
+      </if>
+      <if test="otherincomeresourse != null" >
+        otherincomeresourse,
+      </if>
+      <if test="supportnum != null" >
+        supportnum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mortgagorid != null" >
+        #{mortgagorid,jdbcType=INTEGER},
+      </if>
+      <if test="companyname != null" >
+        #{companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=INTEGER},
+      </if>
+      <if test="companytype != null" >
+        #{companytype,jdbcType=INTEGER},
+      </if>
+      <if test="primarybusiness != null" >
+        #{primarybusiness,jdbcType=VARCHAR},
+      </if>
+      <if test="licenceno != null" >
+        #{licenceno,jdbcType=VARCHAR},
+      </if>
+      <if test="registerdate != null" >
+        #{registerdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="limittype != null" >
+        #{limittype,jdbcType=INTEGER},
+      </if>
+      <if test="limitdate != null" >
+        #{limitdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="registeredcapital != null" >
+        #{registeredcapital,jdbcType=DOUBLE},
+      </if>
+      <if test="areaid != null" >
+        #{areaid,jdbcType=INTEGER},
+      </if>
+      <if test="detailaddress != null" >
+        #{detailaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="entrydate != null" >
+        #{entrydate,jdbcType=INTEGER},
+      </if>
+      <if test="incomeperyear != null" >
+        #{incomeperyear,jdbcType=DOUBLE},
+      </if>
+      <if test="incomepermonth != null" >
+        #{incomepermonth,jdbcType=DOUBLE},
+      </if>
+      <if test="otherincomepermonth != null" >
+        #{otherincomepermonth,jdbcType=DOUBLE},
+      </if>
+      <if test="otherincomeresourse != null" >
+        #{otherincomeresourse,jdbcType=VARCHAR},
+      </if>
+      <if test="supportnum != null" >
+        #{supportnum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.easycredit.dao.pojo.CompanyInfoExample" resultType="java.lang.Integer" >
+    select count(*) from companyinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update companyinfo
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.mortgagorid != null" >
+        mortgagorid = #{record.mortgagorid,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyname != null" >
+        companyname = #{record.companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.department != null" >
+        department = #{record.department,jdbcType=VARCHAR},
+      </if>
+      <if test="record.position != null" >
+        position = #{record.position,jdbcType=INTEGER},
+      </if>
+      <if test="record.companytype != null" >
+        companytype = #{record.companytype,jdbcType=INTEGER},
+      </if>
+      <if test="record.primarybusiness != null" >
+        primarybusiness = #{record.primarybusiness,jdbcType=VARCHAR},
+      </if>
+      <if test="record.licenceno != null" >
+        licenceno = #{record.licenceno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.registerdate != null" >
+        registerdate = #{record.registerdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.limittype != null" >
+        limittype = #{record.limittype,jdbcType=INTEGER},
+      </if>
+      <if test="record.limitdate != null" >
+        limitdate = #{record.limitdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.registeredcapital != null" >
+        registeredcapital = #{record.registeredcapital,jdbcType=DOUBLE},
+      </if>
+      <if test="record.areaid != null" >
+        areaid = #{record.areaid,jdbcType=INTEGER},
+      </if>
+      <if test="record.detailaddress != null" >
+        detailaddress = #{record.detailaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.entrydate != null" >
+        entrydate = #{record.entrydate,jdbcType=INTEGER},
+      </if>
+      <if test="record.incomeperyear != null" >
+        incomeperyear = #{record.incomeperyear,jdbcType=DOUBLE},
+      </if>
+      <if test="record.incomepermonth != null" >
+        incomepermonth = #{record.incomepermonth,jdbcType=DOUBLE},
+      </if>
+      <if test="record.otherincomepermonth != null" >
+        otherincomepermonth = #{record.otherincomepermonth,jdbcType=DOUBLE},
+      </if>
+      <if test="record.otherincomeresourse != null" >
+        otherincomeresourse = #{record.otherincomeresourse,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supportnum != null" >
+        supportnum = #{record.supportnum,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update companyinfo
+    set id = #{record.id,jdbcType=INTEGER},
+      mortgagorid = #{record.mortgagorid,jdbcType=INTEGER},
+      companyname = #{record.companyname,jdbcType=VARCHAR},
+      department = #{record.department,jdbcType=VARCHAR},
+      position = #{record.position,jdbcType=INTEGER},
+      companytype = #{record.companytype,jdbcType=INTEGER},
+      primarybusiness = #{record.primarybusiness,jdbcType=VARCHAR},
+      licenceno = #{record.licenceno,jdbcType=VARCHAR},
+      registerdate = #{record.registerdate,jdbcType=TIMESTAMP},
+      limittype = #{record.limittype,jdbcType=INTEGER},
+      limitdate = #{record.limitdate,jdbcType=TIMESTAMP},
+      registeredcapital = #{record.registeredcapital,jdbcType=DOUBLE},
+      areaid = #{record.areaid,jdbcType=INTEGER},
+      detailaddress = #{record.detailaddress,jdbcType=VARCHAR},
+      entrydate = #{record.entrydate,jdbcType=INTEGER},
+      incomeperyear = #{record.incomeperyear,jdbcType=DOUBLE},
+      incomepermonth = #{record.incomepermonth,jdbcType=DOUBLE},
+      otherincomepermonth = #{record.otherincomepermonth,jdbcType=DOUBLE},
+      otherincomeresourse = #{record.otherincomeresourse,jdbcType=VARCHAR},
+      supportnum = #{record.supportnum,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.easycredit.dao.pojo.CompanyInfo" >
+    update companyinfo
+    <set >
+      <if test="mortgagorid != null" >
+        mortgagorid = #{mortgagorid,jdbcType=INTEGER},
+      </if>
+      <if test="companyname != null" >
+        companyname = #{companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        department = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=INTEGER},
+      </if>
+      <if test="companytype != null" >
+        companytype = #{companytype,jdbcType=INTEGER},
+      </if>
+      <if test="primarybusiness != null" >
+        primarybusiness = #{primarybusiness,jdbcType=VARCHAR},
+      </if>
+      <if test="licenceno != null" >
+        licenceno = #{licenceno,jdbcType=VARCHAR},
+      </if>
+      <if test="registerdate != null" >
+        registerdate = #{registerdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="limittype != null" >
+        limittype = #{limittype,jdbcType=INTEGER},
+      </if>
+      <if test="limitdate != null" >
+        limitdate = #{limitdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="registeredcapital != null" >
+        registeredcapital = #{registeredcapital,jdbcType=DOUBLE},
+      </if>
+      <if test="areaid != null" >
+        areaid = #{areaid,jdbcType=INTEGER},
+      </if>
+      <if test="detailaddress != null" >
+        detailaddress = #{detailaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="entrydate != null" >
+        entrydate = #{entrydate,jdbcType=INTEGER},
+      </if>
+      <if test="incomeperyear != null" >
+        incomeperyear = #{incomeperyear,jdbcType=DOUBLE},
+      </if>
+      <if test="incomepermonth != null" >
+        incomepermonth = #{incomepermonth,jdbcType=DOUBLE},
+      </if>
+      <if test="otherincomepermonth != null" >
+        otherincomepermonth = #{otherincomepermonth,jdbcType=DOUBLE},
+      </if>
+      <if test="otherincomeresourse != null" >
+        otherincomeresourse = #{otherincomeresourse,jdbcType=VARCHAR},
+      </if>
+      <if test="supportnum != null" >
+        supportnum = #{supportnum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.easycredit.dao.pojo.CompanyInfo" >
+    update companyinfo
+    set mortgagorid = #{mortgagorid,jdbcType=INTEGER},
+      companyname = #{companyname,jdbcType=VARCHAR},
+      department = #{department,jdbcType=VARCHAR},
+      position = #{position,jdbcType=INTEGER},
+      companytype = #{companytype,jdbcType=INTEGER},
+      primarybusiness = #{primarybusiness,jdbcType=VARCHAR},
+      licenceno = #{licenceno,jdbcType=VARCHAR},
+      registerdate = #{registerdate,jdbcType=TIMESTAMP},
+      limittype = #{limittype,jdbcType=INTEGER},
+      limitdate = #{limitdate,jdbcType=TIMESTAMP},
+      registeredcapital = #{registeredcapital,jdbcType=DOUBLE},
+      areaid = #{areaid,jdbcType=INTEGER},
+      detailaddress = #{detailaddress,jdbcType=VARCHAR},
+      entrydate = #{entrydate,jdbcType=INTEGER},
+      incomeperyear = #{incomeperyear,jdbcType=DOUBLE},
+      incomepermonth = #{incomepermonth,jdbcType=DOUBLE},
+      otherincomepermonth = #{otherincomepermonth,jdbcType=DOUBLE},
+      otherincomeresourse = #{otherincomeresourse,jdbcType=VARCHAR},
+      supportnum = #{supportnum,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.easycredit.dao.pojo.CompanyInfoExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from companyinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

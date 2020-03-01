@@ -1,0 +1,103 @@
+package com.easycredit.web.controller.manage.order;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.easycredit.dao.pojo.OrderAssignEx;
+import com.easycredit.dao.pojo.OrderInfoEx;
+import com.easycredit.dao.pojo.OrderRetrunList;
+import com.easycredit.dao.pojo.OrderRetrunListEx;
+import com.easycredit.services.manage.order.ApplyApprovalService;
+import com.easycredit.utils.NoGeneratorUtil;
+import com.easycredit.utils.Page;
+
+/**
+ * 
+ * @author Jq 产品管理控制器
+ */
+@Controller
+@RequestMapping("/manage/applyApproval")
+public class ApplyApprovalController {
+	@Autowired
+	private ApplyApprovalService applyApprovalService;
+
+	private static final String LIST = "/manage/applyApproval_list";
+	private static final String PREUPDATE = "/manage/applyApproval_update";// 流程审批填写审批意见的页面
+	private static final String UPDATE = "redirect:/manage/applyApproval/getApplyApprovalList.html";// 流程审批填写审批意见的页面
+	private static final String RETURNLIST = "/manage/applyApproval_returnlist";// 放款信息填写页面
+	private static final String ORDER = "/manage/orderreturn_list";
+
+	@RequestMapping(value = {"getApplyApprovalList"})
+	public String getApplyApprovalList(OrderInfoEx record, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+		try{
+		System.out.println("&&&&&&&&&&"+record.getOrderno());
+		List<OrderInfoEx> list = applyApprovalService.getApplyApprovalList(record);
+
+		Page<OrderInfoEx> page = new Page<OrderInfoEx>();
+		page.setPageNo(1);
+		page.setPageSize(10);
+		page.setTotalCount(list.size());
+		page.setResult(list);
+
+		model.addAttribute("page", page);}catch (Exception e){
+			e.printStackTrace();
+		}
+
+		return LIST;
+	}
+
+	@RequestMapping(value = {"preupdate"})
+	public String preupdate(Integer id, Integer resultflag, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		model.addAttribute("orderid", id);
+		model.addAttribute("resultflag", resultflag);
+		return PREUPDATE;
+	}
+
+	@RequestMapping(value = {"update"})
+	public String update(OrderAssignEx record, Model model, HttpServletRequest request, HttpServletResponse response) {
+
+		System.out.println("record=" + record);
+
+		int result = applyApprovalService.updateApplyApproval(record);
+
+		return UPDATE;
+
+	}
+	
+	@RequestMapping(value = {"prereturnlist"})
+	public String prereturnlist(Integer id, Model model, HttpServletRequest request, HttpServletResponse response) {
+
+		
+
+		model.addAttribute("orderid", id);
+
+		return RETURNLIST;
+
+	}
+	
+	@RequestMapping(value = {"returnUpdate"})
+	public String returnUpdate(OrderRetrunList record, Model model, HttpServletRequest request, HttpServletResponse response) {
+
+		
+		record.setLoanstatus(0);
+		record.setNorepaymentamount(record.getLoanamount());
+		record.setLoanno(NoGeneratorUtil.getLoanNo());
+		applyApprovalService.addreturnlist(record);
+		System.out.println("record=" + record);
+
+		 return "redirect:/manage/applyApproval/getApplyApprovalList.html";
+//		 
+
+	}
+
+}

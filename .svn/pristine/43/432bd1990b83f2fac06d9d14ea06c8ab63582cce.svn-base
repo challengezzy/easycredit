@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.easycredit.dao.mapper.MortgagorContactMapper" >
+  <resultMap id="BaseResultMap" type="com.easycredit.dao.pojo.MortgagorContact" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="mortgagorid" property="mortgagorid" jdbcType="INTEGER" />
+    <result column="spousename" property="spousename" jdbcType="VARCHAR" />
+    <result column="idnumber" property="idnumber" jdbcType="VARCHAR" />
+    <result column="cellphone" property="cellphone" jdbcType="VARCHAR" />
+    <result column="registeraddress" property="registeraddress" jdbcType="VARCHAR" />
+    <result column="contactaddresstype" property="contactaddresstype" jdbcType="VARCHAR" />
+    <result column="correlation1name" property="correlation1name" jdbcType="VARCHAR" />
+    <result column="correlation1type" property="correlation1type" jdbcType="INTEGER" />
+    <result column="correlation1cellphone" property="correlation1cellphone" jdbcType="VARCHAR" />
+    <result column="correlation2name" property="correlation2name" jdbcType="VARCHAR" />
+    <result column="correlation2type" property="correlation2type" jdbcType="INTEGER" />
+    <result column="correlation2cellphone" property="correlation2cellphone" jdbcType="VARCHAR" />
+    <result column="reterence1name" property="reterence1name" jdbcType="VARCHAR" />
+    <result column="reterence1depart" property="reterence1depart" jdbcType="VARCHAR" />
+    <result column="reterence1position" property="reterence1position" jdbcType="VARCHAR" />
+    <result column="reterence1cellphone" property="reterence1cellphone" jdbcType="VARCHAR" />
+    <result column="reterence2name" property="reterence2name" jdbcType="VARCHAR" />
+    <result column="reterence2depart" property="reterence2depart" jdbcType="VARCHAR" />
+    <result column="reterence2position" property="reterence2position" jdbcType="VARCHAR" />
+    <result column="reterence2cellphone" property="reterence2cellphone" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, mortgagorid, spousename, idnumber, cellphone, registeraddress, contactaddresstype, 
+    correlation1name, correlation1type, correlation1cellphone, correlation2name, correlation2type, 
+    correlation2cellphone, reterence1name, reterence1depart, reterence1position, reterence1cellphone, 
+    reterence2name, reterence2depart, reterence2position, reterence2cellphone
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.easycredit.dao.pojo.MortgagorContactExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from mortgagor_contact
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from mortgagor_contact
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+   <select id="selectByMortgagorId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from mortgagor_contact
+    where mortgagorid = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from mortgagor_contact
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.easycredit.dao.pojo.MortgagorContactExample" >
+    delete from mortgagor_contact
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.easycredit.dao.pojo.MortgagorContact" useGeneratedKeys="true" keyProperty="id" >
+    insert into mortgagor_contact (mortgagorid, spousename, idnumber, 
+      cellphone, registeraddress, contactaddresstype, 
+      correlation1name, correlation1type, correlation1cellphone, 
+      correlation2name, correlation2type, correlation2cellphone, 
+      reterence1name, reterence1depart, reterence1position, 
+      reterence1cellphone, reterence2name, reterence2depart, 
+      reterence2position, reterence2cellphone
+      )
+    values (#{mortgagorid,jdbcType=INTEGER}, #{spousename,jdbcType=VARCHAR}, #{idnumber,jdbcType=VARCHAR}, 
+      #{cellphone,jdbcType=VARCHAR}, #{registeraddress,jdbcType=VARCHAR}, #{contactaddresstype,jdbcType=VARCHAR}, 
+      #{correlation1name,jdbcType=VARCHAR}, #{correlation1type,jdbcType=INTEGER}, #{correlation1cellphone,jdbcType=VARCHAR}, 
+      #{correlation2name,jdbcType=VARCHAR}, #{correlation2type,jdbcType=INTEGER}, #{correlation2cellphone,jdbcType=VARCHAR}, 
+      #{reterence1name,jdbcType=VARCHAR}, #{reterence1depart,jdbcType=VARCHAR}, #{reterence1position,jdbcType=VARCHAR}, 
+      #{reterence1cellphone,jdbcType=VARCHAR}, #{reterence2name,jdbcType=VARCHAR}, #{reterence2depart,jdbcType=VARCHAR}, 
+      #{reterence2position,jdbcType=VARCHAR}, #{reterence2cellphone,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.easycredit.dao.pojo.MortgagorContact" useGeneratedKeys="true" keyProperty="id" >
+    insert into mortgagor_contact
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mortgagorid != null" >
+        mortgagorid,
+      </if>
+      <if test="spousename != null" >
+        spousename,
+      </if>
+      <if test="idnumber != null" >
+        idnumber,
+      </if>
+      <if test="cellphone != null" >
+        cellphone,
+      </if>
+      <if test="registeraddress != null" >
+        registeraddress,
+      </if>
+      <if test="contactaddresstype != null" >
+        contactaddresstype,
+      </if>
+      <if test="correlation1name != null" >
+        correlation1name,
+      </if>
+      <if test="correlation1type != null" >
+        correlation1type,
+      </if>
+      <if test="correlation1cellphone != null" >
+        correlation1cellphone,
+      </if>
+      <if test="correlation2name != null" >
+        correlation2name,
+      </if>
+      <if test="correlation2type != null" >
+        correlation2type,
+      </if>
+      <if test="correlation2cellphone != null" >
+        correlation2cellphone,
+      </if>
+      <if test="reterence1name != null" >
+        reterence1name,
+      </if>
+      <if test="reterence1depart != null" >
+        reterence1depart,
+      </if>
+      <if test="reterence1position != null" >
+        reterence1position,
+      </if>
+      <if test="reterence1cellphone != null" >
+        reterence1cellphone,
+      </if>
+      <if test="reterence2name != null" >
+        reterence2name,
+      </if>
+      <if test="reterence2depart != null" >
+        reterence2depart,
+      </if>
+      <if test="reterence2position != null" >
+        reterence2position,
+      </if>
+      <if test="reterence2cellphone != null" >
+        reterence2cellphone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mortgagorid != null" >
+        #{mortgagorid,jdbcType=INTEGER},
+      </if>
+      <if test="spousename != null" >
+        #{spousename,jdbcType=VARCHAR},
+      </if>
+      <if test="idnumber != null" >
+        #{idnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="cellphone != null" >
+        #{cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="registeraddress != null" >
+        #{registeraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="contactaddresstype != null" >
+        #{contactaddresstype,jdbcType=VARCHAR},
+      </if>
+      <if test="correlation1name != null" >
+        #{correlation1name,jdbcType=VARCHAR},
+      </if>
+      <if test="correlation1type != null" >
+        #{correlation1type,jdbcType=INTEGER},
+      </if>
+      <if test="correlation1cellphone != null" >
+        #{correlation1cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="correlation2name != null" >
+        #{correlation2name,jdbcType=VARCHAR},
+      </if>
+      <if test="correlation2type != null" >
+        #{correlation2type,jdbcType=INTEGER},
+      </if>
+      <if test="correlation2cellphone != null" >
+        #{correlation2cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="reterence1name != null" >
+        #{reterence1name,jdbcType=VARCHAR},
+      </if>
+      <if test="reterence1depart != null" >
+        #{reterence1depart,jdbcType=VARCHAR},
+      </if>
+      <if test="reterence1position != null" >
+        #{reterence1position,jdbcType=VARCHAR},
+      </if>
+      <if test="reterence1cellphone != null" >
+        #{reterence1cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="reterence2name != null" >
+        #{reterence2name,jdbcType=VARCHAR},
+      </if>
+      <if test="reterence2depart != null" >
+        #{reterence2depart,jdbcType=VARCHAR},
+      </if>
+      <if test="reterence2position != null" >
+        #{reterence2position,jdbcType=VARCHAR},
+      </if>
+      <if test="reterence2cellphone != null" >
+        #{reterence2cellphone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.easycredit.dao.pojo.MortgagorContactExample" resultType="java.lang.Integer" >
+    select count(*) from mortgagor_contact
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update mortgagor_contact
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.mortgagorid != null" >
+        mortgagorid = #{record.mortgagorid,jdbcType=INTEGER},
+      </if>
+      <if test="record.spousename != null" >
+        spousename = #{record.spousename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idnumber != null" >
+        idnumber = #{record.idnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cellphone != null" >
+        cellphone = #{record.cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.registeraddress != null" >
+        registeraddress = #{record.registeraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactaddresstype != null" >
+        contactaddresstype = #{record.contactaddresstype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.correlation1name != null" >
+        correlation1name = #{record.correlation1name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.correlation1type != null" >
+        correlation1type = #{record.correlation1type,jdbcType=INTEGER},
+      </if>
+      <if test="record.correlation1cellphone != null" >
+        correlation1cellphone = #{record.correlation1cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.correlation2name != null" >
+        correlation2name = #{record.correlation2name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.correlation2type != null" >
+        correlation2type = #{record.correlation2type,jdbcType=INTEGER},
+      </if>
+      <if test="record.correlation2cellphone != null" >
+        correlation2cellphone = #{record.correlation2cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reterence1name != null" >
+        reterence1name = #{record.reterence1name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reterence1depart != null" >
+        reterence1depart = #{record.reterence1depart,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reterence1position != null" >
+        reterence1position = #{record.reterence1position,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reterence1cellphone != null" >
+        reterence1cellphone = #{record.reterence1cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reterence2name != null" >
+        reterence2name = #{record.reterence2name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reterence2depart != null" >
+        reterence2depart = #{record.reterence2depart,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reterence2position != null" >
+        reterence2position = #{record.reterence2position,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reterence2cellphone != null" >
+        reterence2cellphone = #{record.reterence2cellphone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update mortgagor_contact
+    set id = #{record.id,jdbcType=INTEGER},
+      mortgagorid = #{record.mortgagorid,jdbcType=INTEGER},
+      spousename = #{record.spousename,jdbcType=VARCHAR},
+      idnumber = #{record.idnumber,jdbcType=VARCHAR},
+      cellphone = #{record.cellphone,jdbcType=VARCHAR},
+      registeraddress = #{record.registeraddress,jdbcType=VARCHAR},
+      contactaddresstype = #{record.contactaddresstype,jdbcType=VARCHAR},
+      correlation1name = #{record.correlation1name,jdbcType=VARCHAR},
+      correlation1type = #{record.correlation1type,jdbcType=INTEGER},
+      correlation1cellphone = #{record.correlation1cellphone,jdbcType=VARCHAR},
+      correlation2name = #{record.correlation2name,jdbcType=VARCHAR},
+      correlation2type = #{record.correlation2type,jdbcType=INTEGER},
+      correlation2cellphone = #{record.correlation2cellphone,jdbcType=VARCHAR},
+      reterence1name = #{record.reterence1name,jdbcType=VARCHAR},
+      reterence1depart = #{record.reterence1depart,jdbcType=VARCHAR},
+      reterence1position = #{record.reterence1position,jdbcType=VARCHAR},
+      reterence1cellphone = #{record.reterence1cellphone,jdbcType=VARCHAR},
+      reterence2name = #{record.reterence2name,jdbcType=VARCHAR},
+      reterence2depart = #{record.reterence2depart,jdbcType=VARCHAR},
+      reterence2position = #{record.reterence2position,jdbcType=VARCHAR},
+      reterence2cellphone = #{record.reterence2cellphone,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.easycredit.dao.pojo.MortgagorContact" >
+    update mortgagor_contact
+    <set >
+      <if test="mortgagorid != null" >
+        mortgagorid = #{mortgagorid,jdbcType=INTEGER},
+      </if>
+      <if test="spousename != null" >
+        spousename = #{spousename,jdbcType=VARCHAR},
+      </if>
+      <if test="idnumber != null" >
+        idnumber = #{idnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="cellphone != null" >
+        cellphone = #{cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="registeraddress != null" >
+        registeraddress = #{registeraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="contactaddresstype != null" >
+        contactaddresstype = #{contactaddresstype,jdbcType=VARCHAR},
+      </if>
+      <if test="correlation1name != null" >
+        correlation1name = #{correlation1name,jdbcType=VARCHAR},
+      </if>
+      <if test="correlation1type != null" >
+        correlation1type = #{correlation1type,jdbcType=INTEGER},
+      </if>
+      <if test="correlation1cellphone != null" >
+        correlation1cellphone = #{correlation1cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="correlation2name != null" >
+        correlation2name = #{correlation2name,jdbcType=VARCHAR},
+      </if>
+      <if test="correlation2type != null" >
+        correlation2type = #{correlation2type,jdbcType=INTEGER},
+      </if>
+      <if test="correlation2cellphone != null" >
+        correlation2cellphone = #{correlation2cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="reterence1name != null" >
+        reterence1name = #{reterence1name,jdbcType=VARCHAR},
+      </if>
+      <if test="reterence1depart != null" >
+        reterence1depart = #{reterence1depart,jdbcType=VARCHAR},
+      </if>
+      <if test="reterence1position != null" >
+        reterence1position = #{reterence1position,jdbcType=VARCHAR},
+      </if>
+      <if test="reterence1cellphone != null" >
+        reterence1cellphone = #{reterence1cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="reterence2name != null" >
+        reterence2name = #{reterence2name,jdbcType=VARCHAR},
+      </if>
+      <if test="reterence2depart != null" >
+        reterence2depart = #{reterence2depart,jdbcType=VARCHAR},
+      </if>
+      <if test="reterence2position != null" >
+        reterence2position = #{reterence2position,jdbcType=VARCHAR},
+      </if>
+      <if test="reterence2cellphone != null" >
+        reterence2cellphone = #{reterence2cellphone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.easycredit.dao.pojo.MortgagorContact" >
+    update mortgagor_contact
+    set mortgagorid = #{mortgagorid,jdbcType=INTEGER},
+      spousename = #{spousename,jdbcType=VARCHAR},
+      idnumber = #{idnumber,jdbcType=VARCHAR},
+      cellphone = #{cellphone,jdbcType=VARCHAR},
+      registeraddress = #{registeraddress,jdbcType=VARCHAR},
+      contactaddresstype = #{contactaddresstype,jdbcType=VARCHAR},
+      correlation1name = #{correlation1name,jdbcType=VARCHAR},
+      correlation1type = #{correlation1type,jdbcType=INTEGER},
+      correlation1cellphone = #{correlation1cellphone,jdbcType=VARCHAR},
+      correlation2name = #{correlation2name,jdbcType=VARCHAR},
+      correlation2type = #{correlation2type,jdbcType=INTEGER},
+      correlation2cellphone = #{correlation2cellphone,jdbcType=VARCHAR},
+      reterence1name = #{reterence1name,jdbcType=VARCHAR},
+      reterence1depart = #{reterence1depart,jdbcType=VARCHAR},
+      reterence1position = #{reterence1position,jdbcType=VARCHAR},
+      reterence1cellphone = #{reterence1cellphone,jdbcType=VARCHAR},
+      reterence2name = #{reterence2name,jdbcType=VARCHAR},
+      reterence2depart = #{reterence2depart,jdbcType=VARCHAR},
+      reterence2position = #{reterence2position,jdbcType=VARCHAR},
+      reterence2cellphone = #{reterence2cellphone,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.easycredit.dao.pojo.MortgagorContactExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from mortgagor_contact
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

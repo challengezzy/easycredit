@@ -1,0 +1,18 @@
+package com.easycredit.services.manage.product;
+
+import java.util.List;
+
+import com.easycredit.dao.pojo.ProductInfo;
+import com.easycredit.dao.pojo.ProductInfoEx;
+import com.easycredit.dao.pojo.ProductorGanization;
+
+public interface ProductService {
+
+	public List<ProductInfoEx> getProductInfo(ProductInfoEx record);
+	public  int insertProduct(ProductInfo record);
+	public  int insertProductorGanization(ProductorGanization record);
+	public int updateByPrimaryKeySelective(ProductInfo record);
+	public int updateByPrimaryKeySelective(ProductorGanization record);
+	public  int deleteProductByid(Integer id);
+
+}

@@ -1,0 +1,62 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ include file="/common/taglibs.jsp" %>
+
+<form  action="${ctx}/manage/applyApproval/returnUpdate.html" method="post" id="inputForm" >
+	<input id="orderid" name="orderid" type="hidden" value="${orderid}">
+	<input id="loanstatus" name="loanstatus" type="hidden" value="${resultflag}">
+
+	<div class="modal-header">
+       <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i></button>
+       <h4 class="modal-title" id="myModalLabel">放款确认页</h4>
+    </div>
+	 <div class="modal-body">
+	<!--  	<div class="form-group clearfix" >
+		  	 <label  class="control-label col-sm-3 col-lg-4 text-right"><b class="color_red">*</b>借据编号:</label>
+		  	 <input id="loanno" name="loanno" type="text" value="${loanno}">
+	 	 </div>--> 
+	 	 <div class="form-group clearfix" >
+		  	 <label  class="control-label col-sm-3 col-lg-4 text-right"><b class="color_red">*</b>放款金额:</label>
+		  	 <input id="loanamount" name="loanamount" type="text" value="${loanamount}">
+	 	 </div>
+	 	 <div class="form-group clearfix">
+			 <label  class="control-label col-sm-3 col-lg-4 text-right"><b class="color_red">*</b>放款时间：</label>
+			 <div class="col-sm-7">
+				 <div class="input-group  input-append date form_date" data-date-format="yyyy-mm-dd">
+		        	<input id="loantimes" name="loantimes" class="form-control" type="text" value='${loantime}' placeholder="放款时间" data-toggle="popover"  data-placement="top" data-content="放款时间"/>
+		            <span class="add-on input-group-addon"><i class="icon-remove"></i></span>
+					<span class="add-on input-group-addon"><i class="icon-calendar"></i></span>
+		         </div>
+			</div>
+		  </div>
+		  <div class="form-group clearfix">
+			<label  class="control-label col-sm-3 col-lg-4 text-right"><b class="color_red">*</b>到期时间：</label>
+			<div class="col-sm-7">
+				<div class="input-group  input-append date form_date" data-date-format="yyyy-mm-dd">
+		        	<input id="loanlimittimes" name="loanlimittimes" class="form-control" type="text" value='${loanlimittime}' placeholder="到期时间" data-toggle="popover"  data-placement="top" data-content="到期时间"/>
+		            <span class="add-on input-group-addon"><i class="icon-remove"></i></span>
+					<span class="add-on input-group-addon"><i class="icon-calendar"></i></span>
+		        </div>
+			</div>
+		  </div>
+	  	 <div class="form-group clearfix" >
+	        <label  class="control-label col-sm-3 col-lg-4 text-right"><b class="color_red">*</b>放款意见:</label>
+	        <div class="col-sm-7">
+	          <textarea id="comments" name="comments" class="form-control" type="text"  value="${comments}"></textarea>
+	        </div>
+	 	 </div>
+	    <div class="modal-footer">
+		   	<button type="button" class="btn btn-default" data-dismiss="modal"><i class="icon-remove"></i> 取消</button>
+		   	<button type="submit" class="btn btn-primary"><i class="icon-ok"></i> 确定</button>
+	   	</div>
+	 </div>
+</form>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#inputForm").validate({
+			rules: {
+				"treasureName":{required:true,isOverMonth:true,maxlength:100}
+			}
+		});
+	});
+</script>  

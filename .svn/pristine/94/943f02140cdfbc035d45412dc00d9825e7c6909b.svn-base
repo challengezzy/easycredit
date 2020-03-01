@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.easycredit.dao.mapper.ProductInfoExMapper" >
+   
+  <!-- 产品管理查询列表 -->
+  <select id="getProductInfo" resultType="com.easycredit.dao.pojo.ProductInfoEx" parameterType="com.easycredit.dao.pojo.ProductInfoEx" >
+      SELECT
+	p.id,
+	p.productname,
+	p.productno,
+	p.userid,
+	p.comments,
+	p.createtime,
+	u.username,
+	u.nickname,
+
+ (select oo.id from organization oo,productorganization pp where pp.productid=p.id and pp.organizationid=oo.id and oo.organizationtype=0) organizationid1,
+ (select oo.id from organization oo,productorganization pp where pp.productid=p.id and pp.organizationid=oo.id and oo.organizationtype=1) organizationid2,
+ (select oo.id from organization oo,productorganization pp where pp.productid=p.id and pp.organizationid=oo.id and oo.organizationtype=2) organizationid3,
+ (select oo.organizationname from organization oo,productorganization pp where pp.productid=p.id and pp.organizationid=oo.id and oo.organizationtype=0) organizationname1,
+ (select oo.organizationname from organization oo,productorganization pp where pp.productid=p.id and pp.organizationid=oo.id and oo.organizationtype=1) organizationname2,
+ (select oo.organizationname from organization oo,productorganization pp where pp.productid=p.id and pp.organizationid=oo.id and oo.organizationtype=2) organizationname3,
+	group_concat(
+		DISTINCT o.organizationname SEPARATOR ';'
+	) AS organizationname,
+	(
+		SELECT
+			count(1)
+		FROM
+			productevidence pv
+		WHERE
+			pv.productid = p.id
+	) AS evidencenum
+FROM
+	productinfo p
+LEFT JOIN productorganization po ON po.productid = p.id
+LEFT JOIN organization o ON po.organizationid = o.id
+LEFT JOIN userinfo u ON p.userid = u.id
+
+<where>
+<if test="id!=null and id!=''">
+				and p.id = #{id,jdbcType=INTEGER}
+			</if>
+<if test="productname!=null and productname!=''">
+				and p.productname = #{productname,jdbcType=VARCHAR}
+			</if>
+<if test="productno!=null and productno!=''">
+				and p.productno = #{productno,jdbcType=VARCHAR}
+	</if>
+</where>
+group by p.id
+     
+     
+  </select>
+  
+   <select id="getProductList" resultType="com.easycredit.dao.pojo.ProductInfoEx" >
+	   SELECT
+		po.`id`,
+		po.`productname`,
+		po.`productno`,
+		po.`userid`,
+		po.`createtime`
+		
+	FROM
+		productinfo po
+
+     
+  </select>
+  
+  <select id="getProductEvidenceByPid" resultType="com.easycredit.dao.pojo.ProductEvidence" parameterType="Integer">
+	SELECT * from productevidence pv 
+where pv.productid= #{productid,jdbcType=INTEGER}
+     
+  </select>
+</mapper>

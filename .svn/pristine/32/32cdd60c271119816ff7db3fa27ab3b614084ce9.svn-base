@@ -1,0 +1,31 @@
+log4j.rootLogger=INFO,Console,I,E
+
+#DAO & MYBATIS
+log4j.logger.com.easycredit.dao=${MYBATIS_DAO_LOG}
+
+log4j.logger.org.apache.ibatis=${MYBATIS_DAO_LOG}
+log4j.logger.org.apache.ibatis.jdbc.ScriptRunner=${MYBATIS_DAO_LOG}
+log4j.logger.java.sql.Connection=${MYBATIS_DAO_LOG}
+log4j.logger.java.sql.Statement=${MYBATIS_DAO_LOG}
+log4j.logger.java.sql.PreparedStatement=${MYBATIS_DAO_LOG}
+
+### 输出到控制台 ###
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.PatternLayout
+log4j.appender.Console.layout.ConversionPattern=%d [%t] %-5p [%c] - %m%n
+
+log4j.appender.I=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.I.File=/data/logs/easycredit-info.log
+log4j.appender.I.Threshold = INFO 
+log4j.appender.I.Encoding=UTF-8
+log4j.appender.I.DatePattern='.'yyyy-MM-dd
+log4j.appender.I.layout=org.apache.log4j.PatternLayout
+log4j.appender.I.layout.ConversionPattern=%d [%t] %-5p [%c] - %m%n
+
+log4j.appender.E=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.E.File=/data/logs/easycredit-error.log
+log4j.appender.E.Threshold = ERROR
+log4j.appender.E.Encoding=UTF-8
+log4j.appender.E.DatePattern='.'yyyy-MM-dd
+log4j.appender.E.layout=org.apache.log4j.PatternLayout
+log4j.appender.E.layout.ConversionPattern=%d [%t] %-5p [%c] - %m%n

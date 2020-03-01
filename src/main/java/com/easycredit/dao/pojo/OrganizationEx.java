@@ -1,0 +1,16 @@
+package com.easycredit.dao.pojo;
+
+public class OrganizationEx extends Organization {
+
+	private String username;
+
+	private static final long serialVersionUID = 1L;
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+}

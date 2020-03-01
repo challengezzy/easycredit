@@ -1,0 +1,114 @@
+package com.easycredit.utils;
+
+import java.util.Date;
+
+import com.easycredit.dao.pojo.MortgagorContact;
+import com.easycredit.dao.pojo.MortgagorInfo;
+import com.easycredit.dao.pojo.MortgagorInfoEx;
+import com.easycredit.dao.pojo.MortgagorResidential;
+import com.easycredit.dao.pojo.OrderAssign;
+import com.easycredit.dao.pojo.OrderAssignEx;
+import com.easycredit.dao.pojo.OrderInfo;
+
+/**
+ * JSON 工具类
+ * 
+ */
+public class BeanUtil {
+
+	public static MortgagorInfo getMortgagorInfo(MortgagorInfoEx mortgagorInfoEx) {
+		MortgagorInfo mortgagorInfo = new MortgagorInfo();
+		mortgagorInfo.setMortgagorname(mortgagorInfoEx.getMortgagorname());
+		mortgagorInfo.setSex(mortgagorInfoEx.getSex());
+		mortgagorInfo.setIdnumber(mortgagorInfoEx.getIdnumber());
+		mortgagorInfo.setMatrimonial(mortgagorInfoEx.getMatrimonial());
+		mortgagorInfo.setEducationalstatus(mortgagorInfoEx.getEducationalstatus());
+		mortgagorInfo.setWorkinglife(mortgagorInfoEx.getWorkinglife());
+		mortgagorInfo.setChildrennum(mortgagorInfoEx.getChildrennum());
+		mortgagorInfo.setEmail(mortgagorInfoEx.getEmail());
+		mortgagorInfo.setCellphone(mortgagorInfoEx.getCellphone());
+		mortgagorInfo.setTelephone(mortgagorInfoEx.getTelephone());
+		mortgagorInfo.setUserid(UserUtils.getCreateOprt());
+		mortgagorInfo.setCreatetime(new Date());
+		try{
+		mortgagorInfo.setId(mortgagorInfoEx.getId());}catch (Exception e){
+			e.printStackTrace();
+		}
+
+		return mortgagorInfo;
+	}
+
+	public static MortgagorResidential getMortgagorResidential(MortgagorInfoEx mortgagorInfoEx, int mortgagorid) {
+		MortgagorResidential mortgagorResidential = new MortgagorResidential();
+		mortgagorResidential.setMortgagorid(mortgagorid);
+		mortgagorResidential.setHouseproperty(mortgagorInfoEx.getHouseproperty());
+		mortgagorResidential.setHousingloan(mortgagorInfoEx.getHousingloan());
+		mortgagorResidential.setRegisteraddress(mortgagorInfoEx.getRegisteraddress());
+		mortgagorResidential.setResidentialaddress(mortgagorInfoEx.getResidentialaddress());
+		mortgagorResidential.setContactaddresstype(mortgagorInfoEx.getContactaddresstype());
+		mortgagorResidential.setCitylife(mortgagorInfoEx.getCitylife());
+		try{
+			mortgagorResidential.setId(mortgagorInfoEx.getResidentialid());
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+
+		return mortgagorResidential;
+	}
+
+	public static MortgagorContact getMortgagorContact(MortgagorInfoEx mortgagorInfoEx, int mortgagorid) {
+		MortgagorContact mortgagorContact = new MortgagorContact();
+		mortgagorContact.setMortgagorid(mortgagorid);
+		mortgagorContact.setSpousename(mortgagorInfoEx.getSpousename());
+		mortgagorContact.setIdnumber(mortgagorInfoEx.getSpouseidnumber());
+		mortgagorContact.setCellphone(mortgagorInfoEx.getSpousecellphone());
+		mortgagorContact.setRegisteraddress(mortgagorInfoEx.getSpouseregisteraddress());
+		mortgagorContact.setContactaddresstype(mortgagorInfoEx.getSpousecontactaddresstype());
+		mortgagorContact.setCorrelation1name(mortgagorInfoEx.getCorrelation1name());
+		mortgagorContact.setCorrelation1type(mortgagorInfoEx.getCorrelation1type());
+		mortgagorContact.setCorrelation1cellphone(mortgagorInfoEx.getCorrelation1cellphone());
+		mortgagorContact.setCorrelation2name(mortgagorInfoEx.getCorrelation2name());
+		mortgagorContact.setCorrelation2type(mortgagorInfoEx.getCorrelation2type());
+		mortgagorContact.setCorrelation2cellphone(mortgagorInfoEx.getCorrelation2cellphone());
+		mortgagorContact.setReterence1name(mortgagorInfoEx.getReterence1name());
+		mortgagorContact.setReterence1depart(mortgagorInfoEx.getReterence1depart());
+		mortgagorContact.setReterence1position(mortgagorInfoEx.getReterence1position());
+		mortgagorContact.setReterence1cellphone(mortgagorInfoEx.getReterence1cellphone());
+		mortgagorContact.setReterence2name(mortgagorInfoEx.getReterence2name());
+		mortgagorContact.setReterence2depart(mortgagorInfoEx.getReterence2depart());
+		mortgagorContact.setReterence2position(mortgagorInfoEx.getReterence2position());
+		mortgagorContact.setReterence2cellphone(mortgagorInfoEx.getReterence2cellphone());
+		try{
+			mortgagorContact.setId(mortgagorInfoEx.getContactid());
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+
+		return mortgagorContact;
+	}
+
+	public static OrderInfo getOrderInfo(MortgagorInfoEx mortgagorInfoEx, int mortgagorid) {
+		OrderInfo orderinfo = new OrderInfo();
+		orderinfo.setMortgagorid(mortgagorid);
+		orderinfo.setProductid(mortgagorInfoEx.getProductid());
+		orderinfo.setStatus(-1);
+		orderinfo.setOperatorid(UserUtils.getCreateOprt());
+		orderinfo.setCreatetime(new Date());
+
+		return orderinfo;
+	}
+	
+	public static OrderAssign getOrderAssign(OrderAssignEx orderAssignEx,int orderid) {
+		OrderAssign orderAssign=new OrderAssign();
+		orderAssign.setOrderid(orderid);
+		orderAssign.setAssigntime(orderAssignEx.getAssigntime());
+		orderAssign.setComments(orderAssignEx.getComments());
+		orderAssign.setId(orderAssignEx.getId());
+		orderAssign.setOperatorid(orderAssignEx.getOperatorid());
+		orderAssign.setResultflag(orderAssignEx.getResultflag());
+		orderAssign.setSubmittime(orderAssignEx.getSubmittime());
+
+		return orderAssign;
+	}
+	
+}

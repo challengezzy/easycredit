@@ -1,0 +1,180 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ include file="/common/top.jsp" %>
+<body class="fix_top_nav_padding">
+<div id="wrap" > 
+   <%@ include file="/common/header.jsp" %> 
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2 ">
+         <%@ include file="/common/left.jsp" %> 
+      </div>
+      <div class="col-md-10 ">
+        <form id="mainForm" action="${ctx}/manage/orderretrunlist/getOrderReturnList.html"  method="post" id="mainForm">
+	    <div class="panel panel-default">
+	      <div class="panel-heading ">借据管理 </div>
+	      <div class="form-inline popover-show panel-body list_toolbar">
+	        <div class="form-group width_input"  data-toggle="popover"  data-placement="top" data-content="请输入借据ID">
+	          <input  class="form-control" type="text"  placeholder="借据ID" id="loanno" name="loanno" value="${param.loanno}"/>
+	        </div>
+	        <div class="form-group width_input"  data-toggle="popover"  data-placement="top" data-content="请输入申请单编号">
+	          <input  class="form-control" type="text"  placeholder="申请单编号" name="orderno" value="${param.orderno}"/>
+	        </div>
+	        <div class="form-group width_input"  data-toggle="popover"  data-placement="top" data-content="请输入产品名称">
+	          <input  class="form-control" type="text"  placeholder="产品名称" name="productname" value="${param.productname}"/>
+	        </div>
+	        <div class="form-group width_input"  data-toggle="popover"  data-placement="top" data-content="请输入公司名称">
+	          <input  class="form-control" type="text"  placeholder="公司名称" name="companyname" value="${param.companyname}"/>
+	        </div>
+	         <div class="form-group width_input"  data-toggle="popover"  data-placement="top" data-content="请输入借款人姓名">
+	          <input  class="form-control" type="text"  placeholder="借款人姓名" name="mortgagorname" value="${param.mortgagorname}"/>
+	        </div>
+	        <div class="form-group width_btn">
+	          <button  type="submit" class="btn  btn-primary " ><i class="icon-search"></i> 搜索</button>
+	        </div>
+	        
+	    </div>
+		<div class="panel-body ">
+	      <div class="table-responsive">
+	        <table class="table table-hover table-striped table-bordered table-condensed table-big">
+	          <thead>
+	            <tr>
+	            	<th>选择</th>
+	              	<th>序号</th>
+					<th>借据ID</th>
+					<th>产品名称</th>
+					<th>借款人姓名</th>
+					<th>公司名称</th>
+					<th>业务申请单编号</th>
+					<th>放款金额</th>
+					<th>放款时间</th>
+					<th>到期时间</th>
+					<th>未还款金额</th>
+					<th>还款状态</th>
+					<th>操作</th>
+	            </tr>
+	          </thead>
+	          <tbody>
+	          	<c:forEach items="${page.result}" var="obj" varStatus="status">
+			         <tr class="text-center">
+		              	<td><label><input type="checkbox" name="checkedIds" class="checkedIds" value="${obj.id}"></label></td>
+		              	<td>${ status.index + 1}</td>
+						<td>${obj.loanno}</td>
+						<td>${obj.productname}</td>
+						<td>${obj.mortgagorname}</td>
+						<td>${obj.companyname}</td>
+						<td>${obj.orderno}</td>
+						<td>${obj.loanamount}</td>
+						<td><fmt:formatDate value="${obj.loantime}" type="both" pattern="yyyy-MM-dd hh:mm:ss"/></td>
+								<td><fmt:formatDate value="${obj.loanlimittime}" type="both" pattern="yyyy-MM-dd hh:mm:ss"/></td>
+						<td>${obj.norepaymentamount}</td>
+						<td><mt:selectState stateType="loanstatus" showType="label" value="${obj.loanstatus}"/></td>
+						<td>
+							<a href="javascript:void(0);" data-toggle="modal" data-target="#modal_alert" data-backdrop="static" 
+								data-load-remote="/manage/orderretrunlist/orderRebank.html?returnlistid=${obj.id }">
+								更新还款信息
+							</a>
+							
+						</td>
+			         </tr>
+				</c:forEach>
+	            <c:if test="${empty page.result}">
+	                <tr><td colspan="13" style="text-align: center;">当前列表没有数据！</td></tr>
+			   	</c:if>
+	          </tbody>
+	        </table>
+	      </div>
+	      <c:if test="${not empty page.result}">
+      		<div class="table_page dropup">
+	        <div class="btn-group  dropup btn-group-sm pull-left">
+	          <label  class="btn btn-default  table_select_all"  >&nbsp;
+	            <input type="checkbox" id="checkedAll">
+	          </label>
+	          <button type="button" class="btn btn-default  dropdown-toggle" data-toggle="dropdown"><span class="caret"></span> </button>
+	          <ul class="dropdown-menu text-left" role="menu">
+	            <li><a id="remove" href="#">批量删除</a></li>
+	          </ul>
+	        </div>
+	        <%@ include file="/common/pagination.jsp" %>
+	    </div>
+	   </c:if>
+	  </div>
+	  </div>
+	 </form>
+     </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade modal_alert" id="modal_alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+  <div class="modal-dialog"  >
+  <div class="modal_align_wrap">
+    <div class="modal-content" style="max-width:800px;">
+      <div class="modal-body" >
+       	弹出框的内容
+      </div>
+    </div> 
+   </div> 
+  </div> 
+</div>
+<!-- /.modal -->  
+
+
+<%@ include file="/common/footer.jsp" %> 
+ 
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#checkedAll").click(function(){
+			$(".checkedIds").each(function() {
+				if($("#checkedAll").prop("checked")==true){
+					this.checked = true;
+				}else{
+					this.checked = false;
+				}
+			});
+		});
+		$("#loanno").val=getloanno();
+		
+		$("#remove").click(function() {
+			var checkedIds = new Array();
+			var i = 0;
+			$(".checkedIds").each(function() {
+				if(this.checked == true) {
+					checkedIds[i] = this.value;
+					i++;
+				}
+			});
+			if(i==0){
+				alert("请选择要删除的数据！！");
+			}else{
+				if(confirm("删除角色将同时删除该角色下的所有用户，您确认删除？")){
+					location.assign("del.html?" + getSearchParams());
+				}
+			}
+		});
+		$("#newitem").click(function() {
+			
+		});
+	});
+	function getloanno() {
+	try{
+		var date = new Date();
+	    var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+	    var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+	    var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+	    var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+	    var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+	    var milliseconds;
+	    if(date.getMilliseconds()<10)
+	    	milliseconds = "00" + date.getMilliseconds();
+	    else if(date.getMilliseconds()<100)
+	    	milliseconds = "0" + date.getMilliseconds();
+	    else
+	    	milliseconds = date.getMilliseconds();
+	    return "NO" + date.getFullYear() + month + day + hours + minutes + seconds+milliseconds;
+	}catch(ex){
+		return "";
+	}
+	
+}
+</script> 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.easycredit.dao.mapper.OrderAssignExMapper" >
+   
+  <!-- 产品管理查询列表 -->
+  <select id="getOrderAssignByOrderId" resultType="com.easycredit.dao.pojo.OrderAssignEx" parameterType="java.lang.Integer" >
+   SELECT
+	oa.id,
+	oa.orderid,
+	oa.operatorid,
+	oa.assigntime,
+	oa.submittime,
+	oa.resultflag,
+	oa.comments,
+	o.organizationtype,
+	o.organizationname,
+	u.username,
+	u.nickname
+FROM
+	orderassign oa
+LEFT JOIN userinfo u ON oa.operatorid = u.id
+LEFT JOIN organization o ON o.id = u.organizationid
+where oa.orderid=#{orderid}
+order by oa.assigntime
+     
+  </select>
+  
+</mapper>

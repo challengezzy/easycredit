@@ -1,0 +1,463 @@
+package com.easycredit.web.controller.front;
+
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.InputStream;
+import java.util.List;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.easycredit.dao.mapper.EvidenceExMapper;
+import com.easycredit.dao.mapper.EvidenceMapper;
+import com.easycredit.dao.pojo.CompanyInfo;
+import com.easycredit.dao.pojo.CompanyInfoEx;
+import com.easycredit.dao.pojo.Evidence;
+import com.easycredit.dao.pojo.MortgagorContact;
+import com.easycredit.dao.pojo.MortgagorInfo;
+import com.easycredit.dao.pojo.MortgagorInfoEx;
+import com.easycredit.dao.pojo.MortgagorResidential;
+import com.easycredit.dao.pojo.OrderInfo;
+import com.easycredit.dao.pojo.OrderInfoList;
+import com.easycredit.services.common.UploadFileService;
+import com.easycredit.services.front.OrderInfoService;
+import com.easycredit.services.front.ProductService;
+import com.easycredit.services.manage.company.CompanyInfoService;
+import com.easycredit.services.manage.mortgagor.MortgagorService;
+import com.easycredit.utils.FileUploadUtils;
+import com.easycredit.utils.StringUtil;
+import com.google.gson.JsonObject;
+
+@Controller
+@RequestMapping("/product")
+public class ProductController {
+	private static final String re_applyFirst = "redirect:/product/applyFirst.html";
+	private static final String re_applySecond = "redirect:/product/applySecond.html";
+	private static final String re_applyThird = "redirect:/product/applyThird.html";
+	private static final String re_applyFourth = "redirect:/product/applyFourth.html";
+
+	private static final String applyFirst = "/front/product-apply-1";
+	private static final String applySecond = "/front/product-apply-2";
+	private static final String applyThird = "/front/product-apply-3";
+	private static final String applyFourth = "/front/product-apply-4";
+	private static final String applySubmit = "/front/product-apply-submit";
+
+	@Autowired
+	ProductService productService;
+	@Autowired
+	MortgagorService mortgagorService;
+	@Autowired
+	UploadFileService uploadFileService;
+	@Autowired
+	OrderInfoService orderInfoService;
+	@Autowired
+	CompanyInfoService companyInfoService;
+	@Autowired
+	EvidenceMapper evidenceMapper;
+	@Autowired
+	EvidenceExMapper evidenceExMapper;
+
+	@RequestMapping(value = "/applyFirst")
+	public String applyFirst(Integer orderId, Integer productId, HttpServletRequest request, Model model) {
+		if (orderId != null) {
+			OrderInfo orderInfo = orderInfoService.getOrderInfoByOrderId(orderId);
+
+			productId = orderInfo.getProductid();
+
+			int mortgagorid = orderInfo.getMortgagorid();
+
+			MortgagorInfo mortgagorInfo = mortgagorService.selectByPrimaryKey(mortgagorid);
+
+			MortgagorResidential mortgagorResidential = mortgagorService.getMortgagorResidentialById(mortgagorid);
+
+			MortgagorContact mortgagorContact = mortgagorService.getMortgagorContactById(mortgagorid);
+
+			model.addAttribute("orderInfo", orderInfo);
+			model.addAttribute("mortgagorInfo", mortgagorInfo);
+			model.addAttribute("mortgagorResidential", mortgagorResidential);
+			model.addAttribute("mortgagorContact", mortgagorContact);
+		}
+
+		model.addAttribute("productId", productId);
+		model.addAttribute("orderId", orderId);
+
+		return applyFirst;
+	}
+
+	@RequestMapping(value = "/applyFirstSave")
+	public String applyFirstSave(Integer orderId, Integer productId, MortgagorInfoEx mortgagorInfoEx,
+			HttpServletRequest request, Model model, RedirectAttributes attr) {
+		try {
+			String nextStep = request.getParameter("nextStep");
+			int orderinforesult = productService.applyFirstSave(mortgagorInfoEx, orderId, productId);
+			attr.addAttribute("orderId", orderId);
+			attr.addAttribute("productId", productId);
+
+			if (!StringUtil.isEmpty(nextStep)) {
+				if (nextStep.equals("yes")) {
+					return re_applySecond;
+				}
+			}
+			if (orderinforesult < 1) {
+				attr.addFlashAttribute("message", "保存借款人信息失败");
+				return re_applyFirst;
+			}
+			attr.addFlashAttribute("message", "保存借款人息成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			attr.addFlashAttribute("message", e.getMessage());
+		}
+		return re_applyFirst;
+	}
+
+	@RequestMapping(value = "/applySecond")
+	public String applySecond(Integer orderId, Integer productId, HttpServletRequest request, Model model) {
+		if (orderId != null) {
+			OrderInfo orderInfo = orderInfoService.getOrderInfoByOrderId(orderId);
+
+			productId = orderInfo.getProductid();
+
+			int mortgagorid = orderInfo.getMortgagorid();
+
+			CompanyInfo companyInfo = companyInfoService.selectByMortgagorId(mortgagorid);
+
+			model.addAttribute("companyInfo", companyInfo);
+			model.addAttribute("orderInfo", orderInfo);
+			model.addAttribute("OrderId", orderId);
+		}
+
+		model.addAttribute("productId", productId);
+		model.addAttribute("orderId", orderId);
+
+		return applySecond;
+	}
+
+	@RequestMapping(value = "/applySecondSave")
+	public String applySecondSave(Integer orderId, Integer productId, CompanyInfoEx companyInfo,
+			HttpServletRequest request, Model model, RedirectAttributes attr) {
+		try {
+			String nextStep = request.getParameter("nextStep");
+			int orderinforesult = productService.applySecondSave(companyInfo, orderId);
+
+			attr.addAttribute("productId", productId);
+			attr.addAttribute("orderId", orderId);
+
+			if (!StringUtil.isEmpty(nextStep)) {
+				if (nextStep.equals("yes")) {
+					return re_applyThird;
+				}
+			}
+			if (orderinforesult < 1) {
+				attr.addFlashAttribute("message", "保存企业基本信息失败");
+				return re_applySecond;
+			}
+			attr.addFlashAttribute("message", "保存企业基本信息成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			attr.addFlashAttribute("message", e.getMessage());
+		}
+		return re_applySecond;
+	}
+
+	@RequestMapping(value = "/applyThird")
+	public String applyThird(Integer orderId, Integer productId, HttpServletRequest request, Model model) {
+		if (orderId != null) {
+			OrderInfo orderInfo = orderInfoService.getOrderInfoByOrderId(orderId);
+
+			productId = orderInfo.getProductid();
+
+			OrderInfoList orderInfoList = orderInfoService.getOrderInfoListByOrderId(orderId);
+
+			model.addAttribute("orderInfoList", orderInfoList);
+			model.addAttribute("orderInfo", orderInfo);
+		}
+
+		model.addAttribute("productId", productId);
+		model.addAttribute("orderId", orderId);
+
+		return applyThird;
+	}
+
+	@RequestMapping(value = "/applyThirdSave")
+	public String applyThirdSave(Integer orderId, Integer productId, OrderInfoList orderInfoList,
+			HttpServletRequest request, Model model, RedirectAttributes attr) {
+		try {
+			String nextStep = request.getParameter("nextStep");
+			int orderinforesult = productService.applyThirdSave(orderInfoList, orderId);
+
+			attr.addAttribute("productId", productId);
+			attr.addAttribute("orderId", orderId);
+
+			if (!StringUtil.isEmpty(nextStep)) {
+				if (nextStep.equals("yes")) {
+					return re_applyFourth;
+				}
+			}
+
+			if (orderinforesult < 1) {
+				attr.addFlashAttribute("message", "保存企业基本信息失败");
+				return re_applyThird;
+			}
+			attr.addFlashAttribute("message", "保存企业基本信息成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			attr.addFlashAttribute("message", e.getMessage());
+		}
+		return re_applyThird;
+
+	}
+
+	@RequestMapping(value = "/applyFourth")
+	public String applyFourth(Integer orderId, Integer productId, HttpServletRequest request, Model model,
+			RedirectAttributes attr) {
+		if (orderId != null) {
+			List<Evidence> s0 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 0);
+			List<Evidence> s1 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 1);
+			List<Evidence> s2 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 2);
+			List<Evidence> s3 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 3);
+			List<Evidence> s4 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 4);
+			List<Evidence> s5 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 5);
+			List<Evidence> s6 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 6);
+			List<Evidence> s7 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 7);
+			List<Evidence> s8 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 8);
+			List<Evidence> s9 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 9);
+			List<Evidence> s10 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 10);
+			List<Evidence> s11 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 11);
+			List<Evidence> s12 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 12);
+			List<Evidence> s13 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 13);
+			List<Evidence> s14 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 14);
+
+			model.addAttribute("s0", s0);
+			model.addAttribute("s1", s1);
+			model.addAttribute("s2", s2);
+			model.addAttribute("s3", s3);
+			model.addAttribute("s4", s4);
+			model.addAttribute("s5", s5);
+			model.addAttribute("s6", s6);
+			model.addAttribute("s7", s7);
+			model.addAttribute("s8", s8);
+			model.addAttribute("s9", s9);
+			model.addAttribute("s10", s10);
+			model.addAttribute("s11", s11);
+			model.addAttribute("s12", s12);
+			model.addAttribute("s13", s13);
+			model.addAttribute("s14", s14);
+		}
+
+		model.addAttribute("orderId", orderId);
+		model.addAttribute("productId", productId);
+
+		return applyFourth;
+	}
+	@RequestMapping(value = "/applyFourthSave")
+	public String applyFourthSave(HttpServletRequest request, Model model, Integer orderId, Integer productId,
+			RedirectAttributes attrs) {
+		if (orderId != null) {
+			OrderInfo orderInfo = orderInfoService.getOrderInfoByOrderId(orderId);
+			orderInfo.setStatus(-4);
+			orderInfoService.updateorder(orderInfo);//状态更新为第四步
+
+			productId = orderInfo.getProductid();
+
+			int mortgagorid = orderInfo.getMortgagorid();
+
+			MortgagorInfo mortgagorInfo = mortgagorService.selectByPrimaryKey(mortgagorid);
+
+			MortgagorResidential mortgagorResidential = mortgagorService.getMortgagorResidentialById(mortgagorid);
+
+			MortgagorContact mortgagorContact = mortgagorService.getMortgagorContactById(mortgagorid);
+
+			productId = orderInfo.getProductid();
+
+			CompanyInfo companyInfo = companyInfoService.selectByMortgagorId(mortgagorid);
+
+			productId = orderInfo.getProductid();
+
+			OrderInfoList orderInfoList = orderInfoService.getOrderInfoListByOrderId(orderId);
+
+			model.addAttribute("orderInfoList", orderInfoList);
+			model.addAttribute("orderInfo", orderInfo);
+
+			model.addAttribute("orderInfo", orderInfo);
+			model.addAttribute("mortgagorInfo", mortgagorInfo);
+			model.addAttribute("mortgagorResidential", mortgagorResidential);
+			model.addAttribute("mortgagorContact", mortgagorContact);
+
+			model.addAttribute("companyInfo", companyInfo);
+			model.addAttribute("orderInfo", orderInfo);
+			
+			
+			List<Evidence> s0 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 0);
+			List<Evidence> s1 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 1);
+			List<Evidence> s2 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 2);
+			List<Evidence> s3 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 3);
+			List<Evidence> s4 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 4);
+			List<Evidence> s5 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 5);
+			List<Evidence> s6 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 6);
+			List<Evidence> s7 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 7);
+			List<Evidence> s8 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 8);
+			List<Evidence> s9 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 9);
+			List<Evidence> s10 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 10);
+			List<Evidence> s11 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 11);
+			List<Evidence> s12 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 12);
+			List<Evidence> s13 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 13);
+			List<Evidence> s14 = evidenceExMapper.selectByOrderIdAndImageType(orderId, 14);
+
+			model.addAttribute("s0", s0);
+			model.addAttribute("s1", s1);
+			model.addAttribute("s2", s2);
+			model.addAttribute("s3", s3);
+			model.addAttribute("s4", s4);
+			model.addAttribute("s5", s5);
+			model.addAttribute("s6", s6);
+			model.addAttribute("s7", s7);
+			model.addAttribute("s8", s8);
+			model.addAttribute("s9", s9);
+			model.addAttribute("s10", s10);
+			model.addAttribute("s11", s11);
+			model.addAttribute("s12", s12);
+			model.addAttribute("s13", s13);
+			model.addAttribute("s14", s14);
+		}
+
+		model.addAttribute("productId", productId);
+		model.addAttribute("orderId", orderId);
+
+		return applySubmit;
+	}
+
+	@RequestMapping(value = "/applySubmit")
+	public String applySubmit(HttpServletRequest request, Model model, Integer orderId, Integer productId,
+			RedirectAttributes attrs) {
+		if (orderId != null) {
+		int result= productService.applySubmit(orderId);
+//		OrderInfo orderInfo = orderInfoService.getOrderInfoByOrderId(orderId);
+//		orderInfo.setStatus(0);//状态为初审中
+//		int updateresult =orderInfoService.updateorder(orderInfo);//状态更新为第四步
+		return "redirect:/member/myBusiness.html";
+		}
+		
+		model.addAttribute("orderId", orderId);
+		model.addAttribute("productId", productId);
+		return "redirect:/member/myBusiness.html";
+		
+	}
+	
+	@RequestMapping(value = "/uploadImages")
+	@ResponseBody
+	public String uploadHandlerForUploadify(String picHref, HttpServletRequest request) throws Exception {
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		// 参数
+		String imageTypeName = multipartRequest.getParameter("imageTypeName");
+		String orderId = multipartRequest.getParameter("orderId");
+		String imageType = multipartRequest.getParameter("imageType");
+
+		MultipartFile multipartFile = multipartRequest.getFile("imgAttch");
+		byte[] bytes = multipartFile.getBytes();
+		InputStream is = new ByteArrayInputStream(bytes);
+
+		String fileName = multipartFile.getOriginalFilename(); // 文件全名
+		String suffix = StringUtils.substringAfter(fileName, "."); // 后缀
+
+		// 文件命名
+		String savePath = "upload\\" + FileUploadUtils.getYMD();
+		String path = request.getSession().getServletContext().getRealPath("");
+		String dstPath = path + "\\" + savePath;
+		FileUploadUtils.newDateFolder(dstPath);
+		String dstFileName = FileUploadUtils.getDstFileName(fileName);
+
+		File file = new File(dstPath, dstFileName);
+		multipartFile.transferTo(file);
+
+		String sFileName = "";
+		int width = 0; // 缩小图片宽
+		int height = 0; // 缩小图片高
+		int widthTarget = 210;
+		try {
+			BufferedImage bufimg = ImageIO.read(is);
+			// 只有图片才获取高宽
+			if (bufimg != null) {
+				width = bufimg.getWidth();
+				height = bufimg.getHeight();
+			}
+			double scale = Double.parseDouble(new java.text.DecimalFormat("#.0000").format((double) width
+					/ (double) widthTarget));
+			if (scale > 1) {
+				// 缩小
+				width = widthTarget;
+				// height = (int) ((double) height / scale);
+				height = 100;
+			}
+			Image image = bufimg.getScaledInstance(width, height, Image.SCALE_DEFAULT);
+			BufferedImage tag = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+			Graphics g = tag.getGraphics();
+			g.drawImage(image, 0, 0, null); // 绘制缩小后的图
+			g.dispose();
+
+			sFileName = dstFileName.split("\\.")[0] + "_" + width + "_" + height + "." + suffix;
+
+			ImageIO.write(tag, suffix, new File(dstPath + "/" + sFileName));// 输出到文件流
+
+			is.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			is.close();
+			throw new Exception("uploadify上传图片读取图片高宽时发生异常!");
+		}
+
+		Evidence record = new Evidence();
+		record.setOrderid(Integer.parseInt(orderId));
+		record.setImagetype(Integer.parseInt(imageType));
+		record.setImageurl(savePath + "\\" + dstFileName);
+		record.setComments(imageTypeName);
+
+		evidenceMapper.insert(record);
+
+		String spath = savePath + "\\" + sFileName;
+		JsonObject json = new JsonObject();
+		json.addProperty("fileName", fileName);
+		json.addProperty("imageId", record.getId());
+		json.addProperty("orderId", orderId);
+		json.addProperty("imageType", imageType);
+		json.addProperty("path", record.getImageurl().replace("\\", "/"));
+		json.addProperty("spath", "/" + spath.replace("\\", "/"));
+
+		return json.toString();
+	}
+
+	@RequestMapping(value = "/getImages")
+	@ResponseBody
+	public String getImages(HttpServletRequest request, Model model) {
+		String imageId = request.getParameter("imageId");
+		// String imageType = request.getParameter("imageType");
+		Evidence evidence = evidenceMapper.selectByPrimaryKey(Integer.parseInt(imageId));
+
+		return evidence.getImageurl();
+	}
+	
+	@RequestMapping(value = "/delImages")
+	@ResponseBody
+	public String delImages(HttpServletRequest request, Model model) {
+		String imageId = request.getParameter("imageId");
+		// String imageType = request.getParameter("imageType");
+		int result = 0;
+		if (StringUtils.isNotEmpty(imageId)) {
+			result = evidenceMapper.deleteByPrimaryKey(Integer.parseInt(imageId));
+		}
+		return result + "";
+	}
+}

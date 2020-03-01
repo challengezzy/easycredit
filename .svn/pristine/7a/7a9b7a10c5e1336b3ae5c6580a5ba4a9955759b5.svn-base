@@ -1,0 +1,166 @@
+<%@ page language="java" pageEncoding="UTF-8"%>
+<%@ include file="/common/taglibs.jsp" %>
+<!DOCTYPE html>
+<html class="">
+<head>
+	<title>交易查询</title>
+	<jsp:include page="/common/front/head.jsp" />
+	<!-- 页面css -->
+	<style type="text/css">
+		.query_table_td {
+			border-top-width: 0px;
+		}
+	</style>
+	<link type="text/css" rel="stylesheet" href="${ctx}/css/WdatePicker.css">
+</head>
+<body>
+<div class="container"><div id="fsp-model-div"></div></div>
+<div class="fsp_header_frame">
+	 
+	<jsp:include page="/common/front/top.jsp" />
+	 
+	<div class="header_bar">
+		<div class="cf header">
+			<div class="logo">
+				<a href="/index.jsp"><img src="${ctx}/images/logo.png" alt="翊融金融"></a>
+			</div>
+			<div class="nav">
+				<ul class="nav-list">
+					<li class="nav-item">
+	                    <a href="${ctx}/member/myBusiness.html" class="nav-link ">我的申请</a>
+					</li>
+	    			<li class="nav-item">
+	                    <a href="${ctx}/member/orderList.html" class="nav-link nav-link-current">放款查询</a>
+					</li>
+	    			<li class="nav-item">
+	                    <a href="${ctx}/member/productList.html" class="nav-link ">产品申请</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 页面内容 -->
+<div class="main">
+	<div class="fsp-my-business">
+		<div class="fsp-business-main">
+			<form method="post" action="${ctx}/member/orderList.html" id="mainForm" name="queryForm" onsubmit="return checkForm();">
+				<div class="business-content">
+					<div class="query-box">
+						<label class="label">申请单编号</label> 
+						<input name="orderno" class="query-text" id="orderno" type="text" value="${param.orderno}"> 
+						<label class="label">借款人姓名</label> 
+						<input name="mortgagorname" class="query-text" id="mortgagorname" type="text" value="${param.mortgagorname}">
+					</div>
+					<div class="query-box">
+						<label class="label">还款状态</label> 
+						<mt:selectState name="loanstatus" showType="select" stateType="loanstatus" value="${param.loanstatus}" clazz="query-text-select" emptyString="全部"/>
+						<label class="label">放款日期</label> 
+						<input id="beginLoantime" name="beginLoantime" class="Wdate Wdate2 query-text-left number-text"
+							onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',vel:'beginLoantime'})" value="${param.beginLoantime}" type="text"> 
+						<input id="endLoantime" name="endLoantime" style="margin-right: 45px;"
+							class="Wdate Wdate2 query-text-left number-text"
+							onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',vel:'endLoantime'})" value="${param.endLoantime}" type="text">
+						 <input id="submit2" class="blue-btn search-btn" value="查询" type="submit">
+					</div>
+					<div class="business-record" id="agentRecordList">
+						<table class="record-tab" style="min-widht: 985px;" border="0" cellpadding="5" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th width="11%">序号</th>
+									<th width="11%">业务申请单编号</th>
+									<th width="15%">借据ID</th>
+									<th width="11%">借款人姓名</th>
+									<th width="15%">企业名称</th>
+									<th width="11%">放款金额</th>
+									<th width="11%">利率(%)</th>
+									<th width="11%">放款期限(月)</th>
+									<th width="11%">放款时间</th>
+									<th width="11%">到期时间</th>
+									<th width="11%">未还款金额</th>
+									<th width="15%">还款状态</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach items="${page.result}" var="obj" varStatus="status">
+						            <tr>
+						              <td>${status.count}</td>	
+						              <td>${obj.orderno}</td>
+						              <td>${obj.loanno}</td>
+						              <td>${obj.mortgagorname }</td>
+						              <td>${obj.companyname}</td>
+						              <td>${obj.loanamount}</td>
+						              <td>${obj.loanrate}</td>
+						              <td>${obj.loantimelimit}</td>
+						              <td><fmt:formatDate value="${obj.loantime}" type="both" pattern="yyyy-MM-dd hh:mm:ss"/></td>
+						              <td><fmt:formatDate value="${obj.loanlimittime}" type="both" pattern="yyyy-MM-dd hh:mm:ss"/></td>
+						              <td>${obj.norepaymentamount}</td>
+						              <td><mt:selectState stateType="loanstatus" showType="label" value="${obj.loanstatus}"/></td>
+						            </tr>
+					           	</c:forEach>
+					            <c:if test="${empty page.result}">
+					            	<tr class="pass">
+										<td style="height: 150px; line-height: 150px; border-right-width: 0px;" colspan="12" align="center">没有相关放款记录信息</td>
+									</tr>
+							   	</c:if>
+							</tbody>
+						</table>
+						<div class="list-page">
+							<div class="table_page dropup">
+							    <c:if test="${not empty page.result}">
+							        <%@ include file="/common/pagination_front.jsp" %>
+						        </c:if>
+					        </div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!--页尾导航-->
+<jsp:include page="/common/front/footer.jsp" />
+
+<!-- 插件js -->
+<script type="text/javascript" src="${ctx}/js/front/WdatePicker.js"></script>
+ 
+ 
+<!-- 页面js -->
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.record-tab tbody tr').hover(function() {
+			$(this).addClass('pass');
+		}, function() {
+			$(this).removeClass('pass');
+		});
+	});
+	
+	function checkBeginEndTime() {
+		var beginLoantime = $("#beginLoantime").val();
+		var endLoantime = $("#endLoantime").val();
+		var begin = beginLoantime.split("-");
+		var begin1 = new Date(begin[0], begin[1] - 1, begin[2]);
+		var end = endLoantime.split("-");
+		var end1 = new Date(end[0], end[1] - 1, end[2]);
+		var result = Math.abs(begin1 - end1) / 1000 / 60 / 60 / 24;
+		if (result > 30) {
+			alert("超出日期查询范围，范围为一个月")
+			$("#TimeTipError").html("超出日期查询范围，范围为一个月");
+			$("#TimeTipError").addClass("err");
+			return false;
+		}
+		$("#TimeTipError").html("");
+		$("#TimeTipError").removeClass("err");
+		return true;
+	};
+
+	function checkForm() {
+		if (!checkBeginEndTime()) {
+			return false;
+		}
+	}
+</script>
+</body>
+</html>

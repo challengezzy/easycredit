@@ -1,0 +1,18 @@
+package com.easycredit.utils;
+
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
+
+import com.easycredit.web.controller.manage.security.shiro.ShiroRealm;
+
+public class UserUtils {
+
+	public static int getCreateOprt() {
+		Subject subject = SecurityUtils.getSubject();
+		ShiroRealm.ShiroUser user = (ShiroRealm.ShiroUser) subject.getPrincipal();
+		if (user == null) {
+			throw new IllegalArgumentException("请重新登陆!");
+		}
+		return user.getId().intValue();
+	}
+}

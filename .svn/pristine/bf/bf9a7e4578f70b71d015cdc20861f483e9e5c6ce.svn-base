@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>	
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+	<classPathEntry location="D:\MyDrivers\mysql-connector-java-5.1.22-bin.jar" />
+	<context id="prod">
+		<!-- RowBounds pagination -->
+		<plugin type="org.mybatis.generator.plugins.RowBoundsPlugin" />
+		<plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin" />
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+
+		<commentGenerator>
+			<property name="suppressDate" value="true" />
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+
+		<!-- jdbc连接 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/easycredit" userId="root"
+			password="123456" />
+
+		<javaModelGenerator targetPackage="com.easycredit.dao.pojo"
+			targetProject="src/main/java" />
+		<sqlMapGenerator targetPackage="mapper"
+			targetProject="src/main/resources" />
+		<javaClientGenerator targetPackage="com.easycredit.dao.mapper"
+			targetProject="src/main/java" type="XMLMAPPER" />
+		
+		<table tableName="userinfo" domainObjectName="UserInfo">
+      		 <property name="useActualColumnNames" value="true"/>
+      		 <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+		</table>
+		
+		<table tableName="productinfo" domainObjectName="ProductInfo">
+      		 <property name="useActualColumnNames" value="true"/>
+      		 <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+		</table>
+		
+		<table tableName="orderretrunlist" domainObjectName="OrderRetrunList">
+      		 <property name="useActualColumnNames" value="true"/>
+      		 <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+		</table>
+		
+		<table tableName="productorganization" domainObjectName="ProductorGanization">
+      		 <property name="useActualColumnNames" value="true"/>
+      		 <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+		</table>
+		
+		<table tableName="organization" domainObjectName="Organization">
+      		 <property name="useActualColumnNames" value="true"/>
+      		 <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+		</table>
+		
+		<table tableName="orderinfolist" domainObjectName="OrderInfoList">
+      		 <property name="useActualColumnNames" value="true"/>
+      		 <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+		</table>
+		
+		<table tableName="orderinfo" domainObjectName="OrderInfo">
+      		 <property name="useActualColumnNames" value="true"/>
+      		 <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+		</table>
+		
+		<table tableName="orderretrunlist" domainObjectName="OrderRetrunList">
+      		 <property name="useActualColumnNames" value="true"/>
+      		 <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+		</table>
+		
+		<table tableName="orderassign" domainObjectName="OrderAssign">
+      		 <property name="useActualColumnNames" value="true"/>
+      		 <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+		</table>
+		
+		<table tableName="mortgagorinfo" domainObjectName="MortgagorInfo">
+      		 <property name="useActualColumnNames" value="true"/>
+      		 <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+		</table>
+		
+		<table tableName="mortgagor_residential" domainObjectName="MortgagorResidential">
+      		 <property name="useActualColumnNames" value="true"/>
+      		 <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+		</table>
+		
+		<table tableName="mortgagor_contact" domainObjectName="MortgagorContact">
+      		 <property name="useActualColumnNames" value="true"/>
+      		 <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+		</table>
+		
+		<table tableName="evidence" domainObjectName="Evidence">
+      		 <property name="useActualColumnNames" value="true"/>
+      		 <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+		</table>
+		
+		<table tableName="companyinfo" domainObjectName="CompanyInfo">
+      		 <property name="useActualColumnNames" value="true"/>
+      		 <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+		</table>
+		
+		<table tableName="area" domainObjectName="Area">
+      		 <property name="useActualColumnNames" value="true"/>
+      		 <generatedKey column="areaId" sqlStatement="JDBC" identity="true" />
+		</table>
+		
+		<table tableName="organizationauthority" domainObjectName="OrganizationAuthority">
+      		 <property name="useActualColumnNames" value="true"/>
+      		 <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+		</table>
+		
+		<table tableName="organizationarea" domainObjectName="OrganizationArea">
+      		 <property name="useActualColumnNames" value="true"/>
+      		 <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+		</table>
+		
+		<table tableName="productevidence" domainObjectName="ProductEvidence">
+      		 <property name="useActualColumnNames" value="true"/>
+      		 <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+		</table>
+		
+	</context>
+</generatorConfiguration>

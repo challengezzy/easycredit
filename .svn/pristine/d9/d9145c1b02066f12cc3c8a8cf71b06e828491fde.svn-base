@@ -1,0 +1,78 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ include file="/common/top.jsp" %>
+<body class="fix_top_nav_padding">
+	<div id="wrap">
+	<%@ include file="/common/header.jsp" %>
+	<div class="container">
+	    <div class="row">
+	    <div class="col-md-2 ">
+	         <%@ include file="/common/left.jsp" %> 
+	    </div>
+	    <div class="col-md-10 ">
+	    <div class="panel panel-default">
+	      <div class="panel-heading ">
+	        <h3 class="panel-title">个人资料</h3>
+	      </div>
+		  <form role="form" id="inputForm" action="${ctx}/security/user/save.html" method="post">
+			<input type="hidden" name="user.id" value="${user.id }" />
+			<div class="panel-body ">
+	          <div class=" tooltip-show form-horizontal">
+	          	<div class="form-group clearfix" >
+	              <label  class="control-label col-sm-3 col-lg-2 text-right">帐号：</label>
+	              <div class=" col-sm-9 col-lg-5">
+	                <p class="form-control-static">${user.user.username }</p>
+	              </div>
+              	</div>
+              	<div class="form-group clearfix" >
+	              <label  class="control-label col-sm-3 col-lg-2 text-right"><b class="color_red">*</b>真实姓名：</label>
+	              <div class=" col-sm-9 col-lg-5">
+	                <input  class="form-control" type="text" id="nickname" name="nickname" value="${user.user.nickname }"  placeholder="请输入真实姓名,如：张三" />
+	              </div>
+              	</div>
+              	<div class="form-group clearfix" >
+	              <label  class="control-label col-sm-3 col-lg-2 text-right"><b class="color_red">*</b>手机号码：</label>
+	              <div class=" col-sm-9 col-lg-5">
+	                <input  class="form-control" type="text" id="cellphone" name="cellphone" value="${user.user.cellphone }"  placeholder="请输入手机号码" />
+	              </div>
+              	</div>
+              	<div class="form-group clearfix" >
+	              <label  class="control-label col-sm-3 col-lg-2 text-right"><b class="color_red">*</b>邮箱：</label>
+	              <div class=" col-sm-9 col-lg-5">
+	                <input  class="form-control" type="text" id="mail" name="mail" value="${user.user.mail }"  placeholder="请输入邮箱" />
+	              </div>
+              	</div>
+              </div>
+      	    </div>
+            <div class="panel-footer">
+	          <div class="text-center">
+				<a class="btn btn-default" href="${ctx}/index.html"><i class="icon-remove"></i> 取消</a>
+				<button type="submit" class="btn btn-primary"><i class="icon-ok"></i> 提交</button>
+	           </div>
+            </div>
+		 </form>
+      	</div>
+      </div>
+     </div>
+     </div>
+    </div>
+    <%@ include file="/common/footer.jsp" %>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$("#inputForm").validate({
+			rules: {
+				"phone":{required:false},
+				"email":{required:false},
+				"password":{required:false,maxlength:32},
+				"password2": {equalTo: "#password"},
+				"realName": {required: true,maxlength:20}
+			},
+			messages: {
+				"password2": {
+					equalTo: "两次输入的密码不一致"
+				}
+			}
+		});
+	});
+</script>
+</body>
+</html>

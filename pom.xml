@@ -41,7 +41,7 @@
 		<jettison.version>1.1</jettison.version>
 		<jackson.version>1.9.12</jackson.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<commonbeanutils.version>1.8.3</commonbeanutils.version>
+		<commonbeanutils.version>1.9.2</commonbeanutils.version>
 		<commons.collections.version>3.2.1</commons.collections.version>
 		<plateno-ws.version>0.0.8</plateno-ws.version>
 		<xmlbeans.version>2.6.0</xmlbeans.version>
